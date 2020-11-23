@@ -21,7 +21,20 @@ public class ClientThread extends Thread{
     public void run() {
         /*Here will go the implementation for
         * Each Client  */
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter writer = new PrintWriter(socket.getOutputStream());
 
+            String command = reader.readLine();
+            while(command != null) {
+                /*Inside this for loop it will essentially listen to
+                * commands from the client than send out any thing that is needed*/
+
+                command = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String isValidLogin(String userName, String password) throws IOException {
