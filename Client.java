@@ -67,6 +67,7 @@ public class Client extends JFrame {
     static JPanel top;
     static JPanel bottom;
 
+    static conCounter = 0; 
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         SwingUtilities.invokeLater(new Runnable() {
