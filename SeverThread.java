@@ -197,21 +197,6 @@ public class ServerThread extends Thread{
         return accounts;
     }
 
-    //assuming we already asked the user if they are sure on the client side
-    public void deleteAccount(String username, String password) {
-        File f = new File(userFile);
-        usernames.remove(username);
-        passwords.remove(password);
-        accounts.remove(new UserAccount(username, password));
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(f))){
-            for (int x = 0; x < usernames.size(); x++) {
-                pw.println(usernames.get(x) + " - " + passwords.get(x));
-            }
-        } catch (IOException e) {
-            System.out.println("Server had an error deleting the user");
-        }
-    }
-
     //Please format the ArrayList to make it so each line is the proper input for the file. If this isn't easy to do let me know @steve
     //This is to handle most writing into files, since the updating of convos is best done outside of the file and written in. This should add only one line in
     // and will be used to handle adding new lines into the convo
