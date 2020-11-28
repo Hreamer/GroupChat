@@ -299,6 +299,7 @@ public class Client extends JFrame {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             String sentToServer = "SignUp - " + userName + " - " + password;
             writer.write(sentToServer);
+            writer.println();
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
