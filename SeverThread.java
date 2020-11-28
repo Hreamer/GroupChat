@@ -167,6 +167,8 @@ public class ServerThread extends Thread{
         FileOutputStream fos = new FileOutputStream(f, true);
         PrintWriter pw = new PrintWriter(fos);
         
+        pw.println(userName + " - " + password);
+        
         fos.close();
         pw.close();
         pw.println(userName + " - " + password);
