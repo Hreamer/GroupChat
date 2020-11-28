@@ -13,7 +13,7 @@ public class ServerThread extends Thread{
     public final String userFile = "users.txt";
     public final String conversationsFile = "conversations.txt";
 
-    public ClientThread(Socket socket) {
+    public ServerThread(Socket socket) {
         this.socket = socket;
     }
 
@@ -172,7 +172,7 @@ public class ServerThread extends Thread{
         pw.println(userName + " - " + password);
     }
 
-    // Reads the file for account info
+    /* // Reads the file for account info
     public ArrayList<UserAccount> readNameFile(String fileName) {
         File f = new File(fileName);
         if (!f.exists()) {
@@ -195,7 +195,7 @@ public class ServerThread extends Thread{
             System.out.println("Main File doesn't currently Exist");
         }
         return accounts;
-    }
+    } */
 
     //Please format the ArrayList to make it so each line is the proper input for the file. If this isn't easy to do let me know @steve
     //This is to handle most writing into files, since the updating of convos is best done outside of the file and written in. This should add only one line in
