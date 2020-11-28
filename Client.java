@@ -68,6 +68,7 @@ public class Client extends JFrame {
     static JPanel bottom;
 
 
+
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -349,6 +350,7 @@ public class Client extends JFrame {
         ArrayList<String> names = new ArrayList<>();
         String name;
         String title;
+        int count = currentUser.getConversations().size();
         do {
             name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
@@ -363,9 +365,10 @@ public class Client extends JFrame {
         title = JOptionPane.showInputDialog(null, "Enter the Title", "Create Conversation",
                 JOptionPane.QUESTION_MESSAGE);
 
-        Conversation n = new Conversation(names, title, chatter, chats);
+        Conversation n = new Conversation(names, title, chatter, chats, socket);
         chats = getConversation(title);
         con.add(n);
+
         jp.add(n.getButton());
         connectUsers(names);
     }
@@ -390,7 +393,6 @@ public class Client extends JFrame {
         }
         return chats;
     }
-
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
         try {
             PrintWriter pr = new PrintWriter(socket.getOutputStream());
