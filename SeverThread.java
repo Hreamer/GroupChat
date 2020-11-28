@@ -142,7 +142,7 @@ public class ServerThread extends Thread{
     }
 
     public String isValidLogin(String userName, String password) throws IOException {
-        File f = new File("users.txt");
+        File f = new File(userFile);
         FileReader fos = new FileReader(f);
         BufferedReader br = new BufferedReader(fos);
 
