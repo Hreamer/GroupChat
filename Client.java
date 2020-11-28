@@ -324,6 +324,10 @@ public class Client extends JFrame {
 
             String response = reader.readLine();
             if (response.equals("Valid User")) {
+                ObjectInputStream get = new ObjectInputStream(socket.getInputStream());
+                UserAccount user = (UserAccount) get.readObject();
+                currentUser = user;
+                con = user.getConversations();
                 myFrame.setVisible(false);
                 chat.setVisible(true);
                 chatter.setVisible(false);
@@ -335,6 +339,8 @@ public class Client extends JFrame {
         } catch (IOException io) {
             JOptionPane.showMessageDialog(null, "Bad connection",
                     "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -357,9 +363,45 @@ public class Client extends JFrame {
         title = JOptionPane.showInputDialog(null, "Enter the Title", "Create Conversation",
                 JOptionPane.QUESTION_MESSAGE);
 
-        Conversation n = new Conversation(names, title);
+        Conversation n = new Conversation(names, title, chatter, chats);
+        chats = getConversation(title);
         con.add(n);
         jp.add(n.getButton());
+        connectUsers(names);
+    }
+    private static ArrayList<String> getConversation(String title) {
+        do {
+            for (int i = 0; i < chats.size(); i++) {
+                chats.remove(i);
+            }
+        } while (!chats.isEmpty());
+        try {
+            PrintWriter pt = new PrintWriter(socket.getOutputStream());
+            BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            pt.write(title);
+            pt.flush();
+            String line = read.readLine();
+            String[] split = line.split("\n");
+            for (int i = 0; i < split.length; i++) {
+                chats.add(split[i]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return chats;
+    }
+
+    private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
+        try {
+            PrintWriter pr = new PrintWriter(socket.getOutputStream());
+            for (int i = 0; i < names.size(); i++) {
+                pr.write(names.get(i));
+                pr.flush();
+            }
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
+
     }
 
     public static boolean check(String name) { //this will check if the user exists
