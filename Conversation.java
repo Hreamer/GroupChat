@@ -19,7 +19,7 @@ public class Conversation {
     private JFrame chatter;
     private ArrayList<String> chat;
     private int count;
-    private Socket socket; 
+    private Socket socket;
     public Conversation(ArrayList<String> users, String title, JFrame chatter, ArrayList<String> chat, Socket socket) {
         this.chat = chat;
         this.chatter = chatter;
@@ -39,7 +39,7 @@ public class Conversation {
     }
     public void buttonPressed(ArrayList<String> chat) {
 
-        chatter.setVisible(true);
+
         try {
             PrintWriter pt = new PrintWriter(socket.getOutputStream());
             BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -48,7 +48,7 @@ public class Conversation {
         } catch (IOException io) {
             io.printStackTrace();
         }
-
+        chatter.setVisible(true);
     }
     public void addChat(String line) {
         chat.add(line);
