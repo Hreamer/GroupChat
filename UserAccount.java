@@ -12,14 +12,15 @@ public class UserAccount {
         this.userName = userName;
         this.password = password;
     }
-
     public String getUserName() {
         return this.userName;
     }
     public ArrayList<Conversation> getConversations() {
         return co;
     }
-
+    public int conversationCount() {
+        return co.size(); 
+    }    
     public Conversation findConversation(String title) {
         for (int i = 0; i < co.size(); i++) {
             if (co.get(i).getTitle().equals(title)) {
