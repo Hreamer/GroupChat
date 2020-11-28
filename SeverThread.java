@@ -150,19 +150,25 @@ public class ServerThread extends Thread{
         while(user != null) {
             String[] userInfo = user.split(" - ");
             if (userInfo[0].equals(userName) && userInfo[1].equals(password)) {
+                fos.close();
+                br.close();
                 return "Valid User";
             }
 
             user = br.readLine();
         }
+        fos.close();
+        br.close();
         return "Invalid User";
     }
 
-    public void addUser(String userName, String password) throws FileNotFoundException {
+    public void addUser(String userName, String password) throws FileNotFoundException, IOException {
         File f = new File("users.txt");
         FileOutputStream fos = new FileOutputStream(f, true);
         PrintWriter pw = new PrintWriter(fos);
-
+        
+        fos.close();
+        pw.close();
         pw.println(userName + " - " + password);
     }
 
