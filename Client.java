@@ -297,7 +297,7 @@ public class Client extends JFrame {
     public static void createAccount(String userName, String password) {
         try {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            String sentToServer = "Sign Up - " + userName + " - " + password;
+            String sentToServer = "SignUp - " + userName + " - " + password;
             writer.write(sentToServer);
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
