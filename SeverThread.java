@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ServerThread extends Thread{
+class ServerThread extends Thread{
     private Socket socket;
 
     // When relaunching server we should open up the files to get the usernames that are active rn, with an arraylist that encompases it.
@@ -162,16 +162,14 @@ public class ServerThread extends Thread{
         return "Invalid User";
     }
 
-    public void addUser(String userName, String password) throws FileNotFoundException, IOException {
-        File f = new File("users.txt");
-        FileOutputStream fos = new FileOutputStream(f, true);
-        PrintWriter pw = new PrintWriter(fos);
-        
-        pw.println(userName + " - " + password);
-        
-        fos.close();
-        pw.close();
-        pw.println(userName + " - " + password);
+    public void addUser(String userName, String password) {
+        File f = new File(userFile);
+
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
+            pw.println(userName + " - " + password);
+        } catch (IOException e) {
+            System.out.println("File couldn't write");
+        }
     }
 
     /* // Reads the file for account info
