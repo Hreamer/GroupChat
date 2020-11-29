@@ -320,12 +320,11 @@ public class Client extends JFrame {
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             pw = new PrintWriter(socket.getOutputStream());
-            pw.write(userName);
-            pw.write(password);
+            String stringReturned = "Login - " + userName + password;
             pw.flush();
 
             String response = reader.readLine();
-            if (response.equals("Valid User")) {
+            if (response.equals(stringReturned)) {
                 ObjectInputStream get = new ObjectInputStream(socket.getInputStream());
                 UserAccount user = (UserAccount) get.readObject();
                 currentUser = user;
