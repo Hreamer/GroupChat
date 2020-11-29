@@ -320,7 +320,8 @@ public class Client extends JFrame {
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             pw = new PrintWriter(socket.getOutputStream());
-            String stringReturned = "Login - " + userName + password;
+            String stringReturned = "Login - " + userName + " - " + password;
+            pw.write(stringReturned); 
             pw.flush();
 
             String response = reader.readLine();
