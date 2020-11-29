@@ -303,7 +303,7 @@ public class Client extends JFrame {
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
-            if (response.equals("Account Created")) {
+            if (response.equals("Signup Successful")) {
                 JOptionPane.showMessageDialog(null, "Your account has " +
                         "been created, return to the login screen.");
             } else {
