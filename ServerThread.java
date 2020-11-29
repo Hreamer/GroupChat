@@ -53,12 +53,19 @@ class ServerThread extends Thread{
 
                 //SignUp - Username - Password
                 else if (arguements[0].equals("SignUp")) {
-                    addUser(arguements[1], arguements[2]);
-                    System.out.println(arguements[1] + " was added to users.txt");
+                    if (addUser(arguements[1], arguements[2])) {
+                        System.out.println(arguements[1] + " was added to users.txt");
 
-                    writer.write("Signup Successful");
-                    writer.println();
-                    writer.flush(); // Ensure data is sent to the client.
+                        writer.write("Signup Successful");
+                        writer.println();
+                        writer.flush(); // Ensure data is sent to the client.
+                    } else {
+                        System.out.println("User already exists");
+
+                        writer.write("Signup Unsuccessful");
+                        writer.println();
+                        writer.flush(); // Ensure data is sent to the client.
+                    }
                 }
 
                 //DeleteUser - username
@@ -149,7 +156,7 @@ class ServerThread extends Thread{
         String user = br.readLine();
         while(user != null) {
             String[] userInfo = user.split(" - ");
-            if (userInfo[0].equals(userName) && userInfo[1].equals(password)) {
+            if (userInfo[0].equals(userName)) {
                 fos.close();
                 br.close();
                 return "Valid User";
@@ -162,14 +169,29 @@ class ServerThread extends Thread{
         return "Invalid User";
     }
 
-    public void addUser(String userName, String password) {
+    public boolean addUser(String userName, String password) throws IOException {
         File f = new File(userFile);
+
+        FileReader fos = new FileReader(f);
+        BufferedReader br = new BufferedReader(fos);
+
+        String user = br.readLine();
+        while(user != null) {
+            String[] userInfo = user.split(" - ");
+            if (userInfo[0].equals(userName) && userInfo[1].equals(password)) {
+                fos.close();
+                br.close();
+                return false;
+            }
+            user = br.readLine();
+        }
 
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
             pw.println(userName + " - " + password);
         } catch (IOException e) {
             System.out.println("File couldn't write");
         }
+        return true;
     }
 
     /* // Reads the file for account info

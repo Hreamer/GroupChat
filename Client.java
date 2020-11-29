@@ -68,7 +68,6 @@ public class Client extends JFrame {
     static JPanel bottom;
 
 
-
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -320,7 +319,7 @@ public class Client extends JFrame {
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             pw = new PrintWriter(socket.getOutputStream());
-            String stringReturned = "Login - " + userName + password;
+            String stringReturned = "Login - " + userName + " - "  + password;
             pw.flush();
 
             String response = reader.readLine();
