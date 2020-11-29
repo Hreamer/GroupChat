@@ -326,11 +326,7 @@ public class Client extends JFrame {
             pw.flush();
 
             String response = reader.readLine();
-            if (response.equals(stringReturned)) {
-                ObjectInputStream get = new ObjectInputStream(socket.getInputStream());
-                UserAccount user = (UserAccount) get.readObject();
-                currentUser = user;
-                con = user.getConversations();
+            if (response.equals("Valid User")) {
                 myFrame.setVisible(false);
                 chat.setVisible(true);
                 chatter.setVisible(false);
@@ -342,8 +338,6 @@ public class Client extends JFrame {
         } catch (IOException io) {
             JOptionPane.showMessageDialog(null, "Bad connection",
                     "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
