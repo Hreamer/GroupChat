@@ -140,6 +140,57 @@ class ServerThread extends Thread{
 
                     //User who sent - message - deleted by user - ...
                     pw.println(arguements[2] + " - " + arguements[1]);
+
+                    fos.close();
+                    pw.close();
+                }
+
+                //allConversations - user
+                else if (arguements[0].equals("allConversations")) {
+                    ArrayList<String> conversationList = new ArrayList<String>();
+                    String user = arguements[1];
+                    String allConversations = "";
+
+                    File f = new File(conversationsFile);
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String conversation = br.readLine();
+                    while (conversation != null) {
+                        String[] parts = conversation.split("\\.");
+                        for (int i = 0; i < parts.length; i++) {
+                            if(parts[i].equals(user)) {
+                                conversationList.add(conversation);
+                            }
+                        }
+
+                        conversation = br.readLine();
+                    }
+
+                    fr.close();
+                    br.close();
+
+                    for(String convoName: conversationList) {
+                        File f1 = new File(convoName + ".txt");
+                        FileReader fr1 = new FileReader(f1);
+                        BufferedReader br1 = new BufferedReader(fr1);
+
+                        allConversations += convoName + "\n";
+
+                        String transcript = br1.readLine();
+                        while(transcript != null) {
+                            allConversations += transcript;
+
+                            transcript = br1.readLine();
+                        }
+
+                        fr.close();
+                        br1.close();
+                    }
+
+                    writer.write(allConversations);
+                    writer.println();
+                    writer.flush(); // Ensure data is sent to the client.
                 }
             }
 
