@@ -9,12 +9,12 @@ class ServerThread extends Thread{
     // When relaunching server we should open up the files to get the usernames that are active rn, with an arraylist that encompases it.
     ArrayList<String> usernames = new ArrayList<String>();
     ArrayList<String> passwords = new ArrayList<String>();
-    ArrayList<UserAccount> accounts = new ArrayList<UserAccount>();
     public final String userFile = "users.txt";
     public final String conversationsFile = "conversations.txt";
 
     public ServerThread(Socket socket) {
         this.socket = socket;
+        readNameFile(userFile);
     }
 
 
@@ -269,8 +269,8 @@ class ServerThread extends Thread{
         return true;
     }
 
-    /* // Reads the file for account info
-    public ArrayList<UserAccount> readNameFile(String fileName) {
+    // Reads the file for account info
+    public void readNameFile(String fileName) {
         File f = new File(fileName);
         if (!f.exists()) {
             try {
@@ -285,14 +285,12 @@ class ServerThread extends Thread{
                 String[] currentAccount = line.split(" - ");
                 usernames.add(currentAccount[0]);
                 passwords.add(currentAccount[1]);
-                accounts.add(new UserAccount(currentAccount[0], currentAccount[1]));
                 line = bfr.readLine();
             }
         } catch (IOException e) {
             System.out.println("Main File doesn't currently Exist");
         }
-        return accounts;
-    } */
+    }
 
     //Please format the ArrayList to make it so each line is the proper input for the file. If this isn't easy to do let me know @steve
     //This is to handle most writing into files, since the updating of convos is best done outside of the file and written in. This should add only one line in
@@ -351,18 +349,5 @@ class ServerThread extends Thread{
             // Change above to joption later
         }
         return messages;
-    }
-
-    //depends on how we get this to work
-    public void deleteConvo(String convo, String filename) {
-
-    }
-    //The starting arrayList should be of all the members in this convo, with the person creating the convo first and anyone else in order of addit
-    public void createConvo(ArrayList<String> members) {
-
-    }
-
-    public void sendMessage(String message, String convo) {
-
     }
 }
