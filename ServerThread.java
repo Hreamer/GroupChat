@@ -17,7 +17,6 @@ class ServerThread extends Thread{
         this.socket = socket;
     }
 
-
     @Override
     public void run() {
         /*Here will go the implementation for
@@ -103,6 +102,7 @@ class ServerThread extends Thread{
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
 
+                    boolean found = false
                     String line = br.readLine();
                     while(line != null) {
                         String[] parts = line.split(" - ");
@@ -111,10 +111,17 @@ class ServerThread extends Thread{
                             writer.write("User is Valid");
                             writer.println();
                             writer.flush(); // Ensure data is sent to the client.
+                            found = true;
                             break;
                         }
 
                         line = br.readLine();
+                    }
+
+                    if(found == false) {
+                        writer.write("User is Invalid");
+                        writer.println();
+                        writer.flush(); // Ensure data is sent to the client.
                     }
 
                     fr.close();
