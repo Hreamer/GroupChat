@@ -14,7 +14,7 @@ class ServerThread extends Thread{
 
     public ServerThread(Socket socket) {
         this.socket = socket;
-        readNameFile(userFile);
+        //readNameFile(userFile);
     }
 
     @Override
@@ -102,7 +102,7 @@ class ServerThread extends Thread{
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
 
-                    boolean found = false
+                    boolean found = false;
                     String line = br.readLine();
                     while(line != null) {
                         String[] parts = line.split(" - ");
