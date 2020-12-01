@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-class ServerThread extends Thread{
+public class ServerThread extends Thread{
     private Socket socket;
 
     // When relaunching server we should open up the files to get the usernames that are active rn, with an arraylist that encompases it.
