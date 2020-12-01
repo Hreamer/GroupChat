@@ -408,6 +408,7 @@ public class Client extends JFrame {
         boolean checker = false;
         try (PrintWriter writer = new PrintWriter(socket.getOutputStream())){
             writer.write("checkValidUser - " + name);
+            writer.println();
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
