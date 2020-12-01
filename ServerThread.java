@@ -267,6 +267,8 @@ class ServerThread extends Thread{
             }
             user = br.readLine();
         }
+        fos.close();
+        br.close();
 
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
             pw.println(userName + " - " + password);
@@ -276,6 +278,7 @@ class ServerThread extends Thread{
         return true;
     }
 
+    /*
     // Reads the file for account info
     public void readNameFile(String fileName) {
         File f = new File(fileName);
@@ -356,5 +359,5 @@ class ServerThread extends Thread{
             // Change above to joption later
         }
         return messages;
-    }
+    } */
 }
