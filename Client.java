@@ -412,7 +412,7 @@ public class Client extends JFrame {
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
-            if (response.equals(name)) {
+            if (response.equals("User is Valid")) {
                 checker = true;
             }
         } catch (IOException ie) {
