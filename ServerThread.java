@@ -97,6 +97,30 @@ class ServerThread extends Thread{
                     pw.print(withoutUser);
                 }
 
+                //checkValidUser - user
+                else if(arguements[0].equals("checkValidUser")) {
+                    File f = new File(userFile);
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String line = br.readLine();
+                    while(line != null) {
+                        String[] parts = line.split(" - ");
+
+                        if (arguements[1].equals(parts[0])) {
+                            writer.write("User is Valid");
+                            writer.println();
+                            writer.flush(); // Ensure data is sent to the client.
+                            break;
+                        }
+
+                        line = br.readLine();
+                    }
+
+                    fr.close();
+                    br.close();
+                }
+
                 //startConversation - user - user - user - ...
                 else if (arguements[0].equals("startConversation")) {
                     String fileName = "";
@@ -175,7 +199,7 @@ class ServerThread extends Thread{
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
-                        allConversations += convoName + "\n";
+                        allConversations += "Conversation - " + convoName + "\n";
 
                         String transcript = br1.readLine();
                         while(transcript != null) {
