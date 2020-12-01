@@ -97,6 +97,30 @@ class ServerThread extends Thread{
                     pw.print(withoutUser);
                 }
 
+                //checkValidUser - user
+                else if(arguements[0].equals("checkValidUser")) {
+                    File f = new File(userFile);
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String line = br.readLine();
+                    while(line != null) {
+                        String[] parts = line.split(" - ");
+
+                        if (arguements[1].equals(parts[0])) {
+                            writer.write("User is Valid");
+                            writer.println();
+                            writer.flush(); // Ensure data is sent to the client.
+                            break;
+                        }
+
+                        line = br.readLine();
+                    }
+
+                    fr.close();
+                    br.close();
+                }
+
                 //startConversation - user - user - user - ...
                 else if (arguements[0].equals("startConversation")) {
                     String fileName = "";
@@ -175,7 +199,7 @@ class ServerThread extends Thread{
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
-                        allConversations += convoName + "\n";
+                        allConversations += "Conversation - " + convoName + "\n";
 
                         String transcript = br1.readLine();
                         while(transcript != null) {
@@ -192,63 +216,6 @@ class ServerThread extends Thread{
                     writer.println();
                     writer.flush(); // Ensure data is sent to the client.
                 }
-                //This one deletes the message for everyone, and can only be sent by creator of the message
-            	//should delete message from all people's files, dunno what we are doing for "conversation files"
-            	//deleteSelfMessage - message - person who sent message - user A - user B - user C
-            	else if (arguements[0].equals("deleteSelfMessage")) {
-            		String fileName = "";
-            		String fileTemplate = "";
-            		for(int i = 2; i < arguements.length; i++) {
-           				if (i != arguements.length -1) {
-           					fileName += arguements[i] + " - ";
-           				}
-           				fileName += arguements[i];
-           				fileTemplate = fileName;
-           			}
-           			for (int x = 2; x < arguements.length; x ++) {
-           				fileName = fileTemplate;
-           				fileName = fileName + arguements[x] + ".txt";
-           				File f = new File(fileName);
-           				if (f.exists()) {
-           					BufferedReader bfr = new BufferedReader(new FileReader(f));
-            				String line = bfr.readLine();
-            				ArrayList<String> tempString = new ArrayList<String>();
-            				while (line != null) {
-            					if (!line.equals(arguements[1])) {
-            						tempString.add(line);
-           						}
-           					}	
-           					bfr.close();
-           					writeToFile(fileName, tempString);
-           				}
-           			}
-           		}
-           		// this one deletes a message only for the user who sent it
-           		//deleteMessage - messsage - person who sent message - user A - user B - user C
-            		else if (arguements[0].equals("deleteMessage")){
-            			String fileName = "";
-            			for(int i = 1; i < arguements.length; i++) {
-            				if (i != arguements.length -1) {
-            					fileName += arguements[i] + " - ";
-            				}
-            				fileName += arguements[i];
-            			}
-            			fileName += ".txt";
-            			File f = new File(fileName);
-        				if (f.exists()) {
-        					BufferedReader bfr = new BufferedReader(new FileReader(f));
-        					String line = bfr.readLine();
-        					ArrayList<String> tempString = new ArrayList<String>();
-        					while (line != null) {
-        						if (!line.equals(arguements[1])) {
-        							tempString.add(line);
-        						}
-        					}	
-        					bfr.close();
-        					writeToFile(fileName, tempString);
-        				}
-            			
-            		}
             }
 
         } catch (IOException e) {
