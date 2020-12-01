@@ -209,41 +209,6 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
-        @Test(timeout = 1000)
-        public void getConversationDeclarations() {
-            Class<?> clazz;
-            String className = "UserAccount";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
-
-
-            String methodName = "getConversations";
-            clazz = UserAccount.class;
-            Class<?> expectedReturnType = ArrayList.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has no parameters!");
-
-                return;
-            } //end try catch
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-            Assert.assertEquals("Ensure that `" + className + "`'s `" +
-                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-
-        }
         //class tests
         @Test(timeout = 1000)
         public void UserAccountClassDecTest() {
