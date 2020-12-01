@@ -253,7 +253,7 @@ class ServerThread extends Thread{
         String user = br.readLine();
         while(user != null) {
             String[] userInfo = user.split(" - ");
-            if (userInfo[0].equals(userName) && userInfo[1].equals(password)) {
+            if (userInfo[0].equals(userName)) {
                 fos.close();
                 br.close();
                 return false;
