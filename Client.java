@@ -41,37 +41,98 @@ public class Client extends JFrame {
     static JLabel signUpTopPanelLabel;
     static JButton backButton;
     static JButton confirmSignUp;
-    //chat board
-    static JFrame chat;
-    static JPanel jp;
-    static JScrollPane sp;
-    static Container cont;
-    static JPanel up;
-    static ArrayList<Conversation> con = new ArrayList<>();
+
+
     //message board
     private static JButton delete;
     private static JButton back;
     private static JTextField deleteMessage;
     private static JButton send;
-    private static JButton create;
 
     private static JTextField composeMessage;
     public static Socket socket;
-    static ArrayList<String> chats = new ArrayList<>();
+    //static ArrayList<String> chats = new ArrayList<>();
     static BufferedReader reader;
     static PrintWriter pw;
     static UserAccount currentUser;
-    static JFrame chatter;
+    static JPanel chatter;
     static Container content;
     static JTextArea textArea;
     static JPanel top;
     static JPanel bottom;
+
+    //full display, including the chats and the open message
+    private static JFrame fullFrame;
+    private static JSplitPane splitPane;
+    private static JPanel chatButtonFrame;
+    private static JList<String> list;
+    private static ArrayList<Conversation> conversations;
+    private static String[] conversationTitles;
+    private static JButton newConvo;
 
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                fullFrame = new JFrame("Messages");
+                fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                fullFrame.setSize(500, 500);
+                fullFrame.setResizable(false);
+                chatButtonFrame = new JPanel();
+                chatter = new JPanel();
+                textArea = new JTextArea(23, 35);
+                composeMessage = new JTextField(20);
+                top = new JPanel();
+                bottom = new JPanel();
+                back = new JButton("Back");
+                back.addActionListener(actionListener);
+                delete = new JButton("Delete");
+                deleteMessage = new JTextField("What message would you like to delete?...");
+                deleteMessage.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (deleteMessage.getText().equals("What message would you like to delete?...")) {
+                            deleteMessage.setText("");
+                        }
+                    }
+                });
+                send = new JButton("Send");
+                send.addActionListener(actionListener);
+                newConvo = new JButton("+");
+                newConvo.addActionListener(actionListener);
+                chatButtonFrame.add(newConvo);
+                if (conversationTitles != null && conversationTitles.length > 0) {
+                    list = new JList<String>(conversationTitles);
+                    JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                    list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+                    list.setLayoutOrientation(JList.VERTICAL);
+                    list.setVisibleRowCount(-1);
+                    chatButtonFrame.add(list);
+                }
+                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+                top.add(back);
+                top.add(delete);
+                top.add(deleteMessage);
+                bottom.add(send);
+                bottom.add(composeMessage);
+
+                chatter.add(top, BorderLayout.NORTH);
+                chatter.add(scroll, BorderLayout.CENTER);
+                chatter.add(bottom, BorderLayout.SOUTH);
+
+                splitPane = new JSplitPane();
+                fullFrame.setSize(700,500);
+                splitPane.setDividerLocation(190);
+                splitPane.setDividerSize(20);
+
+                splitPane.setEnabled(false);
+                splitPane.setRightComponent(chatter);
+                splitPane.setLeftComponent(chatButtonFrame);
+                fullFrame.add(splitPane);
+                //fullFrame.setVisible(true);
+
+
                 myFrame = new JFrame("Welcome");
                 myFrame.setLayout(new BorderLayout());
                 myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -177,76 +238,7 @@ public class Client extends JFrame {
                 signUpFrame.add(signUpMyBottomPanel, BorderLayout.SOUTH);
                 signUpFrame.add(signUpMyTopPanel, BorderLayout.NORTH);
                 signUpFrame.setVisible(false);
-                //conversation board
 
-                chat = new JFrame("Conversations");
-                cont = chat.getContentPane();
-                cont.setLayout(new BorderLayout());
-                chat.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                jp = new JPanel();
-                jp.setPreferredSize(new Dimension(500,400));
-                sp = new JScrollPane(jp, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                sp.setPreferredSize(new Dimension(500, 400));
-                up = new JPanel();
-                create = new JButton("Create Conversation");
-                create.addActionListener(actionListener);
-                for (int i = 0; i < con.size(); i++) {
-                    jp.add(con.get(i).getButton());
-                }
-                top.add(create);
-                content.add(up, BorderLayout.NORTH);
-                content.add(sp, BorderLayout.CENTER);
-                chat.setSize(500,500);
-                chat.setResizable(false);
-                chat.setVisible(false);
-
-                //messenger board
-                chatter = new JFrame("Conversation");
-                composeMessage = new JTextField(20);
-                chatter.setSize(500, 500);
-                chatter.setResizable(false);
-                content = chatter.getContentPane();
-                content.setLayout(new BorderLayout());
-                chatter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                textArea = new JTextArea(10, 20);
-                top = new JPanel();
-                bottom = new JPanel();
-                back = new JButton("Back");
-                back.addActionListener(actionListener);
-                delete = new JButton("Delete");
-                deleteMessage = new JTextField("What message would you like to delete?...");
-                deleteMessage = new JTextField("What message would you like to delete?...");
-                deleteMessage.addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
-                        if (deleteMessage.getText().equals("What message would you like to delete?...")) {
-                            deleteMessage.setText("");
-                        }
-                    }
-                });
-
-                send = new JButton("Send");
-                send.addActionListener(actionListener);
-
-                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                for (int i = 0; i < chats.size(); i++) {
-                    textArea.append("  " + chats.get(i));
-                    textArea.append("\n");
-                    textArea.append("\n");
-                    textArea.setLineWrap(true);
-                    textArea.setWrapStyleWord(true);
-                }
-                top.add(back);
-                top.add(delete);
-                top.add(deleteMessage);
-                bottom.add(send);
-                bottom.add(composeMessage);
-
-                content.add(bottom, BorderLayout.SOUTH);
-                content.add(top, BorderLayout.NORTH);
-                content.add(scroll, BorderLayout.CENTER);
-                chatter.setSize(500, 500);
-                chatter.setVisible(false);
-                chatter.setLocationRelativeTo(null);
 
             }
         });
@@ -284,10 +276,7 @@ public class Client extends JFrame {
             if (e.getSource() == send) {
                 sendNewMessage(composeMessage.getText());
             }
-            if (e.getSource() == back) {
-                //add logic to hide panel
-            }
-            if (e.getSource() == create) {
+            if (e.getSource() == newConvo) {
                 createCo();
             }
         }
@@ -328,8 +317,7 @@ public class Client extends JFrame {
             String response = reader.readLine();
             if (response.equals("Valid User")) {
                 myFrame.setVisible(false);
-                chat.setVisible(true);
-                chatter.setVisible(false);
+                fullFrame.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Your username or password was incorrect.",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -342,32 +330,35 @@ public class Client extends JFrame {
     }
 
     public static void createCo() {
-        int finish = 1;
-        ArrayList<String> names = new ArrayList<>();
+        int finish = -20;
+        ArrayList<String> names = new ArrayList<String>(0);
         String name;
         String title;
-        int count = currentUser.getConversations().size();
+        //int count = currentUser.getConversations().size();
         do {
             name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
             if (check(name)) {
                 names.add(name);
+                System.out.println("name " + name + " added");
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid User", "Create Conversation", JOptionPane.ERROR_MESSAGE);
             }
+            System.out.println("gets to finish");
             finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?", "Create Conversation", JOptionPane.YES_NO_OPTION);
         } while (finish == JOptionPane.YES_OPTION);
 
         title = JOptionPane.showInputDialog(null, "Enter the Title", "Create Conversation",
                 JOptionPane.QUESTION_MESSAGE);
 
-        Conversation n = new Conversation(names, title, chatter, chats, socket);
-        chats = getConversation(title);
-        con.add(n);
-
-        jp.add(n.getButton());
+        Conversation n = new Conversation(names, title);
+        //chats = getConversation(title);
+        conversations.add(n);
+        currentUser.getConversations().add(n);
+        updateJList(n.getTitle());
         connectUsers(names);
     }
+    /*
     private static ArrayList<String> getConversation(String title) {
         do {
             for (int i = 0; i < chats.size(); i++) {
@@ -389,6 +380,7 @@ public class Client extends JFrame {
         }
         return chats;
     }
+     */
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
         try {
             PrintWriter pr = new PrintWriter(socket.getOutputStream());
@@ -437,6 +429,17 @@ public class Client extends JFrame {
             }
         }
         // else send message to server
+    }
+
+    private static void updateJList(String conversationTitle) {
+        //if a chat is created
+        String[] tempArray = new String[conversationTitles.length + 1];
+        for (int i = 0; i < conversationTitles.length; i++) {
+            tempArray[i] = conversationTitles[i];
+        }
+        tempArray[tempArray.length - 1] = conversationTitle;
+        conversationTitles = tempArray;
+        //list.ensureIndexIsVisible(list.getLength());
     }
 
 }

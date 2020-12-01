@@ -20,7 +20,7 @@ public class Conversation {
     private ArrayList<String> chat;
     private int count;
     private Socket socket;
-    public Conversation(ArrayList<String> users, String title, JFrame chatter, ArrayList<String> chat, Socket socket) {
+    public Conversation(ArrayList<String> users, String title) {
         this.chat = chat;
         this.chatter = chatter;
         this.title = title;
