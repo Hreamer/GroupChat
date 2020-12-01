@@ -64,6 +64,78 @@ public class LocalTestCases {
             testIn = new ByteArrayInputStream(str.getBytes());
             System.setIn(testIn);
         }
+        //userAccount method tests
+        @Test(timeout = 1000)
+        public void getUserName() {
+            Class<?> clazz;
+            String className = "UserAccount";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+
+            String methodName = "getUserName";
+            clazz = UserAccount.class;
+            Class<?> expectedReturnType = String.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+        }
+        @Test(timeout = 1000)
+        public void getConversationDeclarations() {
+            Class<?> clazz;
+            String className = "UserAccount";
+            Method method;
+            int modifiers;
+            Class<?> actualReturnType;
+            int expectedLength = 0;
+            Class<?>[] exceptions;
+
+
+            String methodName = "getConversations";
+            clazz = UserAccount.class;
+            Class<?> expectedReturnType = ArrayList.class;
+
+            // Attempt to access the class method
+            try {
+                method = clazz.getDeclaredMethod(methodName);
+            } catch (NoSuchMethodException e) {
+                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+                        " has no parameters!");
+
+                return;
+            } //end try catch
+
+            modifiers = method.getModifiers();
+
+            actualReturnType = method.getReturnType();
+
+            Assert.assertTrue("Ensure that `" + className + "`'s `"
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertEquals("Ensure that `" + className + "`'s `" +
+                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+
+        }
+        //class tests
         @Test(timeout = 1000)
         public void UserAccountClassDecTest() {
             Class<?> clazz;
@@ -126,6 +198,7 @@ public class LocalTestCases {
             Assert.assertEquals("Ensure that `"+ className +"` extends `Thread`!", Thread.class, superclass);
 
         }
+        //field declaration tests
         @Test(timeout = 1000)
         public void testUserNameDeclaration() {
             String className = "UserAccount";
@@ -270,7 +343,7 @@ public class LocalTestCases {
 
         }
         @Test(timeout = 1000)
-        public void testfilenameDeclaration() {
+        public void testfileNameDeclaration() {
             String className = "ServerThread";
             Class<?> clazz;
             Field testField;
@@ -300,7 +373,7 @@ public class LocalTestCases {
 
         }
         @Test(timeout = 1000)
-        public void testconversationsFileDeclaration() {
+        public void testConversationsFileDeclaration() {
             String className = "ServerThread";
             Class<?> clazz;
             Field testField;
@@ -308,6 +381,36 @@ public class LocalTestCases {
             Class<?> type;
 
             String fieldName = "conversationsFile";
+            Class<?> expectedType = String.class;
+
+            clazz = ServerThread.class;
+
+            try {
+                testField = clazz.getDeclaredField(fieldName);
+            }  catch (NoSuchFieldException e) {
+                Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
+                return;
+            }
+
+            type = testField.getType();
+            modifiers = testField.getModifiers();
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName +
+                    "` field is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertEquals("Ensure that `" +
+                    className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
+            Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName
+                    + "` field is `private`!", Modifier.isFinal(modifiers));
+
+        }
+        @Test(timeout = 1000)
+        public void testSocketDeclaration() {
+            String className = "ServerThread";
+            Class<?> clazz;
+            Field testField;
+            int modifiers;
+            Class<?> type;
+
+            String fieldName = "socket";
             Class<?> expectedType = String.class;
 
             clazz = ServerThread.class;
