@@ -66,9 +66,15 @@ public class Client extends JFrame {
     private static JSplitPane splitPane;
     private static JPanel chatButtonFrame;
     private static JList<String> list;
-    private static ArrayList<Conversation> conversations;
+    //private static ArrayList<Conversation> conversations;
     private static String[] conversationTitles;
     private static JButton newConvo;
+
+    //options panel if the user wants to edit username or password, or delete a conversation
+    private static JFrame optionsPane;
+    private static JButton options;
+    private static JButton changePassword;
+    private static JButton deleteConversation;
 
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
@@ -100,7 +106,10 @@ public class Client extends JFrame {
                 send.addActionListener(actionListener);
                 newConvo = new JButton("+");
                 newConvo.addActionListener(actionListener);
+                options = new JButton("options");
+                options.addActionListener(actionListener);
                 chatButtonFrame.add(newConvo);
+                chatButtonFrame.add(options);
                 if (conversationTitles != null && conversationTitles.length > 0) {
                     list = new JList<String>(conversationTitles);
                     JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -353,11 +362,12 @@ public class Client extends JFrame {
 
         Conversation n = new Conversation(names, title);
         //chats = getConversation(title);
-        conversations.add(n);
+        //conversations.add(n);
         currentUser.getConversations().add(n);
         updateJList(n.getTitle());
         connectUsers(names);
     }
+
     /*
     private static ArrayList<String> getConversation(String title) {
         do {
@@ -394,11 +404,11 @@ public class Client extends JFrame {
 
     }
 
-    public static boolean check(String name) { //this will check if the user exists
+    public static boolean check (String name) { //this will check if the user exists
         boolean checker = false;
         try {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            writer.write(name);
+            writer.write("checkValidUser - " + name);
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
