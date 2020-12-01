@@ -406,8 +406,7 @@ public class Client extends JFrame {
 
     public static boolean check (String name) { //this will check if the user exists
         boolean checker = false;
-        try {
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())){
             writer.write("checkValidUser - " + name);
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
