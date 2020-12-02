@@ -379,6 +379,15 @@ public class Client extends JFrame {
                 optionsMenu.setVisible(false);
             }
             if (e.getSource() == confirmPasswordChange) {
+                try {
+                    if (socket != null) {
+                        socket.close();
+                    }
+                } catch (IOException a){
+                    a.printStackTrace();
+                }
+                socket = null;
+
                 changePassword(passwordTextChange.getText());
             }
         }
@@ -441,6 +450,7 @@ public class Client extends JFrame {
         } catch (IOException e){
             e.printStackTrace();
         }
+
         socket = null;
     }
 
@@ -652,27 +662,26 @@ public class Client extends JFrame {
 
 
     public static void changePassword(String newPassword) {
-        newPassword = ""; //change to text field when it is created
+        client.getSocket();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-
-            writer.write("ChangePassword" + " - " + currentUser.getUserName() + " - " + newPassword);
+            writer.write("ChangePassword" + " - " + "Lucas" + " - " + newPassword);
             writer.println();
             writer.flush();
             String response = reader.readLine();
 
-            if (response.equals("Password Changed")) {
+            if (response.equals("Password Changed"))
                 JOptionPane.showMessageDialog(null, "Your password has been successfully changed"
-                        , "Error", JOptionPane.OK_OPTION);
-            } else {
+                        , "Success", JOptionPane.OK_OPTION);
+            else {
                 JOptionPane.showMessageDialog(null, "Your password wasn't able to be changed"
                         , "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (IOException io) {
             System.out.println("Password did not change.");
+            io.printStackTrace();
         }
     }
-
 
 }
