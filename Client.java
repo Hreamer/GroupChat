@@ -113,6 +113,8 @@ public class Client extends JFrame {
                 newConvo = new JButton("+");
                 newConvo.addActionListener(actionListener);
                 chatButtonFrame.add(newConvo);
+                options = new JButton("options");
+                chatButtonFrame.add(options);
                 if (conversationTitles != null && conversationTitles.length > 0) {
                     list = new JList<String>(conversationTitles);
                     JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -144,7 +146,6 @@ public class Client extends JFrame {
                     chatButtonFrame.add(list);
                 }
                 JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
                 top.add(back);
                 top.add(delete);
                 top.add(deleteMessage);
@@ -357,16 +358,7 @@ public class Client extends JFrame {
             if (response.equals("Valid User")) {
                 myFrame.setVisible(false);
                 fullFrame.setVisible(true);
-                pw.write("allConversations - " + userName);
-                pw.println();
-                pw.flush();
-                String conversationsNonSplit = reader.readLine();
-                if (conversationsNonSplit != null) {
-                    String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
-                    for(int i = 0; i < conversationsSplit.length; i++) {
-                        conversations.add(new Conversation())
-                    }
-                }
+                initJList();
                 currentUser = new UserAccount(userName, password, conversations);
             } else {
                 JOptionPane.showMessageDialog(null, "Your username or password was incorrect.",
@@ -404,13 +396,13 @@ public class Client extends JFrame {
         String name;
         String title;
         //int count = currentUser.getConversations().size();
+        names.add(currentUser.getUserName());
         do {
             name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
             if (check(name)) {
-                names.add(currentUser.getUserName());
                 names.add(name);
-                System.out.println("name " + name + " added");
+                System.out.println(name + " added");
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid User", "Create Conversation", JOptionPane.ERROR_MESSAGE);
             }
@@ -421,13 +413,12 @@ public class Client extends JFrame {
         title = JOptionPane.showInputDialog(null, "Enter the Title", "Create Conversation",
                 JOptionPane.QUESTION_MESSAGE);
 
-        Conversation n = new Conversation(names, title);
-        //chats = getConversation(title);
+        //Conversation n = new Conversation(names, title);
         //conversations.add(n);
         //currentUser.addCo(n);
         client.getSocket();
         try {
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             pw = new PrintWriter(socket.getOutputStream());
             String line = "startConversation - ";
             for (int i = 0; i < names.size(); i++) {
@@ -441,16 +432,16 @@ public class Client extends JFrame {
             pw.write(line);
             pw.println();
             pw.flush();
-            String response = reader.readLine();
+            //String response = reader.readLine();
         } catch (IOException ie) {
             ie.printStackTrace();
         }
 
         updateJList(title);
         System.out.println("sent update JList" + title);
-        conversations.add(n);
-        currentUser.getConversations().add(n);
-        updateJList(n.getTitle());
+        //conversations.add(n);
+        //currentUser.getConversations().add(n);
+        //updateJList(n.getTitle());
         connectUsers(names);
 
     }
@@ -490,6 +481,7 @@ public class Client extends JFrame {
 
     }
 
+    /*
     public static boolean check (String name) { //this will check if the user exists
         client.getSocket();
         boolean checker = false;
@@ -502,16 +494,21 @@ public class Client extends JFrame {
             String response = reader.readLine();
             System.out.println(response);
             if (response.equals("User is Valid " + name)) {
+            }
+
+     */
 
     public static boolean check(String name) { //this will check if the user exists
+        client.getSocket();
         boolean checker = false;
-        try {
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            writer.write(name);
+        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+            //PrintWriter writer = new PrintWriter(socket.getOutputStream());
+            writer.write("checkValidUser - " + name);
+            writer.println();
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
-            if (response.equals(name)) {
+            if (response.equals("User is Valid " + name)) {
                 checker = true;
             }
         } catch (IOException ie) {
@@ -545,8 +542,39 @@ public class Client extends JFrame {
         // else send message to server
     }
 
-    private static void updateJList(String conversationTitle) {
-        //if a chat is created
+    private static void initJList() {
+        client.getSocket();
+        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            pw.write("allConversations - " + userName);
+            pw.println();
+            pw.flush();
+            String conversationsNonSplit = reader.readLine();
+            if (conversationsNonSplit != null) {
+                String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
+                for (int i = 0; i < conversationsSplit.length; i++) {
+                    //TODO make sure allConversations sends over the right data
+                    //conversations.add(new Conversation(/*data received from server*/));
+                    //add to conversationTitles, call the updateJlsit
+                }
+            }
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
+
+
+        client.repaint();
+
+        try {
+            socket.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        socket = null;
+
+    }
+
+    public static void updateJList(String conversationTitle) {
         if(conversationTitles != null) {
             String[] tempArray = new String[conversationTitles.length + 1];
             for (int i = 0; i < conversationTitles.length; i++) {
@@ -554,10 +582,10 @@ public class Client extends JFrame {
             }
             tempArray[tempArray.length - 1] = conversationTitle;
             conversationTitles = tempArray;
-            client.repaint();
-            //list.ensureIndexIsVisible(list.getLength());
         }
     }
+
+
     public static void changePassword(String newPassword) {
         newPassword = ""; //change to text field when it is created
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
