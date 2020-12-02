@@ -8,6 +8,7 @@ import javax.swing.text.Style;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.UnknownHostException;
@@ -43,6 +44,8 @@ public class Client extends JFrame {
     static JButton confirmSignUp;
 
 
+    //private static PrintWriter writer = new PrintWriter(socket.getOutputStream());
+
     //message board
     private static JButton delete;
     private static JButton back;
@@ -66,7 +69,7 @@ public class Client extends JFrame {
     private static JSplitPane splitPane;
     private static JPanel chatButtonFrame;
     private static JList<String> list;
-    //private static ArrayList<Conversation> conversations;
+    private static ArrayList<Conversation> conversations;
     private static String[] conversationTitles;
     private static JButton newConvo;
 
@@ -76,11 +79,14 @@ public class Client extends JFrame {
     private static JButton changePassword;
     private static JButton deleteConversation;
 
+    private static Client client = new Client();
+
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                conversationTitles = new String[0];
                 fullFrame = new JFrame("Messages");
                 fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 fullFrame.setSize(500, 500);
@@ -116,6 +122,28 @@ public class Client extends JFrame {
                     list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
                     list.setLayoutOrientation(JList.VERTICAL);
                     list.setVisibleRowCount(-1);
+                    MouseListener mouseListener = new MouseAdapter() {
+                        public void mouseClicked(MouseEvent e) {
+                            if (e.getClickCount() == 1) {
+
+                                //TODO general algorithm for what happens when a conversation is clicked
+
+                                /*
+                                if (list.getSelectedValue().equals(conversationTitles[0])) {
+                                    textArea.setText("hello");
+                                } else if (list.getSelectedValue().equals(conversationTitles[1])) {
+                                    textArea.setText("hi");
+                                } else if (list.getSelectedValue().equals(conversationTitles[2])) {
+                                    textArea.setText("what's up");
+                                } else if (list.getSelectedValue().equals(conversationTitles[3])) {
+                                    textArea.setText("the sky");
+                                }
+                                 */
+
+                            }
+                        }
+                    };
+                    list.addMouseListener(mouseListener);
                     chatButtonFrame.add(list);
                 }
                 JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -269,7 +297,11 @@ public class Client extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == signIn) {
-                getValidAccount(userName.getText(), password.getText());
+                try {
+                    getValidAccount(userName.getText(), password.getText());
+                } catch (Exception g) {
+                    g.printStackTrace();
+                }
             }
             if (e.getSource() == signUp) {
                 myFrame.setVisible(false);
@@ -312,8 +344,8 @@ public class Client extends JFrame {
         }
     }
 
-    public static void getValidAccount(String userName, String password) {
-
+    public static void getValidAccount(String userName, String password) throws UnknownHostException, IOException {
+        client.getSocket();
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             pw = new PrintWriter(socket.getOutputStream());
@@ -327,6 +359,17 @@ public class Client extends JFrame {
             if (response.equals("Valid User")) {
                 myFrame.setVisible(false);
                 fullFrame.setVisible(true);
+                pw.write("allConversations - " + userName);
+                pw.println();
+                pw.flush();
+                String conversationsNonSplit = reader.readLine();
+                if (conversationsNonSplit != null) {
+                    String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
+                    for(int i = 0; i < conversationsSplit.length; i++) {
+                        conversations.add(new Conversation())
+                    }
+                }
+                currentUser = new UserAccount(userName, password, conversations);
             } else {
                 JOptionPane.showMessageDialog(null, "Your username or password was incorrect.",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -336,9 +379,28 @@ public class Client extends JFrame {
             JOptionPane.showMessageDialog(null, "Bad connection",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
+        try {
+            socket.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        socket = null;
+
     }
 
+    public static void getSocket() {
+        try {
+            if (socket == null) {
+                client.serverClient();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void createCo() {
+        client.getSocket();
         int finish = -20;
         ArrayList<String> names = new ArrayList<String>(0);
         String name;
@@ -348,6 +410,7 @@ public class Client extends JFrame {
             name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
             if (check(name)) {
+                names.add(currentUser.getUserName());
                 names.add(name);
                 System.out.println("name " + name + " added");
             } else {
@@ -363,9 +426,32 @@ public class Client extends JFrame {
         Conversation n = new Conversation(names, title);
         //chats = getConversation(title);
         //conversations.add(n);
-        currentUser.getConversations().add(n);
-        updateJList(n.getTitle());
+        //currentUser.addCo(n);
+        client.getSocket();
+        try {
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            pw = new PrintWriter(socket.getOutputStream());
+            String line = "startConversation - ";
+            for (int i = 0; i < names.size(); i++) {
+                if (i != names.size() - 1) {
+                    line = line + names.get(i) + " - ";
+                } else {
+                    line = line + names.get(i);
+                }
+            }
+            System.out.println("line sent to startConversation: " + line);
+            pw.write(line);
+            pw.println();
+            pw.flush();
+            String response = reader.readLine();
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
+
+        updateJList(title);
+        System.out.println("sent update JList" + title);
         connectUsers(names);
+
     }
 
     /*
@@ -405,19 +491,28 @@ public class Client extends JFrame {
     }
 
     public static boolean check (String name) { //this will check if the user exists
+        client.getSocket();
         boolean checker = false;
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())){
-            writer.write("checkValidUser - " + name);
-            writer.println();
+        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+            System.out.println("Sent");
+            writer.println("checkValidUser - " + name);
+            //writer.println();
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
-            if (response.equals("User is Valid")) {
+            System.out.println(response);
+            if (response.equals("User is Valid " + name)) {
                 checker = true;
             }
         } catch (IOException ie) {
             ie.printStackTrace();
         }
+        try {
+            socket.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        socket = null;
         return checker;
     }
 
@@ -426,7 +521,6 @@ public class Client extends JFrame {
     }
 
     public static void sendNewMessage(String message) {
-
         if (message.equals("")) {
             JOptionPane.showMessageDialog(null, "Your message is empty, add a value first to send."
                     , "Error", JOptionPane.ERROR_MESSAGE);
@@ -443,13 +537,16 @@ public class Client extends JFrame {
 
     private static void updateJList(String conversationTitle) {
         //if a chat is created
-        String[] tempArray = new String[conversationTitles.length + 1];
-        for (int i = 0; i < conversationTitles.length; i++) {
-            tempArray[i] = conversationTitles[i];
+        if(conversationTitles != null) {
+            String[] tempArray = new String[conversationTitles.length + 1];
+            for (int i = 0; i < conversationTitles.length; i++) {
+                tempArray[i] = conversationTitles[i];
+            }
+            tempArray[tempArray.length - 1] = conversationTitle;
+            conversationTitles = tempArray;
+            client.repaint();
+            //list.ensureIndexIsVisible(list.getLength());
         }
-        tempArray[tempArray.length - 1] = conversationTitle;
-        conversationTitles = tempArray;
-        //list.ensureIndexIsVisible(list.getLength());
     }
 
 }
