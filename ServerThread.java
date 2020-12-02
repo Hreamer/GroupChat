@@ -139,30 +139,23 @@ public class ServerThread extends Thread{
                             fileName += arguements[i];
                         }
                     }
+                    String users = fileName;
                     fileName += ".txt";
 
-                    //creates the title, writes the title on the first lien
+                    //creates the title, writes the title on the first line
                     File f = new File(fileName);
                     f.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(fileName, true);
-                    PrintWriter pw = new PrintWriter(fos);
-                    pw.println(/*title of the conversation*/);
-                    pw.println(/*users of the conversation*/);
 
-                    fos.close();
-                    pw.close();
+                    //printing the users who have not deleted which is all of them currently
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
+                        pw.println(users);
+                    }
 
                     //adding the new file to the list of conversations
                     File f2 = new File(conversationsFile);
-                    FileOutputStream fos2 = new FileOutputStream(f2, true);
-                    PrintWriter pw2 = new PrintWriter(fos2);
-
-                    String[] conversationName = fileName.split("\\.");
-                    pw2.println(conversationName[0] + ".txt");
-                    pw2.flush();
-
-                    fos2.close();
-                    pw2.close();
+                    try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(f2, true)))) {
+                        pw2.println(fileName);
+                    }
                 }
 
                 //ChangePassword - user - newPassword
