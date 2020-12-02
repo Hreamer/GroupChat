@@ -43,7 +43,16 @@ public class Client extends JFrame {
     static JButton backButton;
     static JButton confirmSignUp;
 
-
+    //options board
+    static JFrame optionsMenu;
+    static JTextField passwordTextChange;
+    static JButton confirmPasswordChange;
+    static JPanel topPanelOptionsMenu;
+    static JButton deleteAccount;
+    static JButton backButtonToChat;
+    static JPanel middlePanelForOptions;
+    static JLabel optionsMenuLabel;
+    static JLabel passwordChangeLabel;
     //private static PrintWriter writer = new PrintWriter(socket.getOutputStream());
 
     //message board
@@ -114,6 +123,7 @@ public class Client extends JFrame {
                 newConvo.addActionListener(actionListener);
                 chatButtonFrame.add(newConvo);
                 options = new JButton("options");
+                options.addActionListener(actionListener);
                 chatButtonFrame.add(options);
                 if (conversationTitles != null && conversationTitles.length > 0) {
                     list = new JList<String>(conversationTitles);
@@ -274,6 +284,48 @@ public class Client extends JFrame {
                 signUpFrame.add(signUpMyTopPanel, BorderLayout.NORTH);
                 signUpFrame.setVisible(false);
 
+                //options menu config
+                optionsMenu = new JFrame();
+                optionsMenu.setVisible(false);
+                optionsMenu.setLayout(new BorderLayout());
+                optionsMenu.setTitle("Options");
+                optionsMenu.setSize(500, 500);
+                optionsMenu.setResizable(false);
+
+                topPanelOptionsMenu = new JPanel();
+                deleteAccount = new JButton("Delete Account");
+                deleteAccount.setMaximumSize(new Dimension(300, 40));
+
+                middlePanelForOptions = new JPanel();
+                middlePanelForOptions.setBackground(Color.blue);
+                middlePanelForOptions.setLayout(new BoxLayout(middlePanelForOptions, BoxLayout.Y_AXIS));
+
+
+                passwordTextChange = new JTextField("New Password");
+
+                confirmPasswordChange = new JButton("Change Password");
+                confirmPasswordChange.setMaximumSize(new Dimension(300, 40));
+                confirmPasswordChange.addActionListener(actionListener);
+                passwordTextChange.setMaximumSize(new Dimension(300, 40));
+
+
+                middlePanelForOptions.add(passwordTextChange);
+                middlePanelForOptions.add(confirmPasswordChange);
+                middlePanelForOptions.add(deleteAccount);
+
+
+                backButtonToChat = new JButton("Back");
+                backButtonToChat.setFont(new Font(null, 0, 15));
+                backButtonToChat.addActionListener(actionListener);
+                topPanelOptionsMenu.add(backButtonToChat);
+
+                optionsMenuLabel = new JLabel("Account Options");
+                optionsMenuLabel.setFont(new Font(null, 0, 15));
+                topPanelOptionsMenu.add(optionsMenuLabel);
+
+
+                optionsMenu.add(topPanelOptionsMenu, BorderLayout.NORTH);
+                optionsMenu.add(middlePanelForOptions, BorderLayout.CENTER);
 
             }
         });
@@ -317,6 +369,17 @@ public class Client extends JFrame {
             }
             if (e.getSource() == newConvo) {
                 createCo();
+            }
+            if (e.getSource() == options) {
+                optionsMenu.setVisible(true);
+                fullFrame.setVisible(false);
+            }
+            if(e.getSource() == backButtonToChat) {
+                fullFrame.setVisible(true);
+                optionsMenu.setVisible(false);
+            }
+            if (e.getSource() == confirmPasswordChange) {
+                changePassword(passwordTextChange.getText());
             }
         }
     };
@@ -499,7 +562,6 @@ public class Client extends JFrame {
             System.out.println(response);
             if (response.equals("User is Valid " + name)) {
             }
-
      */
 
     public static boolean check(String name) { //this will check if the user exists
@@ -548,7 +610,7 @@ public class Client extends JFrame {
     private static void initJList() {
         client.getSocket();
         try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             pw.write("allConversations - " + userName);
             pw.println();
             pw.flush();
