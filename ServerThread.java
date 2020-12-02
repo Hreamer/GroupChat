@@ -19,8 +19,7 @@ public class ServerThread extends Thread{
 
     @Override
     public void run() {
-        /*Here will go the implementation for
-         * Each Client  */
+        /*Here will go the implementation for each Client  */
 
         //try catch statement for the input and output streams and connection
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -156,6 +155,46 @@ public class ServerThread extends Thread{
                     pw.close();
                 }
 
+                //ChangePassword - user - newPassword
+                else if (arguements[0].equals("ChangePassword")) {
+                    //opening user file to read from
+                    File f = new File(userFile);
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String totalFile = "";
+
+                    //Read the line and if it equals the username add it to totalConversation
+                    //with the new password. else just add the line with the user that doesnt equal
+                    //what the client said
+                    String line = br.readLine();
+                    while (line != null) {
+                        String[] parts = line.split(" - ");
+
+                        if(parts[0].equals(arguements[1])) {
+                            totalFile += parts[0] + " - " + arguements[2] + "\n";
+                        } else {
+                            totalFile += line + "\n";
+                        }
+
+                        line = br.readLine();
+                    }
+
+                    //closing the streams
+                    fr.close();
+                    br.close();
+
+                    //writing to the userfile. Using just a print cause everyline we add a
+                    //newline character to the end of the line so no need to use println
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
+                        pw.print(totalFile);
+                    }
+
+                    writer.write("Password Changed");
+                    writer.println();
+                    writer.flush(); // Ensure data is sent to the client.
+                }
+
                 //updateConversation - message - userWhoSent - user - user - user - ..."
                 else if (arguements[0].equals("updateConversation")) {
                     String fileName = "";
@@ -217,7 +256,7 @@ public class ServerThread extends Thread{
                             transcript = br1.readLine();
                         }
 
-                        fr.close();
+                        fr1.close();
                         br1.close();
                     }
 
