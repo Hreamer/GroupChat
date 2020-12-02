@@ -659,7 +659,6 @@ public class Client extends JFrame {
             writer.write("ChangePassword" + " - " + currentUser.getUserName() + " - " + newPassword);
             writer.println();
             writer.flush();
-            reader.readLine();
             String response = reader.readLine();
 
             if (response.equals("Password Changed")) {
