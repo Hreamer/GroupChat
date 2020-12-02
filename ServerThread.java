@@ -162,6 +162,9 @@ public class ServerThread extends Thread{
 
                     String totalFile = "";
 
+                    //Read the line and if it equals the username add it to totalConversation
+                    //with the new password. else just add the line with the user that doesnt equal
+                    //what the client said
                     String line = br.readLine();
                     while (line != null) {
                         String[] parts = line.split(" - ");
@@ -169,10 +172,20 @@ public class ServerThread extends Thread{
                         if(parts[0].equals(arguements[1])) {
                             totalFile += parts[0] + " - " + arguements[2] + "\n";
                         } else {
-                            totalFile += line;
+                            totalFile += line + "\n";
                         }
 
                         line = br.readLine();
+                    }
+
+                    //closing the streams
+                    fr.close();
+                    br.close();
+
+                    //writing to the userfile. Using just a print cause everyline we add a
+                    //newline character to the end of the line so no need to use println
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
+                        pw.print(totalFile);
                     }
                 }
 
