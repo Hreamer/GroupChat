@@ -66,15 +66,9 @@ public class Client extends JFrame {
     private static JSplitPane splitPane;
     private static JPanel chatButtonFrame;
     private static JList<String> list;
-    //private static ArrayList<Conversation> conversations;
+    private static ArrayList<Conversation> conversations;
     private static String[] conversationTitles;
     private static JButton newConvo;
-
-    //options panel if the user wants to edit username or password, or delete a conversation
-    private static JFrame optionsPane;
-    private static JButton options;
-    private static JButton changePassword;
-    private static JButton deleteConversation;
 
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
@@ -106,10 +100,7 @@ public class Client extends JFrame {
                 send.addActionListener(actionListener);
                 newConvo = new JButton("+");
                 newConvo.addActionListener(actionListener);
-                options = new JButton("options");
-                options.addActionListener(actionListener);
                 chatButtonFrame.add(newConvo);
-                chatButtonFrame.add(options);
                 if (conversationTitles != null && conversationTitles.length > 0) {
                     list = new JList<String>(conversationTitles);
                     JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -300,6 +291,7 @@ public class Client extends JFrame {
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
+
             if (response.equals("Signup Successful")) {
                 JOptionPane.showMessageDialog(null, "Your account has " +
                         "been created, return to the login screen.");
@@ -362,12 +354,11 @@ public class Client extends JFrame {
 
         Conversation n = new Conversation(names, title);
         //chats = getConversation(title);
-        //conversations.add(n);
+        conversations.add(n);
         currentUser.getConversations().add(n);
         updateJList(n.getTitle());
         connectUsers(names);
     }
-
     /*
     private static ArrayList<String> getConversation(String title) {
         do {
@@ -404,15 +395,15 @@ public class Client extends JFrame {
 
     }
 
-    public static boolean check (String name) { //this will check if the user exists
+    public static boolean check(String name) { //this will check if the user exists
         boolean checker = false;
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())){
-            writer.write("checkValidUser - " + name);
-            writer.println();
+        try {
+            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+            writer.write(name);
             writer.flush();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
-            if (response.equals("User is Valid")) {
+            if (response.equals(name)) {
                 checker = true;
             }
         } catch (IOException ie) {
@@ -451,5 +442,29 @@ public class Client extends JFrame {
         conversationTitles = tempArray;
         //list.ensureIndexIsVisible(list.getLength());
     }
+    public static void changePassword(String newPassword) {
+        newPassword = ""; //change to text field when it is created
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+
+            writer.write("ChangePassword" + " - " + currentUser.getUserName() + " - " + newPassword);
+            writer.println();
+            writer.flush();
+            reader.readLine();
+            String response = reader.readLine();
+
+            if (response.equals("Password Changed")) {
+                JOptionPane.showMessageDialog(null, "Your password has been successfully changed"
+                        , "Error", JOptionPane.OK_OPTION);
+            } else {
+                JOptionPane.showMessageDialog(null, "Your password wasn't able to be changed"
+                        , "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (IOException io) {
+            System.out.println("Password did not change.");
+        }
+    }
+
 
 }
