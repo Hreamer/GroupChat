@@ -187,6 +187,10 @@ public class ServerThread extends Thread{
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
                         pw.print(totalFile);
                     }
+
+                    writer.write("Password Changed");
+                    writer.println();
+                    writer.flush(); // Ensure data is sent to the client.
                 }
 
                 //updateConversation - message - userWhoSent - user - user - user - ..."
