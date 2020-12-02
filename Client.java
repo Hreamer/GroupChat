@@ -43,7 +43,16 @@ public class Client extends JFrame {
     static JButton backButton;
     static JButton confirmSignUp;
 
-
+    //options board
+    static JFrame optionsMenu;
+    static JTextField passwordTextChange;
+    static JButton confirmPasswordChange;
+    static JPanel topPanelOptionsMenu;
+    static JButton deleteAccount;
+    static JButton backButtonToChat;
+    static JPanel middlePanelForOptions;
+    static JLabel optionsMenuLabel;
+    static JLabel passwordChangeLabel;
     //private static PrintWriter writer = new PrintWriter(socket.getOutputStream());
 
     //message board
@@ -114,6 +123,7 @@ public class Client extends JFrame {
                 newConvo.addActionListener(actionListener);
                 chatButtonFrame.add(newConvo);
                 options = new JButton("options");
+                options.addActionListener(actionListener);
                 chatButtonFrame.add(options);
                 if (conversationTitles != null && conversationTitles.length > 0) {
                     list = new JList<String>(conversationTitles);
@@ -274,6 +284,48 @@ public class Client extends JFrame {
                 signUpFrame.add(signUpMyTopPanel, BorderLayout.NORTH);
                 signUpFrame.setVisible(false);
 
+                //options menu config
+                optionsMenu = new JFrame();
+                optionsMenu.setVisible(false);
+                optionsMenu.setLayout(new BorderLayout());
+                optionsMenu.setTitle("Options");
+                optionsMenu.setSize(500, 500);
+                optionsMenu.setResizable(false);
+
+                topPanelOptionsMenu = new JPanel();
+                deleteAccount = new JButton("Delete Account");
+                deleteAccount.setMaximumSize(new Dimension(300, 40));
+
+                middlePanelForOptions = new JPanel();
+                middlePanelForOptions.setBackground(Color.blue);
+                middlePanelForOptions.setLayout(new BoxLayout(middlePanelForOptions, BoxLayout.Y_AXIS));
+
+
+                passwordTextChange = new JTextField("New Password");
+
+                confirmPasswordChange = new JButton("Change Password");
+                confirmPasswordChange.setMaximumSize(new Dimension(300, 40));
+                confirmPasswordChange.addActionListener(actionListener);
+                passwordTextChange.setMaximumSize(new Dimension(300, 40));
+
+
+                middlePanelForOptions.add(passwordTextChange);
+                middlePanelForOptions.add(confirmPasswordChange);
+                middlePanelForOptions.add(deleteAccount);
+
+
+                backButtonToChat = new JButton("Back");
+                backButtonToChat.setFont(new Font(null, 0, 15));
+                backButtonToChat.addActionListener(actionListener);
+                topPanelOptionsMenu.add(backButtonToChat);
+
+                optionsMenuLabel = new JLabel("Account Options");
+                optionsMenuLabel.setFont(new Font(null, 0, 15));
+                topPanelOptionsMenu.add(optionsMenuLabel);
+
+
+                optionsMenu.add(topPanelOptionsMenu, BorderLayout.NORTH);
+                optionsMenu.add(middlePanelForOptions, BorderLayout.CENTER);
 
             }
         });
@@ -317,6 +369,26 @@ public class Client extends JFrame {
             }
             if (e.getSource() == newConvo) {
                 createCo();
+            }
+            if (e.getSource() == options) {
+                optionsMenu.setVisible(true);
+                fullFrame.setVisible(false);
+            }
+            if(e.getSource() == backButtonToChat) {
+                fullFrame.setVisible(true);
+                optionsMenu.setVisible(false);
+            }
+            if (e.getSource() == confirmPasswordChange) {
+                try {
+                    if (socket != null) {
+                        socket.close();
+                    }
+                } catch (IOException a){
+                    a.printStackTrace();
+                }
+                socket = null;
+
+                changePassword(passwordTextChange.getText());
             }
         }
     };
@@ -379,6 +451,7 @@ public class Client extends JFrame {
         } catch (IOException e){
             e.printStackTrace();
         }
+
         socket = null;
     }
 
@@ -505,7 +578,6 @@ public class Client extends JFrame {
             System.out.println(response);
             if (response.equals("User is Valid " + name)) {
             }
-
      */
 
     public static boolean check(String name) { //this will check if the user exists
@@ -554,10 +626,17 @@ public class Client extends JFrame {
     private static void initJList(String userName) {
         client.getSocket();
         try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
+<<<<<<< HEAD
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             writer.write("allConversations - " + userName);
             writer.println();
             writer.flush();
+=======
+             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+            pw.write("allConversations - " + userName);
+            pw.println();
+            pw.flush();
+>>>>>>> 6bd82b8e6f51c1dddf18a39fa20509ad91279a3d
             String conversationsNonSplit = reader.readLine();
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
@@ -597,28 +676,29 @@ public class Client extends JFrame {
 
     public static void changePassword(String newPassword) {
         client.getSocket();
+<<<<<<< HEAD
         newPassword = ""; //change to text field when it is created
+=======
+>>>>>>> 6bd82b8e6f51c1dddf18a39fa20509ad91279a3d
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-
-            writer.write("ChangePassword" + " - " + currentUser.getUserName() + " - " + newPassword);
+            writer.write("ChangePassword" + " - " + "Lucas" + " - " + newPassword);
             writer.println();
             writer.flush();
-            reader.readLine();
             String response = reader.readLine();
 
-            if (response.equals("Password Changed")) {
+            if (response.equals("Password Changed"))
                 JOptionPane.showMessageDialog(null, "Your password has been successfully changed"
-                        , "Error", JOptionPane.OK_OPTION);
-            } else {
+                        , "Success", JOptionPane.OK_OPTION);
+            else {
                 JOptionPane.showMessageDialog(null, "Your password wasn't able to be changed"
                         , "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (IOException io) {
             System.out.println("Password did not change.");
+            io.printStackTrace();
         }
     }
-
 
 }
