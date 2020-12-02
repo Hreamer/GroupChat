@@ -672,7 +672,7 @@ public class Client extends JFrame {
 
     public static void changePassword(String newPassword) {
         client.getSocket();
-        newPassword = ""; //change to text field when it is created
+      
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
             writer.write("ChangePassword" + " - " + "Lucas" + " - " + newPassword);
