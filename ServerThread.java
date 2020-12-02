@@ -142,7 +142,7 @@ public class ServerThread extends Thread{
                     String users = fileName;
                     fileName += ".txt";
 
-                    //creates the title, writes the title on the first line
+                    //creates the file
                     File f = new File(fileName);
                     f.createNewFile();
 
