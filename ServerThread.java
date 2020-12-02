@@ -282,11 +282,12 @@ public class ServerThread extends Thread{
         String user = br.readLine();
         while(user != null) {
             String[] userInfo = user.split(" - ");
-            if (userInfo[0].equals(userName)) {
+            if (userInfo[0].equals(userName) && userInfo[1].equals(password)) {
                 fos.close();
                 br.close();
                 return "Valid User";
             }
+
 
             user = br.readLine();
         }
