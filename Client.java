@@ -626,17 +626,14 @@ public class Client extends JFrame {
     private static void initJList(String userName) {
         client.getSocket();
         try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
-<<<<<<< HEAD
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             writer.write("allConversations - " + userName);
             writer.println();
             writer.flush();
-=======
              BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             pw.write("allConversations - " + userName);
             pw.println();
             pw.flush();
->>>>>>> 6bd82b8e6f51c1dddf18a39fa20509ad91279a3d
             String conversationsNonSplit = reader.readLine();
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
@@ -676,10 +673,7 @@ public class Client extends JFrame {
 
     public static void changePassword(String newPassword) {
         client.getSocket();
-<<<<<<< HEAD
         newPassword = ""; //change to text field when it is created
-=======
->>>>>>> 6bd82b8e6f51c1dddf18a39fa20509ad91279a3d
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
             writer.write("ChangePassword" + " - " + "Lucas" + " - " + newPassword);
