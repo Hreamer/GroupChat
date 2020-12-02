@@ -19,8 +19,7 @@ public class ServerThread extends Thread{
 
     @Override
     public void run() {
-        /*Here will go the implementation for
-         * Each Client  */
+        /*Here will go the implementation for each Client  */
 
         //try catch statement for the input and output streams and connection
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -154,6 +153,29 @@ public class ServerThread extends Thread{
                     pw.close();
                 }
 
+                //ChangePassword - user - newPassword
+                else if (arguements[0].equals("ChangePassword")) {
+                    //opening user file to read from
+                    File f = new File(userFile);
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String totalFile = "";
+
+                    String line = br.readLine();
+                    while (line != null) {
+                        String[] parts = line.split(" - ");
+
+                        if(parts[0].equals(arguements[1])) {
+                            totalFile += parts[0] + " - " + arguements[2] + "\n";
+                        } else {
+                            totalFile += line;
+                        }
+
+                        line = br.readLine();
+                    }
+                }
+
                 //updateConversation - message - userWhoSent - user - user - user - ..."
                 else if (arguements[0].equals("updateConversation")) {
                     String fileName = "";
@@ -215,7 +237,7 @@ public class ServerThread extends Thread{
                             transcript = br1.readLine();
                         }
 
-                        fr.close();
+                        fr1.close();
                         br1.close();
                     }
 
