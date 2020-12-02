@@ -135,24 +135,34 @@ public class ServerThread extends Thread{
                     for(int i = 1; i < arguements.length; i++) {
                         if (i != arguements.length -1) {
                             fileName += arguements[i] + " - ";
+                        } else {
+                            fileName += arguements[i];
                         }
-                        fileName += arguements[i];
                     }
                     fileName += ".txt";
 
+                    //creates the title, writes the title on the first lien
                     File f = new File(fileName);
                     f.createNewFile();
-
-                    //adding the new file to the list of conversations
-                    File f2 = new File(conversationsFile);
-                    FileOutputStream fos = new FileOutputStream(f2, true);
+                    FileOutputStream fos = new FileOutputStream(fileName, true);
                     PrintWriter pw = new PrintWriter(fos);
-
-                    String[] conversationName = fileName.split("\\.");
-                    pw.println(conversationName[0]);
+                    pw.println(/*title of the conversation*/);
+                    pw.println(/*users of the conversation*/);
 
                     fos.close();
                     pw.close();
+
+                    //adding the new file to the list of conversations
+                    File f2 = new File(conversationsFile);
+                    FileOutputStream fos2 = new FileOutputStream(f2, true);
+                    PrintWriter pw2 = new PrintWriter(fos2);
+
+                    String[] conversationName = fileName.split("\\.");
+                    pw2.println(conversationName[0] + ".txt");
+                    pw2.flush();
+
+                    fos2.close();
+                    pw2.close();
                 }
 
                 //ChangePassword - user - newPassword

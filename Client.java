@@ -73,7 +73,6 @@ public class Client extends JFrame {
     private static String[] conversationTitles;
     private static JButton newConvo;
 
-<<<<<<< HEAD
     //options panel if the user wants to edit username or password, or delete a conversation
     private static JFrame optionsPane;
     private static JButton options;
@@ -82,8 +81,6 @@ public class Client extends JFrame {
 
     private static Client client = new Client();
 
-=======
->>>>>>> 0fefbec1a0fe248f52bc9f2145ff59ac16d78eca
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         SwingUtilities.invokeLater(new Runnable() {
@@ -426,7 +423,6 @@ public class Client extends JFrame {
 
         Conversation n = new Conversation(names, title);
         //chats = getConversation(title);
-<<<<<<< HEAD
         //conversations.add(n);
         //currentUser.addCo(n);
         client.getSocket();
@@ -452,11 +448,9 @@ public class Client extends JFrame {
 
         updateJList(title);
         System.out.println("sent update JList" + title);
-=======
         conversations.add(n);
         currentUser.getConversations().add(n);
         updateJList(n.getTitle());
->>>>>>> 0fefbec1a0fe248f52bc9f2145ff59ac16d78eca
         connectUsers(names);
 
     }
@@ -496,7 +490,6 @@ public class Client extends JFrame {
 
     }
 
-<<<<<<< HEAD
     public static boolean check (String name) { //this will check if the user exists
         client.getSocket();
         boolean checker = false;
@@ -509,7 +502,7 @@ public class Client extends JFrame {
             String response = reader.readLine();
             System.out.println(response);
             if (response.equals("User is Valid " + name)) {
-=======
+
     public static boolean check(String name) { //this will check if the user exists
         boolean checker = false;
         try {
@@ -519,7 +512,6 @@ public class Client extends JFrame {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
             if (response.equals(name)) {
->>>>>>> 0fefbec1a0fe248f52bc9f2145ff59ac16d78eca
                 checker = true;
             }
         } catch (IOException ie) {
