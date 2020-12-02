@@ -348,6 +348,7 @@ public class Client extends JFrame {
 
     public static void getValidAccount(String userName, String password) throws UnknownHostException, IOException {
         client.getSocket();
+        String username = userName;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter pw = new PrintWriter(socket.getOutputStream())){
 
@@ -360,8 +361,8 @@ public class Client extends JFrame {
             if (response.equals("Valid User")) {
                 myFrame.setVisible(false);
                 fullFrame.setVisible(true);
-                initJList();
-                currentUser = new UserAccount(userName, password, conversations);
+                currentUser = new UserAccount(username, password);
+                initJList(username);
             } else {
                 JOptionPane.showMessageDialog(null, "Your username or password was incorrect.",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -397,7 +398,6 @@ public class Client extends JFrame {
         int finish = -20;
         ArrayList<String> names = new ArrayList<String>(0);
         String name;
-        String title;
         //int count = currentUser.getConversations().size();
         names.add(currentUser.getUserName());
         do {
@@ -412,9 +412,6 @@ public class Client extends JFrame {
             System.out.println("gets to finish");
             finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?", "Create Conversation", JOptionPane.YES_NO_OPTION);
         } while (finish == JOptionPane.YES_OPTION);
-
-        title = JOptionPane.showInputDialog(null, "Enter the Title", "Create Conversation",
-                JOptionPane.QUESTION_MESSAGE);
 
         //Conversation n = new Conversation(names, title);
         //conversations.add(n);
@@ -440,9 +437,17 @@ public class Client extends JFrame {
         } catch (IOException ie) {
             ie.printStackTrace();
         }
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        socket = null;
 
-        updateJList(title);
-        System.out.println("sent update JList" + title);
+        //updateJList(title);
+        //System.out.println("sent update JList" + title);
         //conversations.add(n);
         //currentUser.getConversations().add(n);
         //updateJList(n.getTitle());
@@ -473,6 +478,7 @@ public class Client extends JFrame {
     }
      */
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
+        client.getSocket();
         try (PrintWriter pr = new PrintWriter(socket.getOutputStream())){
             for (int i = 0; i < names.size(); i++) {
                 pr.write(names.get(i));
@@ -545,13 +551,13 @@ public class Client extends JFrame {
         // else send message to server
     }
 
-    private static void initJList() {
+    private static void initJList(String userName) {
         client.getSocket();
         try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-            pw.write("allConversations - " + userName);
-            pw.println();
-            pw.flush();
+            writer.write("allConversations - " + userName);
+            writer.println();
+            writer.flush();
             String conversationsNonSplit = reader.readLine();
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
@@ -590,6 +596,7 @@ public class Client extends JFrame {
 
 
     public static void changePassword(String newPassword) {
+        client.getSocket();
         newPassword = ""; //change to text field when it is created
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
