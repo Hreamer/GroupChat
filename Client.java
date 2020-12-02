@@ -630,7 +630,6 @@ public class Client extends JFrame {
             writer.write("allConversations - " + userName);
             writer.println();
             writer.flush();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             pw.write("allConversations - " + userName);
             pw.println();
             pw.flush();
@@ -694,5 +693,4 @@ public class Client extends JFrame {
             io.printStackTrace();
         }
     }
-
 }
