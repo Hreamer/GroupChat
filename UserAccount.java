@@ -7,8 +7,8 @@ public class UserAccount {
     private ArrayList<Conversation> co;
     private Conversation have;
 
-    public UserAccount(String userName, String password, ArrayList<Conversation> co) {
-        this.co = new ArrayList<>();
+    public UserAccount(String userName, String password) {
+        this.co = new ArrayList<Conversation>();
         this.userName = userName;
         this.password = password;
     }
