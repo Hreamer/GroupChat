@@ -34,7 +34,8 @@ public class ServerThread extends Thread{
 
                 //if nothing is read than we restart the loop and check again
                 if (command == null) {
-                    continue;
+                    System.out.println("command = null");
+                    break;
                 }
                 String[] arguements = command.split(" - ");
 
@@ -108,7 +109,8 @@ public class ServerThread extends Thread{
                         String[] parts = line.split(" - ");
 
                         if (arguements[1].equals(parts[0])) {
-                            writer.write("User is Valid");
+                            writer.write("User is Valid " + parts[0]);
+                            System.out.println("User is Valid " + parts[0] );
                             writer.println();
                             writer.flush(); // Ensure data is sent to the client.
                             found = true;
@@ -206,7 +208,7 @@ public class ServerThread extends Thread{
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
-                        allConversations += "Conversation - " + convoName + "\n";
+                        allConversations += convoName + ", ";
 
                         String transcript = br1.readLine();
                         while(transcript != null) {
