@@ -518,13 +518,13 @@ public class Client extends JFrame {
 
     private static void initJList(String userName) {
         try {
-            writer.write("allConversations - " + userName);
+            writer.write("getAllConversationsInvolved - " + userName);
             writer.println();
             writer.flush();
             String conversationsNonSplit = reader.readLine();
             System.out.println("allconversations recieved: " + conversationsNonSplit);
             if (conversationsNonSplit != null) {
-                String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
+                String[] conversationsSplit = conversationsNonSplit.split(", ");
                 for (int i = 0; i < conversationsSplit.length; i++) {
                     Conversation n = createConversationObject(conversationsSplit[i]);
                     conversations.add(n);
