@@ -152,6 +152,7 @@ public class ServerThread extends Thread{
                         }
                     }
 
+                    System.out.println("Client was sent data: " + toClient);
                     writer.write(toClient);
                     writer.println();
                     writer.flush(); //ensuring it sends to the client
