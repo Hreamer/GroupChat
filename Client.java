@@ -646,13 +646,38 @@ public class Client extends JFrame {
             //1) Conversation --- name
             //2) user a - akgjkafjg-
             //3) end
-            String[] allConversations
+            String[] allConversationsSplit = response.split("+=-");
+            //for loop looks for Conversation --- conversationName (String search)
+            String search = "Conversation --- " + conversationName;
+            int indexOfConvoBeginning = -1;
+            for (int i = 0; i < allConversationsSplit.length; i++) {
+                if (allConversationsSplit[i].equals(search)) {
+                    indexOfConvoBeginning = i;
+                }
+            }
+            //for loop looks for end after finding the beginning
+            int indexOfConvoEnd = -1;
+            if (indexOfConvoBeginning != -1) {
+                for (int i = indexOfConvoBeginning; i < allConversationsSplit.length; i++) {
+                    if (allConversationsSplit[i].equals("end")) {
+                        indexOfConvoEnd = i;
+                    }
+                }
+            }
+
+            String loadLine = "";
+            //for loop that loads everything that shows up in the textArea to String loadLine
+            if (indexOfConvoBeginning != -1 && indexOfConvoEnd != -1) {
+                for (int i = indexOfConvoBeginning + 1; i < indexOfConvoEnd; i++) {
+                    loadLine = loadLine + allConversationsSplit[i] + "\n"
+                }
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "";
+        return loadLine;
 
 
 
