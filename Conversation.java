@@ -23,21 +23,9 @@ public class Conversation {
         this.filename = filename;
 
     }
-    public int getCount() {
-        return count;
-    }
-
     public void setFilename(String filename) { this.filename = filename; }
 
     public String getFilename() { return this.filename; }
-
-    public void addChat(String line) {
-        chat.add(line);
-    }
-
-    public ArrayList<String> getChat() {
-        return chat;
-    }
 
     public ArrayList<String> getUsers() {
         return users;
@@ -55,7 +43,4 @@ public class Conversation {
         this.title = title;
     }
 
-    public JButton getButton() {
-        return convo;
-    }
 }
