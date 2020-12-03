@@ -295,6 +295,7 @@ public class Client extends JFrame {
                 topPanelOptionsMenu = new JPanel();
                 deleteAccount = new JButton("Delete Account");
                 deleteAccount.setMaximumSize(new Dimension(300, 40));
+                deleteAccount.addActionListener(actionListener);
 
                 middlePanelForOptions = new JPanel();
                 middlePanelForOptions.setBackground(Color.blue);
@@ -389,6 +390,17 @@ public class Client extends JFrame {
                 socket = null;
 
                 changePassword(passwordTextChange.getText());
+            }
+            if(e.getSource() == deleteAccount) {
+                try {
+                    if (socket != null) {
+                        socket.close();
+                    }
+                } catch (IOException a){
+                    a.printStackTrace();
+                }
+                socket = null;
+                deleteAccount(currentUser.getUserName());
             }
         }
     };
@@ -626,7 +638,7 @@ public class Client extends JFrame {
     private static void initJList(String userName) {
         client.getSocket();
         try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             writer.write("allConversations - " + userName);
             writer.println();
             writer.flush();
@@ -669,13 +681,11 @@ public class Client extends JFrame {
         }
     }
 
-
     public static void changePassword(String newPassword) {
         client.getSocket();
-      
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-            writer.write("ChangePassword" + " - " + "Lucas" + " - " + newPassword);
+            writer.write("ChangePassword" + " - " + currentUser.getUserName() + " - " + newPassword);
             writer.println();
             writer.flush();
             String response = reader.readLine();
@@ -690,6 +700,19 @@ public class Client extends JFrame {
 
         } catch (IOException io) {
             System.out.println("Password did not change.");
+            io.printStackTrace();
+        }
+    }
+    public static void deleteAccount(String userName) {
+        client.getSocket();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+            writer.write("DeleteUser" + " - " + currentUser.getUserName());
+            System.out.println(currentUser.getUserName());
+            writer.println();
+            writer.flush();
+
+        } catch (IOException io) {
             io.printStackTrace();
         }
     }
