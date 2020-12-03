@@ -64,8 +64,6 @@ public class Client extends JFrame {
     private static JTextField composeMessage;
     public static Socket socket;
     //static ArrayList<String> chats = new ArrayList<>();
-    static BufferedReader reader;
-    static PrintWriter pw;
     static UserAccount currentUser;
     static JPanel chatter;
     static Container content;
@@ -90,8 +88,14 @@ public class Client extends JFrame {
 
     private static Client client = new Client();
 
+    private static BufferedReader reader;
+    private static PrintWriter writer;
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
+        socket = new Socket(hostname, portNumber);
+        reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        writer = new PrintWriter(socket.getOutputStream());
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -331,16 +335,6 @@ public class Client extends JFrame {
             }
         });
 
-        try {
-            serverClient();
-        } catch (UnknownHostException un) {
-            JOptionPane.showMessageDialog(null,
-                    "A connection with the server couldn't be established.", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException io) {
-            JOptionPane.showMessageDialog(null,
-                    "A connection with the server couldn't be established.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
     }
 
 
@@ -412,8 +406,7 @@ public class Client extends JFrame {
     };
 
     public static void createAccount(String userName, String password) {
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
-             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+        try {
 
             String sentToServer = "SignUp - " + userName + " - " + password;
             writer.write(sentToServer);
@@ -437,13 +430,12 @@ public class Client extends JFrame {
     public static void getValidAccount(String userName, String password) throws UnknownHostException, IOException {
         //client.getSocket();
         String username = userName;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter pw = new PrintWriter(socket.getOutputStream())){
+        try {
 
             String stringReturned = "Login - " + userName + " - " + password;
-            pw.write(stringReturned);
-            pw.println();
-            pw.flush();
+            writer.write(stringReturned);
+            writer.println();
+            writer.flush();
 
             String response = reader.readLine();
             if (response.equals("Valid User")) {
@@ -509,24 +501,18 @@ public class Client extends JFrame {
         //conversations.add(n);
         //currentUser.addCo(n);
         //client.getSocket();
-        try (PrintWriter pr = new PrintWriter(socket.getOutputStream())) {
-            //reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String line = "startConversation - ";
-            for (int i = 0; i < names.size(); i++) {
-                if (i != names.size() - 1) {
-                    line = line + names.get(i) + " - ";
-                } else {
-                    line = line + names.get(i);
-                }
+        String line = "startConversation - ";
+        for (int i = 0; i < names.size(); i++) {
+            if (i != names.size() - 1) {
+                line = line + names.get(i) + " - ";
+            } else {
+                line = line + names.get(i);
             }
-            System.out.println("line sent to startConversation: " + line);
-            pr.write(line);
-            pr.println();
-            pr.flush();
-
-        } catch (IOException ie) {
-            ie.printStackTrace();
         }
+        System.out.println("line sent to startConversation: " + line);
+        writer.write(line);
+        writer.println();
+        writer.flush();
 
         /*
         try {
@@ -573,16 +559,11 @@ public class Client extends JFrame {
      */
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
         //client.getSocket();
-        try (PrintWriter pr = new PrintWriter(socket.getOutputStream())){
-            for (int i = 0; i < names.size(); i++) {
-                pr.write(names.get(i));
-                pr.println();
-                pr.flush();
-            }
-        } catch (IOException ie) {
-            ie.printStackTrace();
+        for (int i = 0; i < names.size(); i++) {
+            writer.write(names.get(i));
+            writer.println();
+            writer.flush();
         }
-
     }
 
     /*
@@ -604,8 +585,7 @@ public class Client extends JFrame {
     public static boolean check(String name) { //this will check if the user exists
         //client.getSocket();
         boolean checker = false;
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
-             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+        try {
             writer.write("checkValidUser - " + name);
             writer.println();
             writer.flush();
@@ -649,14 +629,10 @@ public class Client extends JFrame {
 
     private static void initJList(String userName) {
         //client.getSocket();
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
-             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+        try {
             writer.write("allConversations - " + userName);
             writer.println();
             writer.flush();
-            pw.write("allConversations - " + userName);
-            pw.println();
-            pw.flush();
             String conversationsNonSplit = reader.readLine();
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
@@ -695,8 +671,7 @@ public class Client extends JFrame {
 
     public static void changePassword(String newPassword) {
         //client.getSocket();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+        try {
             writer.write("ChangePassword" + " - " + currentUser.getUserName() + " - " + newPassword);
             writer.println();
             writer.flush();
@@ -717,13 +692,9 @@ public class Client extends JFrame {
     }
     public static void deleteAccount(String userName) {
         //client.getSocket();
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-            writer.write("DeleteUser" + " - " + currentUser.getUserName());
-            writer.println();
-            writer.flush();
+        writer.write("DeleteUser" + " - " + currentUser.getUserName());
+        writer.println();
+        writer.flush();
 
-        } catch (IOException io) {
-            io.printStackTrace();
-        }
     }
 }
