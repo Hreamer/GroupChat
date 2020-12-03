@@ -462,7 +462,7 @@ public class Client extends JFrame {
         writer.println();
         writer.flush();
 
-        updateJList(currentUser.getUserName());
+        initJList(currentUser.getUserName());
 
     }
 
@@ -521,10 +521,19 @@ public class Client extends JFrame {
             System.out.println("allconversations recieved: " + conversationsNonSplit);
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
+                for (int i = 0; i < conversations.size(); i++) {
+                    for (int j = 0; j < conversationsSplit.length; j++) {
+                        if (conversations.get(i).equals(conversationsSplit[j])) {
+                            conversationsSplit[j] = "";
+                        }
+                    }
+                }
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    Conversation n = createConversationObject(conversationsSplit[i]);
-                    conversations.add(n);
-                    model.addElement(n.getTitle());
+                    if (!conversationsSplit[i].equals("")) {
+                        Conversation n = createConversationObject(conversationsSplit[i]);
+                        conversations.add(n);
+                        model.addElement(n.getTitle());
+                    }
                 }
             }
         } catch (IOException ie) {
