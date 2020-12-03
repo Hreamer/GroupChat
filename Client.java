@@ -462,7 +462,7 @@ public class Client extends JFrame {
         writer.println();
         writer.flush();
 
-        updateJList(currentUser.getUserName());
+        updateJList(line);
 
     }
 
@@ -541,6 +541,7 @@ public class Client extends JFrame {
             writer.println();
             writer.flush();
             String conversationsNonSplit = reader.readLine();
+            System.out.println("conversation title sent to update Jlist " + conversationTitle);
             System.out.println("allconversations recieved: " + conversationsNonSplit);
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
