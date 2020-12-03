@@ -73,9 +73,6 @@ public class ServerThread extends Thread{
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
 
-                    FileOutputStream fos = new FileOutputStream(f);
-                    PrintWriter pw = new PrintWriter(fos);
-
                     /*Finding all the usernames besides the one we want deleted and adding
                      * it to a varibale*/
                     String line = br.readLine();
@@ -95,12 +92,11 @@ public class ServerThread extends Thread{
                     /*Now we take that variable and just write it back to the file
                      * because we are not in append mode in our fos we just overwrite the
                      * whole file */
-                    for(String user: withoutUser) {
-                        pw.print(withoutUser);
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
+                        for (String user : withoutUser) {
+                            pw.print(withoutUser);
+                        }
                     }
-
-                    fos.close();
-                    pw.close();
                 }
 
                 //checkValidUser - user
