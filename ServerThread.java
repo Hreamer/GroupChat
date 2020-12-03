@@ -134,30 +134,37 @@ public class ServerThread extends Thread{
                 else if (arguements[0].equals("getAllConversationsInvolved")) {
                     File f = new File(conversationsFile);
                     String toClient = "";
-                    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-                        //this is the line in conversation file formated like     user - user.txt
-                        String line = br.readLine();
-                        while (line != null) {
-                            //spliting the .txt file name
-                            String[] parts = line.split("\\.");
-                            //splitting the names part
-                            String[] names = parts[0].split(" - ");
 
-                            //looping through each name against the other names
-                            for (int i = 0; i < names.length; i++) {
-                                if (names[i].equals(arguements[1])) {
-                                    toClient += parts[0] + "\n";
+                    if (f.length() == 0) {
+                        writer.write("No conversations in file");
+                        writer.println();
+                        writer.flush(); //ensure the client gets the data
+                    } else {
+                        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                            //this is the line in conversation file formated like     user - user.txt
+                            String line = br.readLine();
+                            while (line != null) {
+                                //spliting the .txt file name
+                                String[] parts = line.split("\\.");
+                                //splitting the names part
+                                String[] names = parts[0].split(" - ");
+
+                                //looping through each name against the other names
+                                for (int i = 0; i < names.length; i++) {
+                                    if (names[i].equals(arguements[1])) {
+                                        toClient += parts[0] + "\n";
+                                    }
                                 }
+
+                                line = br.readLine();
                             }
-
-                            line = br.readLine();
                         }
-                    }
 
-                    System.out.println("Client was sent data: " + toClient);
-                    writer.write(toClient);
-                    writer.println();
-                    writer.flush(); //ensuring it sends to the client
+                        System.out.println("Client was sent data: " + toClient);
+                        writer.write(toClient);
+                        writer.println();
+                        writer.flush(); //ensuring it sends to the client
+                    }
                 }
 
                 //startConversation - user - user - user - ...
