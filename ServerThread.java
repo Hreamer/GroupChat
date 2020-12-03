@@ -261,9 +261,11 @@ public class ServerThread extends Thread{
 
                     String conversation = br.readLine();
                     while (conversation != null) {
-                        String[] parts = conversation.split("\\.");
+                        //marker
+                        String[] parts = conversation.split(" - ");
                         for (int i = 0; i < parts.length; i++) {
                             if(parts[i].equals(user)) {
+                                System.out.println("conversation " + conversation);
                                 conversationList.add(conversation);
                             }
                         }
