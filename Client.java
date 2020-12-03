@@ -716,10 +716,8 @@ public class Client extends JFrame {
     }
     public static void deleteAccount(String userName) {
         //client.getSocket();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
+        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
             writer.write("DeleteUser" + " - " + currentUser.getUserName());
-            System.out.println(currentUser.getUserName());
             writer.println();
             writer.flush();
 
