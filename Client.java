@@ -509,9 +509,8 @@ public class Client extends JFrame {
         //conversations.add(n);
         //currentUser.addCo(n);
         //client.getSocket();
-        try {
+        try (PrintWriter pr = new PrintWriter(socket.getOutputStream())) {
             //reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            pw = new PrintWriter(socket.getOutputStream());
             String line = "startConversation - ";
             for (int i = 0; i < names.size(); i++) {
                 if (i != names.size() - 1) {
@@ -521,11 +520,10 @@ public class Client extends JFrame {
                 }
             }
             System.out.println("line sent to startConversation: " + line);
-            pw.write(line);
-            pw.println();
-            pw.flush();
-            //String response = reader.readLine();
-            pw.close();
+            pr.write(line);
+            pr.println();
+            pr.flush();
+
         } catch (IOException ie) {
             ie.printStackTrace();
         }
