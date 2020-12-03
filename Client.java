@@ -618,11 +618,14 @@ public class Client extends JFrame {
         } catch (IOException ie) {
             ie.printStackTrace();
         }
+        /*
         try {
             socket.close();
         } catch (IOException e){
             e.printStackTrace();
         }
+
+         */
         //socket = null;
         return checker;
     }
