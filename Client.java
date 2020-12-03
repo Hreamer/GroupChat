@@ -462,7 +462,7 @@ public class Client extends JFrame {
         writer.println();
         writer.flush();
 
-        initJList(currentUser.getUserName());
+        updateJList(currentUser.getUserName());
 
     }
 
@@ -521,19 +521,10 @@ public class Client extends JFrame {
             System.out.println("allconversations recieved: " + conversationsNonSplit);
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
-                for (int i = 0; i < conversations.size(); i++) {
-                    for (int j = 0; j < conversationsSplit.length; j++) {
-                        if (conversations.get(i).equals(conversationsSplit[j])) {
-                            conversationsSplit[j] = "";
-                        }
-                    }
-                }
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    if (!conversationsSplit[i].equals("")) {
-                        Conversation n = createConversationObject(conversationsSplit[i]);
-                        conversations.add(n);
-                        model.addElement(n.getTitle());
-                    }
+                    Conversation n = createConversationObject(conversationsSplit[i]);
+                    conversations.add(n);
+                    model.addElement(n.getTitle());
                 }
             }
         } catch (IOException ie) {
@@ -545,7 +536,27 @@ public class Client extends JFrame {
     }
 
     public static void updateJList(String conversationTitle) {
-
+        try {
+            writer.write("getAllConversationsInvolved - " + currentUser.getUserName());
+            writer.println();
+            writer.flush();
+            String conversationsNonSplit = reader.readLine();
+            System.out.println("allconversations recieved: " + conversationsNonSplit);
+            if (conversationsNonSplit != null) {
+                String[] conversationsSplit = conversationsNonSplit.split(", ");
+                //search for conversationTitle
+                for (int i = 0; i < conversationsSplit.length; i++) {
+                    if (conversationsSplit[i].equals(conversationTitle)) {
+                        Conversation n = createConversationObject(conversationsSplit[i]);
+                        conversations.add(n);
+                        model.addElement(n.getTitle());
+                    }
+                }
+            }
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
+        client.repaint();
     }
 
     public static void changePassword(String newPassword) {
