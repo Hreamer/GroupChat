@@ -14,51 +14,18 @@ import java.net.*;
 
 public class Conversation {
     private ArrayList<String> users;
-    private JButton convo;
     private String title;
-    private JFrame chatter;
-    private ArrayList<String> chat;
-    private int count;
-    private Socket socket;
+    private String filename;
 
-    public Conversation(ArrayList<String> users, String title) {
+    public Conversation(ArrayList<String> users, String title, String filename) {
         this.users = users;
-        this.chat = chat;
-        this.chatter = chatter;
         this.title = title;
-        this.count = count;
-        this.socket = socket;
-        convo = new JButton(title);
-        convo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buttonPressed(chat);
-            }
-        });
-    }
-    public int getCount() {
-        return count;
-    }
-    public void buttonPressed(ArrayList<String> chat) {
+        this.filename = filename;
 
+    }
+    public void setFilename(String filename) { this.filename = filename; }
 
-        try {
-            PrintWriter pt = new PrintWriter(socket.getOutputStream());
-            BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            pt.write(this.title);
-            pt.flush();
-        } catch (IOException io) {
-            io.printStackTrace();
-        }
-        chatter.setVisible(true);
-    }
-    public void addChat(String line) {
-        chat.add(line);
-    }
-
-    public ArrayList<String> getChat() {
-        return chat;
-    }
+    public String getFilename() { return this.filename; }
 
     public ArrayList<String> getUsers() {
         return users;
@@ -76,7 +43,4 @@ public class Conversation {
         this.title = title;
     }
 
-    public JButton getButton() {
-        return convo;
-    }
 }
