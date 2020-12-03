@@ -33,8 +33,7 @@ public class ServerThread extends Thread{
 
                 //if nothing is read than we restart the loop and check again
                 if (command == null) {
-                    System.out.println("command = null");
-                    break;
+                    continue;
                 }
                 String[] arguements = command.split(" - ");
 
