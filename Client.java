@@ -529,7 +529,7 @@ public class Client extends JFrame {
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    Conversation n = createConversationObject(conversationsSplit[i]);
+                    Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i]+ ".txt");
                     conversations.add(n);
                     model.addElement(n.getTitle());
                 }
@@ -556,8 +556,8 @@ public class Client extends JFrame {
                 for (int i = 0; i < conversationsSplit.length; i++) {
                     System.out.println(conversationsSplit[i]);
                     if (conversationTitle.equals(conversationsSplit[i])) {
-                        System.out.println("final conversation title " +conversationsSplit[i]);
-                        Conversation n = createConversationObject(conversationsSplit[i]);
+                        System.out.println("final conversation title " + conversationsSplit[i]);
+                        Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i] + ".txt");
                         conversations.add(n);
                         model.addElement(n.getTitle());
                     }
@@ -595,7 +595,7 @@ public class Client extends JFrame {
         writer.flush();
     }
 
-    public static Conversation createConversationObject(String convoName) {
+    public static Conversation createConversationObject(String convoName, String filename) {
         String[] usersInConvo = convoName.split(" - ");
         ArrayList<String> users = new ArrayList<String>();
         for (int i = 0; i < usersInConvo.length; i++) {
@@ -618,14 +618,30 @@ public class Client extends JFrame {
         }
 
         System.out.println("conversation title " + convoTitle);
-        Conversation n = new Conversation(users, convoTitle);
+        Conversation n = new Conversation(users, convoTitle, filename);
         return n;
     }
 
     public static String getConversation(String selectedItem) {
-        //sends over command getConvo or whatever, with file name .txt, server sends over a long string with
+        //sends over command getConvo or whatever
         //special characters where we should put \n since readLine() has a stroke trying to read \n, and then
         //we load that into the text area.
+        try {
+            writer.write("allConversations - " + currentUser.getUserName());
+            writer.println();
+            writer.flush();
+            String response = reader.readLine();
+            //conversation title adfklfkg conversation title dkajfda convers
+            //
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+
+
+
+
     }
 
 }
