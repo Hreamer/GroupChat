@@ -14,7 +14,6 @@ public class ServerThread extends Thread{
 
     public ServerThread(Socket socket) {
         this.socket = socket;
-        //readNameFile(userFile);
     }
 
     @Override
@@ -140,7 +139,7 @@ public class ServerThread extends Thread{
                         String line = br.readLine();
                         while (line != null) {
                             //spliting the .txt file name
-                            String[] parts = line.split(".");
+                            String[] parts = line.split("\\.");
                             //splitting the names part
                             String[] names = parts[0].split(" - ");
 
