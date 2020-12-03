@@ -78,7 +78,6 @@ public class Client extends JFrame {
     private static DefaultListModel<String> model;
     private static JList<String> list;
     private static ArrayList<Conversation> conversations;
-    private static String[] conversationTitles;
     private static JButton newConvo;
 
     //options panel if the user wants to edit username or password, or delete a conversation
@@ -99,92 +98,6 @@ public class Client extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                /*
-                conversations = new ArrayList<Conversation>();
-                conversationTitles = new String[0];
-                fullFrame = new JFrame("Messages");
-                fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                fullFrame.setSize(500, 500);
-                fullFrame.setResizable(false);
-                chatButtonFrame = new JPanel();
-                chatter = new JPanel();
-                textArea = new JTextArea(23, 35);
-                composeMessage = new JTextField(20);
-                top = new JPanel();
-                bottom = new JPanel();
-                back = new JButton("Back");
-                back.addActionListener(actionListener);
-                delete = new JButton("Delete");
-                deleteMessage = new JTextField("What message would you like to delete?...");
-                deleteMessage.addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
-                        if (deleteMessage.getText().equals("What message would you like to delete?...")) {
-                            deleteMessage.setText("");
-                        }
-                    }
-                });
-                send = new JButton("Send");
-                send.addActionListener(actionListener);
-                newConvo = new JButton("+");
-                newConvo.addActionListener(actionListener);
-                chatButtonFrame.add(newConvo);
-                options = new JButton("options");
-                options.addActionListener(actionListener);
-                chatButtonFrame.add(options);
-                model = new DefaultListModel<String>();
-                if (conversationTitles != null && conversationTitles.length > 0) {
-                    list = new JList<String>(model);
-                    JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                    list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-                    list.setLayoutOrientation(JList.VERTICAL);
-                    list.setVisibleRowCount(-1);
-                    MouseListener mouseListener = new MouseAdapter() {
-                        public void mouseClicked(MouseEvent e) {
-                            if (e.getClickCount() == 1) {
-
-                                //TODO general algorithm for what happens when a conversation is clicked
-
-                                /*
-                                if (list.getSelectedValue().equals(conversationTitles[0])) {
-                                    textArea.setText("hello");
-                                } else if (list.getSelectedValue().equals(conversationTitles[1])) {
-                                    textArea.setText("hi");
-                                } else if (list.getSelectedValue().equals(conversationTitles[2])) {
-                                    textArea.setText("what's up");
-                                } else if (list.getSelectedValue().equals(conversationTitles[3])) {
-                                    textArea.setText("the sky");
-                                }
-
-
-                            }
-                        }
-                    };
-                    list.addMouseListener(mouseListener);
-                    chatButtonFrame.add(list);
-                }
-                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                top.add(back);
-                top.add(delete);
-                top.add(deleteMessage);
-                bottom.add(send);
-                bottom.add(composeMessage);
-
-                chatter.add(top, BorderLayout.NORTH);
-                chatter.add(scroll, BorderLayout.CENTER);
-                chatter.add(bottom, BorderLayout.SOUTH);
-
-                splitPane = new JSplitPane();
-                fullFrame.setSize(700,500);
-                splitPane.setDividerLocation(190);
-                splitPane.setDividerSize(20);
-
-                splitPane.setEnabled(false);
-                splitPane.setRightComponent(chatter);
-                splitPane.setLeftComponent(chatButtonFrame);
-                fullFrame.add(splitPane);
-                //fullFrame.setVisible(true);
-                */
-
                 myFrame = new JFrame("Welcome");
                 myFrame.setLayout(new BorderLayout());
                 myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -292,7 +205,6 @@ public class Client extends JFrame {
                 signUpFrame.setVisible(false);
 
                 conversations = new ArrayList<Conversation>();
-                conversationTitles = new String[0];
                 fullFrame = new JFrame("Messages");
                 fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 fullFrame.setSize(500, 500);
@@ -323,37 +235,35 @@ public class Client extends JFrame {
                 options.addActionListener(actionListener);
                 chatButtonFrame.add(options);
                 model = new DefaultListModel<String>();
-                if (conversationTitles != null && conversationTitles.length > 0) {
-                    list = new JList<String>(model);
-                    JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                    list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-                    list.setLayoutOrientation(JList.VERTICAL);
-                    list.setVisibleRowCount(-1);
-                    MouseListener mouseListener = new MouseAdapter() {
-                        public void mouseClicked(MouseEvent e) {
-                            if (e.getClickCount() == 1) {
+                list = new JList<String>(model);
+                JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+                list.setLayoutOrientation(JList.VERTICAL);
+                list.setVisibleRowCount(-1);
+                MouseListener mouseListener = new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getClickCount() == 1) {
 
-                                //TODO general algorithm for what happens when a conversation is clicked
-                                /*
-                                if (list.getSelectedValue().equals(conversationTitles[0])) {
-                                    textArea.setText("hello");
-                                } else if (list.getSelectedValue().equals(conversationTitles[1])) {
-                                    textArea.setText("hi");
-                                } else if (list.getSelectedValue().equals(conversationTitles[2])) {
-                                    textArea.setText("what's up");
-                                } else if (list.getSelectedValue().equals(conversationTitles[3])) {
-                                    textArea.setText("the sky");
-                                }
-
-
-                                 */
-
+                            //TODO general algorithm for what happens when a conversation is clicked
+                            /*
+                            if (list.getSelectedValue().equals(conversationTitles[0])) {
+                                textArea.setText("hello");
+                            } else if (list.getSelectedValue().equals(conversationTitles[1])) {
+                                textArea.setText("hi");
+                            } else if (list.getSelectedValue().equals(conversationTitles[2])) {
+                                textArea.setText("what's up");
+                            } else if (list.getSelectedValue().equals(conversationTitles[3])) {
+                                textArea.setText("the sky");
                             }
+
+
+                             */
+
                         }
-                    };
-                    list.addMouseListener(mouseListener);
-                    chatButtonFrame.add(list);
-                 }
+                    }
+                };
+                list.addMouseListener(mouseListener);
+                chatButtonFrame.add(list);
                 JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                 top.add(back);
                 top.add(delete);
@@ -622,19 +532,12 @@ public class Client extends JFrame {
             ie.printStackTrace();
         }
 
-        client.repaint();
 
+        client.repaint();
     }
 
     public static void updateJList(String conversationTitle) {
-        if(conversationTitles != null) {
-            String[] tempArray = new String[conversationTitles.length + 1];
-            for (int i = 0; i < conversationTitles.length; i++) {
-                tempArray[i] = conversationTitles[i];
-            }
-            tempArray[tempArray.length - 1] = conversationTitle;
-            conversationTitles = tempArray;
-        }
+
     }
 
     public static void changePassword(String newPassword) {
@@ -685,7 +588,6 @@ public class Client extends JFrame {
         }
 
         Conversation n = new Conversation(users, convoTitle);
-        System.out.println(convoName);
         return n;
     }
 
