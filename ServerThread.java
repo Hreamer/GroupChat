@@ -300,6 +300,7 @@ public class ServerThread extends Thread{
 
                             transcript = br1.readLine();
                         }
+                        allConversations += "end +=- ";
 
                         fr1.close();
                         br1.close();
