@@ -255,8 +255,6 @@ public class Client extends JFrame {
                             } else if (list.getSelectedValue().equals(conversationTitles[3])) {
                                 textArea.setText("the sky");
                             }
-
-
                              */
 
                         }
@@ -378,6 +376,18 @@ public class Client extends JFrame {
             if(e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
+            MouseListener mouseListener = new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+
+
+                        String selectedItem = (String) list.getSelectedValue();
+                       System.out.println("Success");
+
+                    }
+                }
+            };
+            list.addMouseListener(mouseListener);
         }
     };
 
@@ -615,7 +625,16 @@ public class Client extends JFrame {
         Conversation n = new Conversation(users, convoTitle);
         return n;
     }
+    MouseListener mouseListener = new MouseAdapter() {
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
 
+                String selectedItem = (String) list.getSelectedValue();
+                System.out.println(selectedItem);
+
+            }
+        }
+    };
 
 }
 
