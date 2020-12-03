@@ -331,7 +331,6 @@ public class Client extends JFrame {
             }
         });
 
-        /*
         try {
             serverClient();
         } catch (UnknownHostException un) {
@@ -341,8 +340,6 @@ public class Client extends JFrame {
             JOptionPane.showMessageDialog(null,
                     "A connection with the server couldn't be established.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-         */
 
     }
 
@@ -632,9 +629,9 @@ public class Client extends JFrame {
         return checker;
     }
 
-    /* public static void serverClient() throws UnknownHostException, IOException {
+    public static void serverClient() throws UnknownHostException, IOException {
         socket = new Socket(hostname, portNumber);
-    } */
+    }
 
     public static void sendNewMessage(String message) {
         if (message.equals("")) {
