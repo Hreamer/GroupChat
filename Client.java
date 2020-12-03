@@ -449,7 +449,7 @@ public class Client extends JFrame {
             finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?", "Create Conversation", JOptionPane.YES_NO_OPTION);
         } while (finish == JOptionPane.YES_OPTION);
 
-        String line = "startConversation - ";
+        String line = "";
         for (int i = 0; i < names.size(); i++) {
             if (i != names.size() - 1) {
                 line = line + names.get(i) + " - ";
@@ -457,8 +457,9 @@ public class Client extends JFrame {
                 line = line + names.get(i);
             }
         }
-        System.out.println("line sent to startConversation: " + line);
-        writer.write(line);
+        String line2 = "startConversation - " + line;
+        System.out.println("line sent to startConversation: " + line2);
+        writer.write(line2);
         writer.println();
         writer.flush();
 
@@ -542,12 +543,14 @@ public class Client extends JFrame {
             writer.flush();
             String conversationsNonSplit = reader.readLine();
             System.out.println("conversation title sent to update Jlist " + conversationTitle);
-            System.out.println("allconversations recieved: " + conversationsNonSplit);
+            //System.out.println("allconversations recieved: " + conversationsNonSplit);
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
                 //search for conversationTitle
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    if (conversationsSplit[i].equals(conversationTitle)) {
+                    System.out.println(conversationsSplit[i]);
+                    if (conversationTitle.equals(conversationsSplit[i])) {
+                        System.out.println("final conversation title " +conversationsSplit[i]);
                         Conversation n = createConversationObject(conversationsSplit[i]);
                         conversations.add(n);
                         model.addElement(n.getTitle());
