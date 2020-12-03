@@ -149,6 +149,8 @@ public class ServerThread extends Thread{
                                     toClient += parts[0] + "\n";
                                 }
                             }
+
+                            line = br.readLine();
                         }
                     }
 
