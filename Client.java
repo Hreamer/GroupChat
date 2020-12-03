@@ -626,13 +626,28 @@ public class Client extends JFrame {
         //sends over command getConvo or whatever
         //special characters where we should put \n since readLine() has a stroke trying to read \n, and then
         //we load that into the text area.
+        //+=- new line character
+        //conversationName -> userA - userB
+        String conversationName = "";
         try {
             writer.write("allConversations - " + currentUser.getUserName());
             writer.println();
             writer.flush();
             String response = reader.readLine();
-            //conversation title adfklfkg conversation title dkajfda convers
-            //
+            //Conversation --- userA - userB +=- userA - message +=- Conversation --- userB - userC
+            //1) userA - UserB <transcroipt>
+            for (int i = 0; i < conversations.size(); i++) {
+                if (selectedItem.equals(conversations.get(i).getTitle())) {
+                    conversationName  = conversations.get(i).getFilename();
+                }
+            }
+
+            //split by +=-
+            //1) Conversation --- name
+            //2) user a - akgjkafjg-
+            //3) end
+            String[] allConversations
+
         } catch (IOException e) {
             e.printStackTrace();
         }
