@@ -152,7 +152,7 @@ public class ServerThread extends Thread{
                                 //looping through each name against the other names
                                 for (int i = 0; i < names.length; i++) {
                                     if (names[i].equals(arguements[1])) {
-                                        toClient += parts[0] + "\n";
+                                        toClient += parts[0] + ", ";
                                     }
                                 }
 
