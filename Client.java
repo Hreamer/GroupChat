@@ -412,15 +412,14 @@ public class Client extends JFrame {
     };
 
     public static void createAccount(String userName, String password) {
-        try {
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+        try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
+             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             String sentToServer = "SignUp - " + userName + " - " + password;
             writer.write(sentToServer);
             writer.println();
             writer.flush();
             writer.close();
 
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String response = reader.readLine();
 
             if (response.equals("Signup Successful")) {
@@ -430,7 +429,6 @@ public class Client extends JFrame {
                 JOptionPane.showMessageDialog(null, "The user name you created was taken," +
                         "please try another one.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            reader.close();
         } catch (IOException ie) {
             ie.printStackTrace();
         }
