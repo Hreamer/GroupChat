@@ -131,6 +131,33 @@ public class ServerThread extends Thread{
                     br.close();
                 }
 
+                //getAllConversationsInvolved - user
+                else if (arguements[0].equals("getAllConversationsInvolved")) {
+                    File f = new File(conversationsFile);
+                    String toClient = "";
+                    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                        //this is the line in conversation file formated like     user - user.txt
+                        String line = br.readLine();
+                        while (line != null) {
+                            //spliting the .txt file name
+                            String[] parts = line.split(".");
+                            //splitting the names part
+                            String[] names = parts[0].split(" - ");
+
+                            //looping through each name against the other names
+                            for (int i = 0; i < names.length; i++) {
+                                if (names[i].equals(arguements[1])) {
+                                    toClient += parts[0] + "\n";
+                                }
+                            }
+                        }
+                    }
+
+                    writer.write(toClient);
+                    writer.println();
+                    writer.flush(); //ensuring it sends to the client
+                }
+
                 //startConversation - user - user - user - ...
                 else if (arguements[0].equals("startConversation")) {
                     String fileName = "";
