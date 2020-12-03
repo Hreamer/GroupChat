@@ -378,12 +378,9 @@ public class Client extends JFrame {
             }
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 2) {
-
-
+                    if (e.getClickCount() == 1) {
                         String selectedItem = (String) list.getSelectedValue();
-                       System.out.println("Success");
-
+                        textArea.setText(getConversation(selectedItem));
                     }
                 }
             };
@@ -445,7 +442,6 @@ public class Client extends JFrame {
         String name;
         names.add(currentUser.getUserName());
         String title = "";
-        //int count = currentUser.getConversations().size();
         do {
             name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
@@ -625,16 +621,12 @@ public class Client extends JFrame {
         Conversation n = new Conversation(users, convoTitle);
         return n;
     }
-    MouseListener mouseListener = new MouseAdapter() {
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) {
 
-                String selectedItem = (String) list.getSelectedValue();
-                System.out.println(selectedItem);
-
-            }
-        }
-    };
+    public static String getConversation(String selectedItem) {
+        //sends over command getConvo or whatever, with file name .txt, server sends over a long string with
+        //special characters where we should put \n since readLine() has a stroke trying to read \n, and then
+        //we load that into the text area.
+    }
 
 }
 
