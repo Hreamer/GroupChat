@@ -436,7 +436,6 @@ public class Client extends JFrame {
         names.add(currentUser.getUserName());
         String title = "";
         //int count = currentUser.getConversations().size();
-        names.add(currentUser.getUserName());
         do {
             name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
@@ -463,7 +462,7 @@ public class Client extends JFrame {
         writer.println();
         writer.flush();
 
-        conversations.add(createConversationObject(line));
+        updateJList(currentUser.getUserName());
 
     }
 
@@ -573,11 +572,12 @@ public class Client extends JFrame {
             users.add(usersInConvo[i]);
         }
         String convoTitle = "";
+        System.out.println(currentUser.getUserName());
         if (users.size() == 2) {
-            if (users.get(1) != currentUser.getUserName()) {
-                convoTitle = users.get(1);
+            if (!users.get(0).equals(currentUser.getUserName())) {
+                convoTitle = users.get(0);
             } else {
-                convoTitle = users.get(2);
+                convoTitle = users.get(1);
             }
         } else {
             for(int i = 0; i < users.size(); i++) {
@@ -587,6 +587,7 @@ public class Client extends JFrame {
             }
         }
 
+        System.out.println("conversation title " + convoTitle);
         Conversation n = new Conversation(users, convoTitle);
         return n;
     }
