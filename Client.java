@@ -546,6 +546,10 @@ public class Client extends JFrame {
             if (messageWordLimitTest.length > 100) {
                 JOptionPane.showMessageDialog(null, "Your message is " + (messageWordLimitTest.length - 100) + "word(s) too long."
                         + "Please shorten it.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                writer.write(message + currentUser.getUserName());//need end of command with title of all users in chat
+                writer.println();
+                writer.flush();
             }
         }
         // else send message to server
@@ -609,4 +613,7 @@ public class Client extends JFrame {
         writer.println();
         writer.flush();
     }
+
+
 }
+
