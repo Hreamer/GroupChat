@@ -36,6 +36,7 @@ public class ServerThread extends Thread{
                     System.out.println("command = null");
                     break;
                 }
+                System.out.println("Received: " + command);
                 String[] arguements = command.split(" - ");
 
                 //Login - Username - Password
