@@ -75,6 +75,7 @@ public class Client extends JFrame {
     private static JFrame fullFrame;
     private static JSplitPane splitPane;
     private static JPanel chatButtonFrame;
+    private static DefaultListModel<String> model;
     private static JList<String> list;
     private static ArrayList<Conversation> conversations;
     private static String[] conversationTitles;
@@ -85,7 +86,6 @@ public class Client extends JFrame {
     private static JButton options;
     private static JButton changePassword;
     private static JButton deleteConversation;
-
     private static Client client = new Client();
 
     private static BufferedReader reader;
@@ -99,6 +99,7 @@ public class Client extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                conversations = new ArrayList<Conversation>();
                 conversationTitles = new String[0];
                 fullFrame = new JFrame("Messages");
                 fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,8 +130,9 @@ public class Client extends JFrame {
                 options = new JButton("options");
                 options.addActionListener(actionListener);
                 chatButtonFrame.add(options);
+                model = new DefaultListModel<String>();
                 if (conversationTitles != null && conversationTitles.length > 0) {
-                    list = new JList<String>(conversationTitles);
+                    list = new JList<String>(model);
                     JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                     list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
                     list.setLayoutOrientation(JList.VERTICAL);
@@ -434,6 +436,8 @@ public class Client extends JFrame {
         int finish = -20;
         ArrayList<String> names = new ArrayList<String>(0);
         String name;
+        names.add(currentUser.getUserName());
+        String title = "";
         //int count = currentUser.getConversations().size();
         names.add(currentUser.getUserName());
         do {
@@ -449,9 +453,6 @@ public class Client extends JFrame {
             finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?", "Create Conversation", JOptionPane.YES_NO_OPTION);
         } while (finish == JOptionPane.YES_OPTION);
 
-        //Conversation n = new Conversation(names, title);
-        //conversations.add(n);
-        //currentUser.addCo(n);
         String line = "startConversation - ";
         for (int i = 0; i < names.size(); i++) {
             if (i != names.size() - 1) {
@@ -465,37 +466,11 @@ public class Client extends JFrame {
         writer.println();
         writer.flush();
 
-        //updateJList(title);
-        //System.out.println("sent update JList" + title);
-        //conversations.add(n);
-        //currentUser.getConversations().add(n);
-        //updateJList(n.getTitle());
-        connectUsers(names);
+        conversations.add(createConversationObject(line));
 
     }
-    /*
-    private static ArrayList<String> getConversation(String title) {
-        do {
-            for (int i = 0; i < chats.size(); i++) {
-                chats.remove(i);
-            }
-        } while (!chats.isEmpty());
-        try {
-            PrintWriter pt = new PrintWriter(socket.getOutputStream());
-            BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            pt.write(title);
-            pt.flush();
-            String line = read.readLine();
-            String[] split = line.split("\n");
-            for (int i = 0; i < split.length; i++) {
-                chats.add(split[i]);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return chats;
-    }
-     */
+
+
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
         for (int i = 0; i < names.size(); i++) {
             writer.write(names.get(i));
@@ -504,20 +479,6 @@ public class Client extends JFrame {
         }
     }
 
-    /*
-    public static boolean check (String name) { //this will check if the user exists
-        boolean checker = false;
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-            System.out.println("Sent");
-            writer.println("checkValidUser - " + name);
-            //writer.println();
-            writer.flush();
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String response = reader.readLine();
-            System.out.println(response);
-            if (response.equals("User is Valid " + name)) {
-            }
-     */
 
     public static boolean check(String name) { //this will check if the user exists
         boolean checker = false;
@@ -561,12 +522,13 @@ public class Client extends JFrame {
             writer.println();
             writer.flush();
             String conversationsNonSplit = reader.readLine();
+            System.out.println("allconversations recieved: " + conversationsNonSplit);
             if (conversationsNonSplit != null) {
                 String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    //TODO make sure allConversations sends over the right data
-                    //conversations.add(new Conversation(/*data received from server*/));
-                    //add to conversationTitles, call the updateJlsit
+                    Conversation n = createConversationObject(conversationsSplit[i]);
+                    conversations.add(n);
+                    model.addElement(n.getTitle());
                 }
             }
         } catch (IOException ie) {
@@ -612,6 +574,32 @@ public class Client extends JFrame {
         writer.write("DeleteUser" + " - " + currentUser.getUserName());
         writer.println();
         writer.flush();
+    }
+
+    public static Conversation createConversationObject(String convoName) {
+        String[] usersInConvo = convoName.split(" - ");
+        ArrayList<String> users = new ArrayList<String>();
+        for (int i = 0; i < usersInConvo.length; i++) {
+            users.add(usersInConvo[i]);
+        }
+        String convoTitle = "";
+        if (users.size() == 2) {
+            if (users.get(1) != currentUser.getUserName()) {
+                convoTitle = users.get(1);
+            } else {
+                convoTitle = users.get(2);
+            }
+        } else {
+            for(int i = 0; i < users.size(); i++) {
+                if(!users.get(i).equals(currentUser.getUserName())) {
+                    convoTitle = convoTitle + users.get(i) + " ";
+                }
+            }
+        }
+
+        Conversation n = new Conversation(users, convoTitle);
+        System.out.println(convoName);
+        return n;
     }
 
 
