@@ -414,11 +414,11 @@ public class Client extends JFrame {
     public static void createAccount(String userName, String password) {
         try (PrintWriter writer = new PrintWriter(socket.getOutputStream());
              BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
             String sentToServer = "SignUp - " + userName + " - " + password;
             writer.write(sentToServer);
             writer.println();
             writer.flush();
-            writer.close();
 
             String response = reader.readLine();
 
