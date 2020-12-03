@@ -83,7 +83,7 @@ public class ServerThread extends Thread{
                     while(line != null) {
                         String[] parts = line.split(" - ");
                         if(!parts[0].equals(arguements[1])) {
-                            withoutUser += line + "/n";
+                            withoutUser += line + "\n";
                         } else {
                             break;
                         }
