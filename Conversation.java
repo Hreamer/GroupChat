@@ -22,6 +22,7 @@ public class Conversation {
     private Socket socket;
 
     public Conversation(ArrayList<String> users, String title) {
+        this.users = users;
         this.chat = chat;
         this.chatter = chatter;
         this.title = title;
