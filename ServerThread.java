@@ -14,7 +14,6 @@ public class ServerThread extends Thread{
 
     public ServerThread(Socket socket) {
         this.socket = socket;
-        //readNameFile(userFile);
     }
 
     @Override
@@ -74,9 +73,6 @@ public class ServerThread extends Thread{
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
 
-                    FileOutputStream fos = new FileOutputStream(f);
-                    PrintWriter pw = new PrintWriter(fos);
-
                     /*Finding all the usernames besides the one we want deleted and adding
                      * it to a varibale*/
                     String line = br.readLine();
@@ -84,17 +80,22 @@ public class ServerThread extends Thread{
                     while(line != null) {
                         String[] parts = line.split(" - ");
                         if(!parts[0].equals(arguements[1])) {
-                            withoutUser += line + "/n";
-                        } else {
-                            break;
+                            withoutUser += line + ", ";
                         }
                         line = br.readLine();
                     }
+                    fr.close();
+                    br.close();
 
                     /*Now we take that variable and just write it back to the file
                      * because we are not in append mode in our fos we just overwrite the
                      * whole file */
-                    pw.print(withoutUser);
+                    String[] toFile = withoutUser.split(", ");
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
+                        for (String user : toFile) {
+                            pw.print(user);
+                        }
+                    }
                 }
 
                 //checkValidUser - user
@@ -131,6 +132,43 @@ public class ServerThread extends Thread{
                     br.close();
                 }
 
+                //getAllConversationsInvolved - user
+                else if (arguements[0].equals("getAllConversationsInvolved")) {
+                    File f = new File(conversationsFile);
+                    String toClient = "";
+
+                    if (f.length() == 0) {
+                        writer.write("No conversations in file");
+                        writer.println();
+                        writer.flush(); //ensure the client gets the data
+                    } else {
+                        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                            //this is the line in conversation file formated like     user - user.txt
+                            String line = br.readLine();
+                            while (line != null) {
+                                //spliting the .txt file name
+                                String[] parts = line.split("\\.");
+                                //splitting the names part
+                                String[] names = parts[0].split(" - ");
+
+                                //looping through each name against the other names
+                                for (int i = 0; i < names.length; i++) {
+                                    if (names[i].equals(arguements[1])) {
+                                        toClient += parts[0] + ", ";
+                                    }
+                                }
+
+                                line = br.readLine();
+                            }
+                        }
+
+                        System.out.println("Client was sent data: " + toClient);
+                        writer.write(toClient);
+                        writer.println();
+                        writer.flush(); //ensuring it sends to the client
+                    }
+                }
+
                 //startConversation - user - user - user - ...
                 else if (arguements[0].equals("startConversation")) {
                     String fileName = "";
@@ -146,7 +184,6 @@ public class ServerThread extends Thread{
 
                     //creates the file
                     File f = new File(fileName);
-                    f.createNewFile();
 
                     //printing the users who have not deleted which is all of them currently
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
@@ -203,7 +240,7 @@ public class ServerThread extends Thread{
                 //updateConversation - message - userWhoSent - user - user - user - ..."
                 else if (arguements[0].equals("updateConversation")) {
                     String fileName = "";
-                    for(int i = 1; i < arguements.length; i++) {
+                    for(int i = 3; i < arguements.length; i++) {
                         if (i != arguements.length -1) {
                             fileName += arguements[i] + " - ";
                         }
@@ -234,10 +271,15 @@ public class ServerThread extends Thread{
 
                     String conversation = br.readLine();
                     while (conversation != null) {
+                        //marker
                         String[] parts = conversation.split("\\.");
-                        for (int i = 0; i < parts.length; i++) {
-                            if(parts[i].equals(user)) {
-                                conversationList.add(conversation);
+
+                        String[] noDot = parts[0].split(" - ");
+
+                        for (int i = 0; i < noDot.length; i++) {
+                            if(noDot[i].equals(user)) {
+                                System.out.println("conversation " + conversation);
+                                conversationList.add(parts[0]);
                             }
                         }
 
@@ -252,14 +294,16 @@ public class ServerThread extends Thread{
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
-                        allConversations += convoName + ", ";
+                        allConversations += "Conversation --- "  + convoName + " -=- ";
 
                         String transcript = br1.readLine();
+                        transcript = br1.readLine();
                         while(transcript != null) {
-                            allConversations += transcript;
+                            allConversations += transcript + " -=- ";
 
                             transcript = br1.readLine();
                         }
+                        allConversations += "end -=- ";
 
                         fr1.close();
                         br1.close();

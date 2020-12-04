@@ -75,9 +75,9 @@ public class Client extends JFrame {
     private static JFrame fullFrame;
     private static JSplitPane splitPane;
     private static JPanel chatButtonFrame;
+    private static DefaultListModel<String> model;
     private static JList<String> list;
     private static ArrayList<Conversation> conversations;
-    private static String[] conversationTitles;
     private static JButton newConvo;
 
     //options panel if the user wants to edit username or password, or delete a conversation
@@ -85,12 +85,11 @@ public class Client extends JFrame {
     private static JButton options;
     private static JButton changePassword;
     private static JButton deleteConversation;
-
     private static Client client = new Client();
 
     private static BufferedReader reader;
     private static PrintWriter writer;
-
+    static String currentFileTitle;
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         socket = new Socket(hostname, portNumber);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -99,89 +98,6 @@ public class Client extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                conversationTitles = new String[0];
-                fullFrame = new JFrame("Messages");
-                fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                fullFrame.setSize(500, 500);
-                fullFrame.setResizable(false);
-                chatButtonFrame = new JPanel();
-                chatter = new JPanel();
-                textArea = new JTextArea(23, 35);
-                composeMessage = new JTextField(20);
-                top = new JPanel();
-                bottom = new JPanel();
-                back = new JButton("Back");
-                back.addActionListener(actionListener);
-                delete = new JButton("Delete");
-                deleteMessage = new JTextField("What message would you like to delete?...");
-                deleteMessage.addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
-                        if (deleteMessage.getText().equals("What message would you like to delete?...")) {
-                            deleteMessage.setText("");
-                        }
-                    }
-                });
-                send = new JButton("Send");
-                send.addActionListener(actionListener);
-                newConvo = new JButton("+");
-                newConvo.addActionListener(actionListener);
-                chatButtonFrame.add(newConvo);
-                options = new JButton("options");
-                options.addActionListener(actionListener);
-                chatButtonFrame.add(options);
-                if (conversationTitles != null && conversationTitles.length > 0) {
-                    list = new JList<String>(conversationTitles);
-                    JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                    list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-                    list.setLayoutOrientation(JList.VERTICAL);
-                    list.setVisibleRowCount(-1);
-                    MouseListener mouseListener = new MouseAdapter() {
-                        public void mouseClicked(MouseEvent e) {
-                            if (e.getClickCount() == 1) {
-
-                                //TODO general algorithm for what happens when a conversation is clicked
-
-                                /*
-                                if (list.getSelectedValue().equals(conversationTitles[0])) {
-                                    textArea.setText("hello");
-                                } else if (list.getSelectedValue().equals(conversationTitles[1])) {
-                                    textArea.setText("hi");
-                                } else if (list.getSelectedValue().equals(conversationTitles[2])) {
-                                    textArea.setText("what's up");
-                                } else if (list.getSelectedValue().equals(conversationTitles[3])) {
-                                    textArea.setText("the sky");
-                                }
-                                 */
-
-                            }
-                        }
-                    };
-                    list.addMouseListener(mouseListener);
-                    chatButtonFrame.add(list);
-                }
-                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                top.add(back);
-                top.add(delete);
-                top.add(deleteMessage);
-                bottom.add(send);
-                bottom.add(composeMessage);
-
-                chatter.add(top, BorderLayout.NORTH);
-                chatter.add(scroll, BorderLayout.CENTER);
-                chatter.add(bottom, BorderLayout.SOUTH);
-
-                splitPane = new JSplitPane();
-                fullFrame.setSize(700,500);
-                splitPane.setDividerLocation(190);
-                splitPane.setDividerSize(20);
-
-                splitPane.setEnabled(false);
-                splitPane.setRightComponent(chatter);
-                splitPane.setLeftComponent(chatButtonFrame);
-                fullFrame.add(splitPane);
-                //fullFrame.setVisible(true);
-
-
                 myFrame = new JFrame("Welcome");
                 myFrame.setLayout(new BorderLayout());
                 myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -288,6 +204,87 @@ public class Client extends JFrame {
                 signUpFrame.add(signUpMyTopPanel, BorderLayout.NORTH);
                 signUpFrame.setVisible(false);
 
+                conversations = new ArrayList<Conversation>();
+                fullFrame = new JFrame("Messages");
+                fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                fullFrame.setSize(500, 500);
+                fullFrame.setResizable(false);
+                chatButtonFrame = new JPanel();
+                chatter = new JPanel();
+                textArea = new JTextArea(23, 35);
+                composeMessage = new JTextField(20);
+                top = new JPanel();
+                bottom = new JPanel();
+                back = new JButton("Back");
+                back.addActionListener(actionListener);
+                delete = new JButton("Delete");
+                deleteMessage = new JTextField("What message would you like to delete?...");
+                deleteMessage.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (deleteMessage.getText().equals("What message would you like to delete?...")) {
+                            deleteMessage.setText("");
+                        }
+                    }
+                });
+                send = new JButton("Send");
+                send.addActionListener(actionListener);
+                newConvo = new JButton("+");
+                newConvo.addActionListener(actionListener);
+                chatButtonFrame.add(newConvo);
+                options = new JButton("options");
+                options.addActionListener(actionListener);
+                chatButtonFrame.add(options);
+                model = new DefaultListModel<String>();
+                list = new JList<String>(model);
+                JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+                list.setLayoutOrientation(JList.VERTICAL);
+                list.setVisibleRowCount(-1);
+                MouseListener mouseListener = new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getClickCount() == 1) {
+
+                            //TODO general algorithm for what happens when a conversation is clicked
+                            /*
+                            if (list.getSelectedValue().equals(conversationTitles[0])) {
+                                textArea.setText("hello");
+                            } else if (list.getSelectedValue().equals(conversationTitles[1])) {
+                                textArea.setText("hi");
+                            } else if (list.getSelectedValue().equals(conversationTitles[2])) {
+                                textArea.setText("what's up");
+                            } else if (list.getSelectedValue().equals(conversationTitles[3])) {
+                                textArea.setText("the sky");
+                            }
+                             */
+
+                        }
+                    }
+                };
+                list.addMouseListener(mouseListener);
+                chatButtonFrame.add(list);
+                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                top.add(back);
+                top.add(delete);
+                top.add(deleteMessage);
+                bottom.add(send);
+                bottom.add(composeMessage);
+
+                chatter.add(top, BorderLayout.NORTH);
+                chatter.add(scroll, BorderLayout.CENTER);
+                chatter.add(bottom, BorderLayout.SOUTH);
+
+                splitPane = new JSplitPane();
+                fullFrame.setSize(700,500);
+                splitPane.setDividerLocation(190);
+                splitPane.setDividerSize(20);
+
+                splitPane.setEnabled(false);
+                splitPane.setRightComponent(chatter);
+                splitPane.setLeftComponent(chatButtonFrame);
+                fullFrame.add(splitPane);
+                //fullFrame.setVisible(true);
+
+
                 //options menu config
                 optionsMenu = new JFrame();
                 optionsMenu.setVisible(false);
@@ -379,6 +376,17 @@ public class Client extends JFrame {
             if(e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
+            MouseListener mouseListener = new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 1) {
+                        String selectedItem = (String) list.getSelectedValue();
+                        currentFileTitle = selectedItem;
+                        System.out.println("currentFileTitle " + currentFileTitle);
+                        textArea.setText(getConversation(selectedItem));
+                    }
+                }
+            };
+            list.addMouseListener(mouseListener);
         }
     };
 
@@ -415,9 +423,9 @@ public class Client extends JFrame {
             String response = reader.readLine();
             if (response.equals("Valid User")) {
                 myFrame.setVisible(false);
-                fullFrame.setVisible(true);
                 currentUser = new UserAccount(username, password);
                 initJList(username);
+                fullFrame.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Your username or password was incorrect.",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -434,8 +442,8 @@ public class Client extends JFrame {
         int finish = -20;
         ArrayList<String> names = new ArrayList<String>(0);
         String name;
-        //int count = currentUser.getConversations().size();
         names.add(currentUser.getUserName());
+        String title = "";
         do {
             name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
@@ -449,10 +457,7 @@ public class Client extends JFrame {
             finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?", "Create Conversation", JOptionPane.YES_NO_OPTION);
         } while (finish == JOptionPane.YES_OPTION);
 
-        //Conversation n = new Conversation(names, title);
-        //conversations.add(n);
-        //currentUser.addCo(n);
-        String line = "startConversation - ";
+        String line = "";
         for (int i = 0; i < names.size(); i++) {
             if (i != names.size() - 1) {
                 line = line + names.get(i) + " - ";
@@ -460,20 +465,17 @@ public class Client extends JFrame {
                 line = line + names.get(i);
             }
         }
-        System.out.println("line sent to startConversation: " + line);
-        writer.write(line);
+        String line2 = "startConversation - " + line;
+        System.out.println("line sent to startConversation: " + line2);
+        writer.write(line2);
         writer.println();
         writer.flush();
 
-        //updateJList(title);
-        //System.out.println("sent update JList" + title);
-        //conversations.add(n);
-        //currentUser.getConversations().add(n);
-        //updateJList(n.getTitle());
-        connectUsers(names);
+        updateJList(line);
 
     }
 
+<<<<<<< HEAD
     private static ArrayList<String> getConversation(String title) {
         do {
             for (int i = 0; i < chats.size(); i++) {
@@ -495,6 +497,8 @@ public class Client extends JFrame {
         }
         return chats;
     }
+=======
+>>>>>>> 206fcb12e1a768f06c30e294492762f35a05598f
 
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
         for (int i = 0; i < names.size(); i++) {
@@ -504,20 +508,6 @@ public class Client extends JFrame {
         }
     }
 
-    /*
-    public static boolean check (String name) { //this will check if the user exists
-        boolean checker = false;
-        try (PrintWriter writer = new PrintWriter(socket.getOutputStream())) {
-            System.out.println("Sent");
-            writer.println("checkValidUser - " + name);
-            //writer.println();
-            writer.flush();
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String response = reader.readLine();
-            System.out.println(response);
-            if (response.equals("User is Valid " + name)) {
-            }
-     */
 
     public static boolean check(String name) { //this will check if the user exists
         boolean checker = false;
@@ -547,7 +537,9 @@ public class Client extends JFrame {
                 JOptionPane.showMessageDialog(null, "Your message is " + (messageWordLimitTest.length - 100) + "word(s) too long."
                         + "Please shorten it.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                writer.write(message + currentUser.getUserName());//need end of command with title of all users in chat
+                //updateConversation - message - userWhoSent - user - user - user - ..."
+                System.out.println("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - " + currentFileTitle);
+                writer.write("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - " + currentFileTitle);//need end of command with title of all users in chat
                 writer.println();
                 writer.flush();
             }
@@ -557,35 +549,52 @@ public class Client extends JFrame {
 
     private static void initJList(String userName) {
         try {
-            writer.write("allConversations - " + userName);
+            writer.write("getAllConversationsInvolved - " + userName);
             writer.println();
             writer.flush();
             String conversationsNonSplit = reader.readLine();
-            if (conversationsNonSplit != null) {
-                String[] conversationsSplit = conversationsNonSplit.split("Conversation - ");
+            System.out.println("allconversations recieved: " + conversationsNonSplit);
+            if (conversationsNonSplit != null && !conversationsNonSplit.equals("No conversations in file")) {
+                String[] conversationsSplit = conversationsNonSplit.split(", ");
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    //TODO make sure allConversations sends over the right data
-                    //conversations.add(new Conversation(/*data received from server*/));
-                    //add to conversationTitles, call the updateJlsit
+                    Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i]+ ".txt");
+                    conversations.add(n);
+                    model.addElement(n.getTitle());
                 }
             }
         } catch (IOException ie) {
             ie.printStackTrace();
         }
 
-        client.repaint();
 
+        client.repaint();
     }
 
     public static void updateJList(String conversationTitle) {
-        if(conversationTitles != null) {
-            String[] tempArray = new String[conversationTitles.length + 1];
-            for (int i = 0; i < conversationTitles.length; i++) {
-                tempArray[i] = conversationTitles[i];
+        try {
+            writer.write("getAllConversationsInvolved - " + currentUser.getUserName());
+            writer.println();
+            writer.flush();
+            String conversationsNonSplit = reader.readLine();
+            System.out.println("conversation title sent to update Jlist " + conversationTitle);
+            //System.out.println("allconversations recieved: " + conversationsNonSplit);
+            if (conversationsNonSplit != null) {
+                String[] conversationsSplit = conversationsNonSplit.split(", ");
+                //search for conversationTitle
+                for (int i = 0; i < conversationsSplit.length; i++) {
+                    System.out.println(conversationsSplit[i]);
+                    if (conversationTitle.equals(conversationsSplit[i])) {
+                        System.out.println("final conversation title " + conversationsSplit[i]);
+                        Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i] + ".txt");
+                        conversations.add(n);
+                        model.addElement(n.getTitle());
+                    }
+                }
             }
-            tempArray[tempArray.length - 1] = conversationTitle;
-            conversationTitles = tempArray;
+        } catch (IOException ie) {
+            ie.printStackTrace();
         }
+        client.repaint();
     }
 
     public static void changePassword(String newPassword) {
@@ -614,6 +623,100 @@ public class Client extends JFrame {
         writer.flush();
     }
 
+    public static Conversation createConversationObject(String convoName, String filename) {
+        String[] usersInConvo = convoName.split(" - ");
+        ArrayList<String> users = new ArrayList<String>();
+        for (int i = 0; i < usersInConvo.length; i++) {
+            users.add(usersInConvo[i]);
+        }
+        String convoTitle = "";
+        System.out.println(currentUser.getUserName());
+        if (users.size() == 2) {
+            if (!users.get(0).equals(currentUser.getUserName())) {
+                convoTitle = users.get(0);
+            } else {
+                convoTitle = users.get(1);
+            }
+        } else {
+            for(int i = 0; i < users.size(); i++) {
+                if(!users.get(i).equals(currentUser.getUserName())) {
+                    convoTitle = convoTitle + users.get(i) + " ";
+                }
+            }
+        }
+
+        System.out.println("conversation title " + convoTitle);
+        Conversation n = new Conversation(users, convoTitle, filename);
+        return n;
+    }
+
+    public static String getConversation(String selectedItem) {
+        //sends over command getConvo or whatever
+        //special characters where we should put \n since readLine() has a stroke trying to read \n, and then
+        //we load that into the text area.
+        //+=- new line character
+        //conversationName -> userA - userB
+        String conversationName = "";
+        String loadLine = "";
+        try {
+            writer.write("allConversations - " + currentUser.getUserName());
+            writer.println();
+            writer.flush();
+            String response = reader.readLine();
+            System.out.println("response " + response);
+            //Conversation --- userA - userB +=- userA - message +=- Conversation --- userB - userC
+            //1) userA - UserB <transcroipt>
+            for (int i = 0; i < conversations.size(); i++) {
+                if (selectedItem.equals(conversations.get(i).getTitle())) {
+                    conversationName  = conversations.get(i).getFilename();
+                }
+            }
+            System.out.println("conversation name " + conversationName);
+            String[] noTxt = conversationName.split("\\.");
+            conversationName = noTxt[0];
+            currentFileTitle = conversationName;
+
+            //split by +=-
+            //1) Conversation --- name
+            //2) user a - akgjkafjg-
+            //3) end
+            String[] allConversationsSplit = response.split(" -=- ");
+            //for loop looks for Conversation --- conversationName (String search)
+            String search = "Conversation --- " + conversationName;
+            System.out.println(search);
+            int indexOfConvoBeginning = -1;
+            for (int i = 0; i < allConversationsSplit.length; i++) {
+                if (allConversationsSplit[i].equals(search)) {
+                    indexOfConvoBeginning = i;
+                    System.out.println("index of convo beginning " + indexOfConvoBeginning);
+                }
+            }
+            //for loop looks for end after finding the beginning
+            int indexOfConvoEnd = -1;
+            if (indexOfConvoBeginning != -1) {
+                for (int i = indexOfConvoBeginning; i < allConversationsSplit.length; i++) {
+                    if (allConversationsSplit[i].equals("end")) {
+                        indexOfConvoEnd = i;
+                    }
+                }
+            }
+
+            //for loop that loads everything that shows up in the textArea to String loadLine
+            if (indexOfConvoBeginning != -1 && indexOfConvoEnd != -1) {
+                for (int i = indexOfConvoBeginning + 1; i < indexOfConvoEnd; i++) {
+                    loadLine = loadLine + allConversationsSplit[i] + "\n";
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return loadLine;
+
+
+
+
+    }
 
 }
-
