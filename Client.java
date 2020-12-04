@@ -643,18 +643,24 @@ public class Client extends JFrame {
                     conversationName  = conversations.get(i).getFilename();
                 }
             }
+            System.out.println("conversation name " + conversationName);
+            String[] noTxt = conversationName.split("\\.");
+            conversationName = noTxt[0];
+
 
             //split by +=-
             //1) Conversation --- name
             //2) user a - akgjkafjg-
             //3) end
-            String[] allConversationsSplit = response.split("-=-");
+            String[] allConversationsSplit = response.split(" -=- ");
             //for loop looks for Conversation --- conversationName (String search)
             String search = "Conversation --- " + conversationName;
+            System.out.println(search);
             int indexOfConvoBeginning = -1;
             for (int i = 0; i < allConversationsSplit.length; i++) {
                 if (allConversationsSplit[i].equals(search)) {
                     indexOfConvoBeginning = i;
+                    System.out.println("index of convo beginning " + indexOfConvoBeginning);
                 }
             }
             //for loop looks for end after finding the beginning
