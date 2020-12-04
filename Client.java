@@ -648,7 +648,7 @@ public class Client extends JFrame {
             //1) Conversation --- name
             //2) user a - akgjkafjg-
             //3) end
-            String[] allConversationsSplit = response.split("+=-");
+            String[] allConversationsSplit = response.split("-=-");
             //for loop looks for Conversation --- conversationName (String search)
             String search = "Conversation --- " + conversationName;
             int indexOfConvoBeginning = -1;
