@@ -380,6 +380,8 @@ public class Client extends JFrame {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() == 1) {
                         String selectedItem = (String) list.getSelectedValue();
+                        currentFileTitle = selectedItem;
+                        System.out.println("currentFileTitle " + currentFileTitle);
                         textArea.setText(getConversation(selectedItem));
                     }
                 }
@@ -528,7 +530,7 @@ public class Client extends JFrame {
             writer.flush();
             String conversationsNonSplit = reader.readLine();
             System.out.println("allconversations recieved: " + conversationsNonSplit);
-            if (conversationsNonSplit != null) {
+            if (conversationsNonSplit != null && !conversationsNonSplit.equals("No conversations in file")) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
                 for (int i = 0; i < conversationsSplit.length; i++) {
                     Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i]+ ".txt");
@@ -643,13 +645,12 @@ public class Client extends JFrame {
             for (int i = 0; i < conversations.size(); i++) {
                 if (selectedItem.equals(conversations.get(i).getTitle())) {
                     conversationName  = conversations.get(i).getFilename();
-                    currentFileTitle = conversationName;
                 }
             }
             System.out.println("conversation name " + conversationName);
             String[] noTxt = conversationName.split("\\.");
             conversationName = noTxt[0];
-
+            currentFileTitle = conversationName;
 
             //split by +=-
             //1) Conversation --- name
