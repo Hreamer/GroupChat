@@ -273,11 +273,14 @@ public class ServerThread extends Thread{
                     String conversation = br.readLine();
                     while (conversation != null) {
                         //marker
-                        String[] parts = conversation.split(" - ");
-                        for (int i = 0; i < parts.length; i++) {
-                            if(parts[i].equals(user)) {
+                        String[] parts = conversation.split("\\.");
+
+                        String[] noDot = parts[0].split(" - ");
+
+                        for (int i = 0; i < noDot.length; i++) {
+                            if(noDot[i].equals(user)) {
                                 System.out.println("conversation " + conversation);
-                                conversationList.add(conversation);
+                                conversationList.add(parts[0]);
                             }
                         }
 
@@ -295,6 +298,7 @@ public class ServerThread extends Thread{
                         allConversations += "Conversation --- "  + convoName + " +=- ";
 
                         String transcript = br1.readLine();
+                        transcript = br1.readLine();
                         while(transcript != null) {
                             allConversations += transcript + " +=- ";
 
