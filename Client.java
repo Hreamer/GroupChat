@@ -89,7 +89,7 @@ public class Client extends JFrame {
 
     private static BufferedReader reader;
     private static PrintWriter writer;
-
+    static String currentFileTitle;
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         socket = new Socket(hostname, portNumber);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -511,7 +511,9 @@ public class Client extends JFrame {
                 JOptionPane.showMessageDialog(null, "Your message is " + (messageWordLimitTest.length - 100) + "word(s) too long."
                         + "Please shorten it.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                writer.write(message + currentUser.getUserName());//need end of command with title of all users in chat
+                //updateConversation - message - userWhoSent - user - user - user - ..."
+                System.out.println("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - " + currentFileTitle);
+                writer.write("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - " + currentFileTitle);//need end of command with title of all users in chat
                 writer.println();
                 writer.flush();
             }
@@ -641,6 +643,7 @@ public class Client extends JFrame {
             for (int i = 0; i < conversations.size(); i++) {
                 if (selectedItem.equals(conversations.get(i).getTitle())) {
                     conversationName  = conversations.get(i).getFilename();
+                    currentFileTitle = conversationName;
                 }
             }
             System.out.println("conversation name " + conversationName);
@@ -692,4 +695,3 @@ public class Client extends JFrame {
     }
 
 }
-
