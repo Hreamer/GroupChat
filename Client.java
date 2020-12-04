@@ -629,11 +629,13 @@ public class Client extends JFrame {
         //+=- new line character
         //conversationName -> userA - userB
         String conversationName = "";
+        String loadLine = "";
         try {
             writer.write("allConversations - " + currentUser.getUserName());
             writer.println();
             writer.flush();
             String response = reader.readLine();
+            System.out.println("response " + response);
             //Conversation --- userA - userB +=- userA - message +=- Conversation --- userB - userC
             //1) userA - UserB <transcroipt>
             for (int i = 0; i < conversations.size(); i++) {
@@ -665,11 +667,10 @@ public class Client extends JFrame {
                 }
             }
 
-            String loadLine = "";
             //for loop that loads everything that shows up in the textArea to String loadLine
             if (indexOfConvoBeginning != -1 && indexOfConvoEnd != -1) {
                 for (int i = indexOfConvoBeginning + 1; i < indexOfConvoEnd; i++) {
-                    loadLine = loadLine + allConversationsSplit[i] + "\n"
+                    loadLine = loadLine + allConversationsSplit[i] + "\n";
                 }
             }
 
