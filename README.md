@@ -47,15 +47,65 @@ Client
   - private static void initJList(String userName)
     - Gets all conversations from the server that have the user as a participant.
   - public static void updateJList(String conversationTitle)
-    - increases size of converservationTitles by one every time its invoked. Used for when the array reaches maximum capacity
+    - updates the current Jlist to let users see the new list of conversations available to them.
   - public static void changePassword(String newPassword) 
     - lets user change their passowrd, sends command and new password to server where the file is changed. If the response is "Password Changed", informs user that their password has been changed, else lets them know it could not be changed.
   - public static void deleteAccount(String userName)
     - Asks server to delete the account associated with the given username
   - public static Conversation createConversationObject(String convoName)
-    - Creates a new conversation from the input string. It splits the input String into an array containing the users of the conversation and creates a new Conversation object with this information
-- ServerThread description
-  - Method desriptions
+    - Creates a new conversation from the input string. It splits the input String into an array containing the users of the conversation and creates a new Conversation object with this information, which is returned.
+  
+Conversation
+- Conversation is an class meant to store the users, name, and file of a conversation.
+  - public Conversation(ArrayList<String> users, String title, String filename)
+    - initializes the object Conversation
+  - public void setFilename(String filename)
+    - sets the filename to the input
+  - public String getFilename()
+    - returns the filename
+  - public ArrayList<String> getUsers()
+    - returns the ArrayList of users
+  - public void setUsers(ArrayList<String> users)
+    - sets the ArrayList of users to the input
+  - public String getTitle()
+    - returns the title
+  - public void setTItle(String title)
+    - sets the title to the input
+Server
+- The server class is just there to create a server for the program to run off of
+  - public static void main (String[] args) throws IOException
+    - creates the serverthread for as many connections as needed.
+
+ServerThread
+- ServerThread is the main part of the backend side of the program. It is created for every client that is connected to the server.
+  - public ServerThread(Socket socket)
+    - sets the socket to the input socket
+  - public void run()
+    - This is where most of the server runs, and as such each command it can recieve will be its own line. It will wait for a command from the server and then react to it.
+    - Login
+      - This is used to check if the login is valid or not
+    - SignUp
+      - This is used to sign up a new user, if the username is taken it will not sign up successfully. Returns to the client a value depending on whether or not it succeeded.
+    - DeleteUser
+      - This is used to delete a user from a conversation so they do not see anything from it anymore.
+    - CheckValidUser
+      - This is used to check if the user the client gives is a valid one or not.
+    - getAllConversationsInvolved
+      - This is used to get all conversations the user is involved in.
+    - startConversation
+      - This is used to create a new conversation, a file is made for the conversation with its name being the reformatted string of users(variable fileName).
+    - ChangePassword
+      - This is used to change the password for a user in the file containing all users and passwords
+    - updateConversation
+      - This is used to update messages in a conversation and add them to the logs.
+    - allConversations  
+      - This is used to retrieve all conversations that a user is involved with.
+  - public String isValidLogin(String userName, String password) throws IOException
+    - checks if the username and password is a valid login. Returns "Valid User" or "Invalid User"
+  - public boolean addUser(String userName, String password) throws IOException
+    - adds a new user to the list of users, returns true is successful, false if not
+
+
 - Conversation description
   - Method descriptions
 - How to run the program / sequence in which things need to be performed in order to avoid bugs. 
