@@ -240,7 +240,7 @@ public class ServerThread extends Thread{
                 //updateConversation - message - userWhoSent - user - user - user - ..."
                 else if (arguements[0].equals("updateConversation")) {
                     String fileName = "";
-                    for(int i = 1; i < arguements.length; i++) {
+                    for(int i = 3; i < arguements.length; i++) {
                         if (i != arguements.length -1) {
                             fileName += arguements[i] + " - ";
                         }
