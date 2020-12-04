@@ -475,28 +475,6 @@ public class Client extends JFrame {
 
     }
 
-    private static ArrayList<String> getConversation(String title) {
-        do {
-            for (int i = 0; i < chats.size(); i++) {
-                chats.remove(i);
-            }
-        } while (!chats.isEmpty());
-        try {
-            PrintWriter pt = new PrintWriter(socket.getOutputStream());
-            BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            pt.write(title);
-            pt.flush();
-            String line = read.readLine();
-            String[] split = line.split("\n");
-            for (int i = 0; i < split.length; i++) {
-                chats.add(split[i]);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return chats;
-    }
-
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
         for (int i = 0; i < names.size(); i++) {
             writer.write(names.get(i));
