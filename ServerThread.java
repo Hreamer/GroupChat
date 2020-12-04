@@ -295,16 +295,16 @@ public class ServerThread extends Thread{
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
-                        allConversations += "Conversation --- "  + convoName + " +=- ";
+                        allConversations += "Conversation --- "  + convoName + " -=- ";
 
                         String transcript = br1.readLine();
                         transcript = br1.readLine();
                         while(transcript != null) {
-                            allConversations += transcript + " +=- ";
+                            allConversations += transcript + " -=- ";
 
                             transcript = br1.readLine();
                         }
-                        allConversations += "end +=- ";
+                        allConversations += "end -=- ";
 
                         fr1.close();
                         br1.close();
