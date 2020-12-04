@@ -473,7 +473,7 @@ public class Client extends JFrame {
         connectUsers(names);
 
     }
-    /*
+
     private static ArrayList<String> getConversation(String title) {
         do {
             for (int i = 0; i < chats.size(); i++) {
@@ -495,7 +495,7 @@ public class Client extends JFrame {
         }
         return chats;
     }
-     */
+
     private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
         for (int i = 0; i < names.size(); i++) {
             writer.write(names.get(i));

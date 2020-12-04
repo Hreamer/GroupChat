@@ -142,7 +142,7 @@ public class ServerThread extends Thread{
                         }
                     }
                     String users = fileName;
-                    fileName += ".txt";
+                    fileName += ".txt \n";
 
                     //creates the file
                     File f = new File(fileName);
