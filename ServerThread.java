@@ -184,24 +184,16 @@ public class ServerThread extends Thread{
 
                     //creates the file
                     File f = new File(fileName);
-                    if (f.createNewFile() == false) {
-                        writer.write("Conversation Already Exists");
-                        writer.println();
-                        writer.flush();
-                    } else {
-                        //printing the users who have not deleted which is all of them currently
-                        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
-                            pw.println(users);
-                        }
 
-                        //adding the new file to the list of conversations
-                        File f2 = new File(conversationsFile);
-                        try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(f2, true)))) {
-                            pw2.println(fileName);
-                        }
-                        writer.write("Conversation Created");
-                        writer.println();
-                        writer.flush();
+                    //printing the users who have not deleted which is all of them currently
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
+                        pw.println(users);
+                    }
+
+                    //adding the new file to the list of conversations
+                    File f2 = new File(conversationsFile);
+                    try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(f2, true)))) {
+                        pw2.println(fileName);
                     }
                 }
 
