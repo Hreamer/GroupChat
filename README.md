@@ -31,7 +31,24 @@ Client
     - An actionListener object is created along with the methods it uses
   - public void actionPerformed(ActionEvent e)
     - This method is created under actionListener, and will further adjust the GUI depending on what is needed. It can take input from you signing up, signing in, pressing back anywhere, confirming signup, sending a message, creating a new conversation, bringing up the options menu, changing your password, or deleting your account
-    - TODO, add a detailed description of what happens with the button clicks. Reminder to do the same on the server side.
+    - SignUp
+      - makes the signUpFrame visible
+    - backButton
+      - sets the signin frame to be visible from the signUpFrame
+    - confirmSignUp
+      - calls createAccount with input from signUpUsername and signUpPassword
+    - send
+      - calls sendNewMessage with input from composeMessage
+    - new Convo
+      - calls createCo
+    - options
+      - sets the option menu to be visible
+    - backButtonToChat
+      - leaves option menu and goes to chat menu
+    - confirmPasswordChange
+      - calls changePassword with input from passwordTextChange
+    - deleteAccount
+      - calls deleteAccount using the current username
   - public static void createAccount(String userName, String password)
     - Asks the server if the given username isn't taken, if it is available tells the user that account has been created, else tell them that the username is already taken.
   - public static void getValidAccount(String userName, String password) throws UnknownHostException, IOException
@@ -107,7 +124,7 @@ ServerThread
 
 
 - How to run the program / sequence in which things need to be performed in order to avoid bugs.
-Usernames and passwords should 
+Usernames and passwords should not contain spaces in them. An account is needed to access most other functions, which is created from signing up. 
 
 
 
