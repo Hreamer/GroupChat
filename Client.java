@@ -244,29 +244,8 @@ public class Client extends JFrame {
                 list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
                 list.setLayoutOrientation(JList.VERTICAL);
                 list.setVisibleRowCount(-1);
-                MouseListener mouseListener = new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
-                        if (e.getClickCount() == 1) {
-
-                            //TODO general algorithm for what happens when a conversation is clicked
-                            /*
-                            if (list.getSelectedValue().equals(conversationTitles[0])) {
-                                textArea.setText("hello");
-                            } else if (list.getSelectedValue().equals(conversationTitles[1])) {
-                                textArea.setText("hi");
-                            } else if (list.getSelectedValue().equals(conversationTitles[2])) {
-                                textArea.setText("what's up");
-                            } else if (list.getSelectedValue().equals(conversationTitles[3])) {
-                                textArea.setText("the sky");
-                            }
-                             */
-
-                        }
-                    }
-                };
-                list.addMouseListener(mouseListener);
                 chatButtonFrame.add(list);
-                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
                 top.add(back);
                 top.add(delete);
                 top.add(deleteMessage);
