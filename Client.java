@@ -274,7 +274,7 @@ public class Client extends JFrame {
                 chatter.add(bottom, BorderLayout.SOUTH);
 
                 splitPane = new JSplitPane();
-                fullFrame.setSize(700,500);
+                fullFrame.setSize(700, 500);
                 splitPane.setDividerLocation(190);
                 splitPane.setDividerSize(20);
 
@@ -329,6 +329,9 @@ public class Client extends JFrame {
                 optionsMenu.add(topPanelOptionsMenu, BorderLayout.NORTH);
                 optionsMenu.add(middlePanelForOptions, BorderLayout.CENTER);
 
+
+
+
             }
         });
 
@@ -376,6 +379,7 @@ public class Client extends JFrame {
             if(e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
+
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() > 0) {
@@ -521,10 +525,11 @@ public class Client extends JFrame {
 
             for (int i = 0; i < conversations.size(); i++){
                 System.out.println("conversations get title" + conversations.get(i).getFilename());
-                if (currentFileTitle.equals(conversations.get(i).getFilename())) {
-                    getConversation(conversations.get(i).getFilename());
+                if ((currentFileTitle + ".txt").equals(conversations.get(i).getFilename())) {
+                    textArea.setText(getConversation(conversations.get(i).getTitle()));
                 }
             }
+
         }
         // else send message to server
     }
@@ -695,9 +700,7 @@ public class Client extends JFrame {
         }
         return loadLine;
 
-
-
-
     }
+
 
 }
