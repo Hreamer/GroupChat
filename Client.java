@@ -212,6 +212,7 @@ public class Client extends JFrame {
                 chatButtonFrame = new JPanel();
                 chatter = new JPanel();
                 textArea = new JTextArea(23, 35);
+                textArea.setEditable(false);
                 composeMessage = new JTextField(20);
                 top = new JPanel();
                 bottom = new JPanel();
@@ -415,19 +416,20 @@ public class Client extends JFrame {
         }
     }
 
-    public static void getValidAccount(String userName, String password) throws UnknownHostException, IOException {
-        String username = userName;
+    public static void getValidAccount(String username, String pass) throws UnknownHostException, IOException {
         try {
 
-            String stringReturned = "Login - " + userName + " - " + password;
+            String stringReturned = "Login - " + username + " - " + pass;
             writer.write(stringReturned);
             writer.println();
             writer.flush();
 
             String response = reader.readLine();
             if (response.equals("Valid User")) {
+                userName.setText("Username");
+                password.setText("Password");
                 myFrame.setVisible(false);
-                currentUser = new UserAccount(username, password);
+                currentUser = new UserAccount(username, pass);
                 initJList(username);
                 fullFrame.setVisible(true);
             } else {
