@@ -531,6 +531,7 @@ public class Client extends JFrame {
             }
 
         }
+        composeMessage.setText("");
         // else send message to server
     }
 
