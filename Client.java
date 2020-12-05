@@ -490,7 +490,6 @@ public class Client extends JFrame {
         }
     }
 
-
     public static boolean check(String name) { //this will check if the user exists
         boolean checker = false;
         try {
@@ -672,7 +671,7 @@ public class Client extends JFrame {
 
             //split by +=-
             //1) Conversation --- name
-            //2) user a - akgjkafjg-
+            //2) user a - akgjkafjg
             //3) end
             String[] allConversationsSplit = response.split(" -=- ");
             //for loop looks for Conversation --- conversationName (String search)
@@ -691,6 +690,8 @@ public class Client extends JFrame {
                 for (int i = indexOfConvoBeginning; i < allConversationsSplit.length; i++) {
                     if (allConversationsSplit[i].equals("end")) {
                         indexOfConvoEnd = i;
+                        System.out.println("index of convo end " + i);
+                        break;
                     }
                 }
             }
@@ -701,6 +702,9 @@ public class Client extends JFrame {
                     loadLine = loadLine + allConversationsSplit[i] + "\n";
                 }
             }
+
+            indexOfConvoBeginning = -1;
+            indexOfConvoEnd = -1;
 
         } catch (IOException e) {
             e.printStackTrace();
