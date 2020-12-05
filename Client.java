@@ -458,7 +458,7 @@ public class Client extends JFrame {
                 System.out.println(name + " added");
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid User", "Create Conversation", JOptionPane.ERROR_MESSAGE);
-                break;
+                return;
             }
             System.out.println("gets to finish");
             finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?", "Create Conversation", JOptionPane.YES_NO_OPTION);
