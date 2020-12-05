@@ -378,7 +378,7 @@ public class Client extends JFrame {
             }
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 1) {
+                    if (e.getClickCount() > 0) {
                         String selectedItem = (String) list.getSelectedValue();
                         currentFileTitle = selectedItem;
                         System.out.println("currentFileTitle " + currentFileTitle);
@@ -517,6 +517,13 @@ public class Client extends JFrame {
                 writer.write("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - " + currentFileTitle);//need end of command with title of all users in chat
                 writer.println();
                 writer.flush();
+            }
+
+            for (int i = 0; i < conversations.size(); i++){
+                System.out.println("conversations get title" + conversations.get(i).getFilename());
+                if (currentFileTitle.equals(conversations.get(i).getFilename())) {
+                    getConversation(conversations.get(i).getFilename());
+                }
             }
         }
         // else send message to server
@@ -686,7 +693,6 @@ public class Client extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return loadLine;
 
 
