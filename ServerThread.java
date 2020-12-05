@@ -184,7 +184,9 @@ public class ServerThread extends Thread{
 
                     //creates the file
                     File f = new File(fileName);
-                    f.createNewFile();
+                    if (!f.exists()) {
+                        f.createNewFile();
+                    }
 
                     //printing the users who have not deleted which is all of them currently
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
