@@ -180,10 +180,11 @@ public class ServerThread extends Thread{
                         }
                     }
                     String users = fileName;
-                    fileName += ".txt \n";
+                    fileName += ".txt";
 
                     //creates the file
                     File f = new File(fileName);
+                    f.createNewFile();
 
                     //printing the users who have not deleted which is all of them currently
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
@@ -287,7 +288,8 @@ public class ServerThread extends Thread{
                     br.close();
 
                     for(String convoName: conversationList) {
-                        File f1 = new File(convoName + ".txt");
+                        String name = convoName + ".txt";
+                        File f1 = new File(name);
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
@@ -314,6 +316,7 @@ public class ServerThread extends Thread{
 
         } catch (IOException e) {
             System.out.println("Connection error closing thread");
+            e.printStackTrace();
         }
     }
 
