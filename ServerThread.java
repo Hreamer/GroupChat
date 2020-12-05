@@ -241,7 +241,7 @@ public class ServerThread extends Thread{
                 else if (arguements[0].equals("updateConversation")) {
                     String fileName = "";
                     for(int i = 3; i < arguements.length; i++) {
-                        if (i != arguements.length -1) {
+                        if (i != arguements.length - 1) {
                             fileName += arguements[i] + " - ";
                         }
                         fileName += arguements[i];
@@ -249,14 +249,11 @@ public class ServerThread extends Thread{
                     fileName += ".txt";
 
                     File f = new File(fileName);
-                    FileOutputStream fos = new FileOutputStream(f, true);
-                    PrintWriter pw = new PrintWriter(fos);
 
-                    //User who sent - message - deleted by user - ...
-                    pw.println(arguements[2] + " - " + arguements[1]);
-
-                    fos.close();
-                    pw.close();
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f, true)))) {
+                        //User who sent - message - deleted by user - ...
+                        pw.println(arguements[2] + " - " + arguements[1]);
+                    }
                 }
 
                 //allConversations - user
