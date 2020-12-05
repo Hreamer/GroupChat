@@ -93,7 +93,7 @@ public class ServerThread extends Thread{
                     String[] toFile = withoutUser.split(", ");
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
                         for (String user : toFile) {
-                            pw.print(user);
+                            pw.println(user);
                         }
                     }
                 }
