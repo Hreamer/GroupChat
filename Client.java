@@ -94,10 +94,10 @@ public class Client extends JFrame {
         socket = new Socket(hostname, portNumber);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         writer = new PrintWriter(socket.getOutputStream());
-
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+
                 myFrame = new JFrame("Welcome");
                 myFrame.setLayout(new BorderLayout());
                 myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -205,6 +205,9 @@ public class Client extends JFrame {
                 signUpFrame.setVisible(false);
 
                 conversations = new ArrayList<Conversation>();
+                Daemon textAreaRefresh = new Daemon();
+                textAreaRefresh.setDaemon(true);
+                textAreaRefresh.start();
                 fullFrame = new JFrame("Messages");
                 fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 fullFrame.setSize(500, 500);
@@ -712,6 +715,9 @@ public class Client extends JFrame {
         return loadLine;
 
     }
+    public static ArrayList<Conversation> getConvosForRefresh() {
 
+        return conversations;
+    }
 
 }
