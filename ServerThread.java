@@ -246,8 +246,9 @@ public class ServerThread extends Thread{
                     for(int i = 3; i < arguements.length; i++) {
                         if (i != arguements.length - 1) {
                             fileName += arguements[i] + " - ";
+                        } else {
+                            fileName += arguements[i];
                         }
-                        fileName += arguements[i];
                     }
                     fileName += ".txt";
 
