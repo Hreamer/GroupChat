@@ -610,6 +610,9 @@ public class Client extends JFrame {
         writer.write("DeleteUser" + " - " + currentUser.getUserName());
         writer.println();
         writer.flush();
+        fullFrame.setVisible(false);
+        optionsMenu.setVisible(false);
+        myFrame.setVisible(true);
     }
 
     public static Conversation createConversationObject(String convoName, String filename) {
