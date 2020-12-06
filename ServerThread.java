@@ -312,7 +312,7 @@ public class ServerThread extends Thread{
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
-                        String transcript = br.readLine();
+                        String transcript = br1.readLine();
 
                         //if user deleted the conversation than we dont add the conversation to the list
                         if(transcript.contains(arguements[1])) {
