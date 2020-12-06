@@ -315,6 +315,65 @@ public class ServerThread extends Thread{
                     writer.println();
                     writer.flush(); // Ensure data is sent to the client.
                 }
+
+                //editText - conversationTitle - originalText - newText - userEditing
+                else if (arguements[0].equals("editText")) {
+                    File f = new File(arguements[1] + ".txt");
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String allConversation = "";
+
+                    String line = br.readLine();
+                    while (line != null) {
+
+                        line = br.readLine();
+                    }
+
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
+                        String[] parts2 = allConversation.split(" -=- ");
+                    }
+
+                    fr.close();
+                    br.close();
+                }
+
+                //deleteConversation - userWhoIsDeleting - conversation name
+                else if (arguements[0].equals("deleteConversation")) {
+                    File f = new File(arguements[2] + ".txt");
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String allConversations = "";
+
+                    String line = br.readLine();
+                    String[] users = line.split(" - ");
+
+                    for (int i = 0; i < users.length; i++) {
+                        if (!users[i].equals(arguements[1])) {
+                            allConversations += users[i] + " - ";
+                        }
+                    }
+                    allConversations = allConversations.substring(0, allConversations.length()-3);
+
+                    allConversations += " -=- ";
+
+                    line = br.readLine();
+                    while (line != null) {
+                        allConversations += line + " -=- ";
+
+                        line = br.readLine();
+                    }
+
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
+                        String[] parts2 = allConversations.split(" -=- ");
+                        for(int i = 0; i < parts2.length; i++) {
+                            pw.println(parts2[i]);
+                        }
+                    }
+                    fr.close();
+                    br.close();
+                }
             }
 
         } catch (IOException e) {
