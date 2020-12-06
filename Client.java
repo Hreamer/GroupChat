@@ -139,8 +139,10 @@ public class Client extends JFrame {
                 password.setMaximumSize(new Dimension(300, 40));
                 password.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
-                        if (password.getText().equals("Password")) {
-                            password.setText(null);
+                        if (e.getClickCount() > 0) {
+                            if (password.getText().equals("Password")) {
+                                password.setText(null);
+                            }
                         }
                     }
                 });
@@ -150,9 +152,12 @@ public class Client extends JFrame {
                 userName.setMaximumSize(new Dimension(300, 40));
                 userName.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
-                        if (userName.getText().equals("Username"))
-                            userName.setText(null);
+                        if (e.getClickCount() > 0) {
+                            if (userName.getText().equals("Username"))
+                                userName.setText(null);
+                        }
                     }
+
                 });
 
                 titleLabel = new JLabel("Please enter your information:");
@@ -199,10 +204,28 @@ public class Client extends JFrame {
                 signUpUsername.setFont(new Font(null, 0, 15));
                 signUpMyMiddlePanel.add(signUpUsername);
                 signUpUsername.setMaximumSize(new Dimension(300, 40));
+                signUpUsername.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getClickCount() > 0) {
+                            if (signUpUsername.getText().equals("Username:")) {
+                                signUpUsername.setText(null);
+                            }
+                        }
+                    }
+                });
 
                 signUpPassword = new JTextField("Password:");
                 signUpPassword.setFont(new Font(null, 0, 15));
                 signUpMyMiddlePanel.add(signUpPassword);
+                signUpPassword.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getClickCount() > 0) {
+                            if (signUpPassword.getText().equals("Password:")) {
+                                signUpPassword.setText(null);
+                            }
+                        }
+                    }
+                });
                 signUpPassword.setMaximumSize(new Dimension(300, 40));
 
                 backButton = new JButton("Back");
@@ -212,6 +235,8 @@ public class Client extends JFrame {
 
                 confirmSignUp = new JButton("Sign Up");
                 confirmSignUp.setSize(new Dimension(signUpMyTopPanel.getWidth(), signUpMyTopPanel.getHeight()));
+
+
                 confirmSignUp.addActionListener(actionListener);
                 signUpMyBottomPanel.add(confirmSignUp);
                 confirmSignUp.setPreferredSize(new Dimension(150, 40));
