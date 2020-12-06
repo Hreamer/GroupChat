@@ -365,9 +365,9 @@ public class ServerThread extends Thread{
                         String[] parts = line.split(" - ");
 
                         if (parts[0].equals(arguements[3]) && parts[1].equals(arguements[1])) {
-                            allConversation += " -=- " + arguements[3];
+                            allConversation += arguements[3] + " - "  + arguements[2] + " -=- ";
                         } else {
-                            allConversation += " -=- " + line;
+                            allConversation += line + " -=- ";
                         }
 
 
@@ -377,8 +377,8 @@ public class ServerThread extends Thread{
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
                         String[] parts2 = allConversation.split(" -=- ");
 
-                        for (String messages: parts2) {
-                            pw.println(messages);
+                        for (int i = 0; i < parts2.length; i++) {
+                            pw.println(parts2[i]);
                         }
                     }
 
