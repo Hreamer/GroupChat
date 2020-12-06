@@ -90,6 +90,9 @@ public class Client extends JFrame {
     private static BufferedReader reader;
     private static PrintWriter writer;
     static String currentFileTitle;
+
+    private static Timer timer;
+
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         socket = new Socket(hostname, portNumber);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -265,6 +268,7 @@ public class Client extends JFrame {
                 splitPane.setRightComponent(chatter);
                 splitPane.setLeftComponent(chatButtonFrame);
                 fullFrame.add(splitPane);
+                timer = new Timer(3000, aL);
                 //fullFrame.setVisible(true);
 
 
@@ -320,6 +324,12 @@ public class Client extends JFrame {
 
     }
 
+    static ActionListener aL = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateJList();
+        }
+    };
 
     static ActionListener actionListener = new ActionListener() {
         @Override
@@ -414,6 +424,7 @@ public class Client extends JFrame {
                 currentUser = new UserAccount(username, pass);
                 initJList(username);
                 fullFrame.setVisible(true);
+                timer.start();
             } else {
                 JOptionPane.showMessageDialog(null, "Your username or password was incorrect.",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -568,6 +579,40 @@ public class Client extends JFrame {
         }
         client.repaint();
     }
+
+    public static void updateJList() {
+        try {
+            writer.write("getAllConversationsInvolved - " + currentUser.getUserName());
+            writer.println();
+            writer.flush();
+            String conversationsNonSplit = reader.readLine();
+            //compare filenames with the what is sent from getAllConversationsInvolved
+            String[] split = conversationsNonSplit.split(", ");
+            boolean found = false;
+            if(!conversationsNonSplit.equals("No conversations in file")) {
+                for (int i = 0; i < split.length; i++) {
+                    for (int j = 0; j < conversations.size(); j++) {
+                        if (conversations.get(j).getFilename().equals(split[i] + ".txt")) {
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        Conversation n = createConversationObject(split[i], split[i] + ".txt");
+                        conversations.add(n);
+                        model.addElement(n.getTitle());
+                    }
+                }
+            }
+
+        } catch (IOException ie) {
+            ie.printStackTrace();
+        }
+
+        client.repaint();
+
+    }
+
+
 
     public static void changePassword(String newPassword) {
         try {
