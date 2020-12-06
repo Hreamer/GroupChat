@@ -296,7 +296,7 @@ public class Client extends JFrame {
                 optionsForConvoLogs.setLayout(new BorderLayout());
                 optionsForConvoLogs.setVisible(false);
                 optionsForConvoLogs.setResizable(false);
-                optionsForConvoLogs.setSize(300,300);
+                optionsForConvoLogs.setSize(300, 300);
 
                 topPanelForConvoLogs = new JPanel();
                 bottomPanelForConvoLogs = new JPanel();
@@ -304,7 +304,7 @@ public class Client extends JFrame {
                 optionsForConvoLogs.add(topPanelForConvoLogs, BorderLayout.NORTH);
                 middlePanelForConvoLogs = new JPanel();
                 middlePanelForConvoLogs.setBackground(Color.blue);
-                middlePanelForConvoLogs.setLayout(new BoxLayout(middlePanelForConvoLogs,BoxLayout.Y_AXIS));
+                middlePanelForConvoLogs.setLayout(new BoxLayout(middlePanelForConvoLogs, BoxLayout.Y_AXIS));
                 deleteConvoSelected = new JButton("Delete this conversation");
                 deleteConvoSelected.addActionListener(actionListener);
                 middlePanelForConvoLogs.add(deleteConvoSelected);
@@ -375,6 +375,7 @@ public class Client extends JFrame {
             }
         });
     }
+
     static ActionListener aLList = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -444,11 +445,10 @@ public class Client extends JFrame {
                 if (editMessage.getText().equals("Put the text you want to edit here") ||
                         newEditedMessage.getText().equals("Put you edited message here")) {
                     if (editMessage.getText() != null || !editMessage.getText().equals("") ||
-                            newEditedMessage.getText() != null || !newEditedMessage.getText().equals("") ) {
+                            newEditedMessage.getText() != null || !newEditedMessage.getText().equals("")) {
                         JOptionPane.showMessageDialog(null, "Please enter a value in both fields", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                }
-                else {
+                } else {
                     editMessage(editMessage.getText(), newEditedMessage.getText());
                 }
             }
@@ -598,7 +598,7 @@ public class Client extends JFrame {
                 writer.flush();
             }
 
-            for (int i = 0; i < conversations.size(); i++){
+            for (int i = 0; i < conversations.size(); i++) {
                 System.out.println("conversations get title" + conversations.get(i).getFilename());
                 if ((currentFileTitle + ".txt").equals(conversations.get(i).getFilename())) {
                     textArea.setText(getConversation(conversations.get(i).getTitle()));
@@ -620,7 +620,7 @@ public class Client extends JFrame {
             if (conversationsNonSplit != null && !conversationsNonSplit.equals("No conversations in file")) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i]+ ".txt");
+                    Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i] + ".txt");
                     conversations.add(n);
                     model.addElement(n.getTitle());
                 }
@@ -670,7 +670,7 @@ public class Client extends JFrame {
             String[] split = conversationsNonSplit.split(", ");
             System.out.println(split.length + " ::: " + conversations.size());
             boolean found = false;
-            if(!conversationsNonSplit.equals("No conversations in file")) {
+            if (!conversationsNonSplit.equals("No conversations in file")) {
                 //Here we are checking to see if the split contains what the conversation does not
                 //meaning it needs to be added
                 if (conversations.size() < split.length - 1) {
@@ -691,10 +691,10 @@ public class Client extends JFrame {
 
                 //removing element if the conversation file contains what the split doesn't meaning it needs
                 //to be deleted
-                if (conversations.size() > split.length - 1)  {
+                if (conversations.size() > split.length - 1) {
                     for (int i = 0; i < conversations.size(); i++) {
                         String fileName = conversations.get(i).getFilename();
-                        fileName = fileName.substring(0,fileName.length() - 4);
+                        fileName = fileName.substring(0, fileName.length() - 4);
                         System.out.println(fileName);
                         if (!Arrays.asList(split).contains(fileName)) {
                             System.out.println("got this far");
@@ -711,7 +711,6 @@ public class Client extends JFrame {
         client.repaint();
 
     }
-
 
 
     public static void changePassword(String newPassword) {
@@ -734,6 +733,7 @@ public class Client extends JFrame {
             io.printStackTrace();
         }
     }
+
     public static void deleteAccount(String userName) {
         writer.write("DeleteUser" + " - " + currentUser.getUserName());
         writer.println();
@@ -758,8 +758,8 @@ public class Client extends JFrame {
                 convoTitle = users.get(1);
             }
         } else {
-            for(int i = 0; i < users.size(); i++) {
-                if(!users.get(i).equals(currentUser.getUserName())) {
+            for (int i = 0; i < users.size(); i++) {
+                if (!users.get(i).equals(currentUser.getUserName())) {
                     convoTitle = convoTitle + users.get(i) + " ";
                 }
             }
@@ -788,7 +788,7 @@ public class Client extends JFrame {
             //1) userA - UserB <transcroipt>
             for (int i = 0; i < conversations.size(); i++) {
                 if (selectedItem.equals(conversations.get(i).getTitle())) {
-                    conversationName  = conversations.get(i).getFilename();
+                    conversationName = conversations.get(i).getFilename();
                 }
             }
             System.out.println("conversation name " + conversationName);
@@ -840,6 +840,7 @@ public class Client extends JFrame {
         return loadLine;
 
     }
+
     public static ArrayList<Conversation> getConvosForRefresh() {
         return conversations;
     }
@@ -847,25 +848,32 @@ public class Client extends JFrame {
     public static String getCurrentFileTitle() {
         return currentFileTitle;
     }
+
     public static void deleteConvo() {
 
-            writer.write("deleteConversation" + " - " + currentUser.getUserName() + " - " + currentFileTitle);
-            writer.println();
-            writer.flush();
+        writer.write("deleteConversation" + " - " + currentUser.getUserName() + " - " + currentFileTitle);
+        writer.println();
+        writer.flush();
 
     }
+
     public static void editMessage(String messageToEdit, String newMessage) {
         //editText - conversationTitle - originalText - newText - userEditing
         writer.write("editText" + " - " + currentFile + " - " + messageToEdit + " - " + newMessage + currentUser);
         writer.println();
         writer.flush();
-        String response = reader.readLine();
-        if (response.equals("Message edited")) {
-            JOptionPane.showMessageDialog(null, "Message changed successfully!"
-                    , "Success", JOptionPane.OK_OPTION);
-        } else {
-            JOptionPane.showMessageDialog(null, "Your message doesn't exist! Please try again"
-                    , "Error", JOptionPane.ERROR_MESSAGE);
+        try {
+            String response = reader.readLine();
+
+            if (response.equals("Message edited")) {
+                JOptionPane.showMessageDialog(null, "Message changed successfully!"
+                        , "Success", JOptionPane.OK_OPTION);
+            } else {
+                JOptionPane.showMessageDialog(null, "Your message doesn't exist! Please try again"
+                        , "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException io) {
+            io.printStackTrace();
         }
     }
 
