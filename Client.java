@@ -332,10 +332,10 @@ public class Client extends JFrame {
                         }
                     }
                 });
-                newEditedMessage = new JTextField("Put you edited message here");
+                newEditedMessage = new JTextField("Put your edited message here");
                 newEditedMessage.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
-                        if (newEditedMessage.getText().equals("Put you edited message here")) {
+                        if (newEditedMessage.getText().equals("Put your edited message here")) {
                             newEditedMessage.setText("");
                         }
                     }
@@ -344,7 +344,6 @@ public class Client extends JFrame {
                 confirmEditMessage.addActionListener(actionListener);
                 editMessage.setMaximumSize(new Dimension(500, 100));
                 newEditedMessage.setMaximumSize(new Dimension(500, 100));
-
                 deleteMessage = new JTextField("Message to delete");
                 deleteMessage.setMaximumSize(new Dimension(500, 100));
                 deleteMessage.setFont(new Font(null, 0, 15));
