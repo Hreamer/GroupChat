@@ -32,6 +32,18 @@ public class Client extends JFrame {
     static JPanel myTopPanel;
     static JPanel myMiddlePanel;
     static JPanel myBottomPanel;
+    //frame for
+    static JFrame optionsForConvoLogs;
+    static JPanel topPanelForConvoLogs;
+    static JPanel middlePanelForConvoLogs;
+    static JPanel bottomPanelForConvoLogs;
+    static JButton deleteConvoSelected;
+    static JTextField editMessage;
+
+    static JButton confirmEditMessage;
+    static JTextField deleteMessageField;
+    static JButton confirmMessageDeletion;
+    static JButton enterOptionsFrameForMessages;
     //signup frame
     static JFrame signUpFrame;
     static JPanel signUpMyTopPanel;
@@ -57,12 +69,13 @@ public class Client extends JFrame {
 
     //message board
     private static JButton delete;
-    private static JButton deleteConvo;
+    private static JButton back;
     private static JTextField deleteMessage;
     private static JButton send;
 
     private static JTextField composeMessage;
     public static Socket socket;
+    //static ArrayList<String> chats = new ArrayList<>();
     static UserAccount currentUser;
     static JPanel chatter;
     static Container content;
@@ -149,7 +162,7 @@ public class Client extends JFrame {
                 myBottomPanel = new JPanel();
                 myBottomPanel.add(signUp);
                 myBottomPanel.add(signIn);
-
+                back = new JButton("Back");
                 myMiddlePanel = new JPanel();
                 myMiddlePanel.setLayout(new BoxLayout(myMiddlePanel, BoxLayout.Y_AXIS));
                 myMiddlePanel.add(userName);
@@ -223,10 +236,11 @@ public class Client extends JFrame {
                 composeMessage = new JTextField(20);
                 top = new JPanel();
                 bottom = new JPanel();
-                deleteConversation = new JButton("convo operations");
-                deleteConversation.addActionListener(actionListener);
+                enterOptionsFrameForMessages = new JButton("Message Options");
+                enterOptionsFrameForMessages.addActionListener(actionListener);
                 delete = new JButton("Delete");
                 deleteMessage = new JTextField("What message would you like to delete?...");
+
                 deleteMessage.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         if (deleteMessage.getText().equals("What message would you like to delete?...")) {
@@ -234,12 +248,14 @@ public class Client extends JFrame {
                         }
                     }
                 });
+
                 send = new JButton("Send");
                 send.addActionListener(actionListener);
                 newConvo = new JButton("+");
                 newConvo.addActionListener(actionListener);
                 chatButtonFrame.add(newConvo);
-                options = new JButton("options");
+                options = new JButton("Account");
+
                 options.addActionListener(actionListener);
                 chatButtonFrame.add(options);
                 model = new DefaultListModel<String>();
@@ -250,7 +266,7 @@ public class Client extends JFrame {
                 list.setVisibleRowCount(-1);
                 chatButtonFrame.add(list);
                 JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                top.add(deleteConversation);
+                top.add(enterOptionsFrameForMessages);
                 top.add(delete);
                 top.add(deleteMessage);
                 bottom.add(send);
@@ -273,6 +289,29 @@ public class Client extends JFrame {
                 chatTimer = new Timer(2000, aLChat);
                 //fullFrame.setVisible(true);
 
+                //constuct message editing frame
+                //TODO
+                optionsForConvoLogs = new JFrame("Message Options");
+                optionsForConvoLogs.setLayout(new BorderLayout());
+                optionsForConvoLogs.setVisible(false);
+                optionsForConvoLogs.setResizable(false);
+                optionsForConvoLogs.setSize(300,300);
+
+                topPanelForConvoLogs = new JPanel();
+                topPanelForConvoLogs.setBackground(Color.blue);
+                optionsForConvoLogs.add(topPanelForConvoLogs, BorderLayout.NORTH);
+                middlePanelForConvoLogs = new JPanel();
+                middlePanelForConvoLogs.setBackground(Color.blue);
+                middlePanelForConvoLogs.setLayout(new BoxLayout(middlePanelForConvoLogs,BoxLayout.Y_AXIS));
+                deleteConvoSelected = new JButton("Delete conversation selected");
+                middlePanelForConvoLogs.add(deleteConvoSelected);
+                editMessage = new JTextField();
+                confirmEditMessage = new JButton("Confirm edit Message");
+                editMessage.setMaximumSize(new Dimension(150, 40));
+                middlePanelForConvoLogs.add(editMessage);
+                optionsForConvoLogs.add(middlePanelForConvoLogs, BorderLayout.CENTER);
+                bottomPanelForConvoLogs = new JPanel();
+                optionsForConvoLogs.add(bottomPanelForConvoLogs, BorderLayout.SOUTH);
 
                 //options menu config
                 optionsMenu = new JFrame();
@@ -323,9 +362,7 @@ public class Client extends JFrame {
 
             }
         });
-
     }
-
     static ActionListener aLList = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -373,19 +410,22 @@ public class Client extends JFrame {
                 optionsMenu.setVisible(true);
                 fullFrame.setVisible(false);
             }
-            if (e.getSource() == backButtonToChat) {
+            if(e.getSource() == backButtonToChat) {
                 fullFrame.setVisible(true);
                 optionsMenu.setVisible(false);
             }
+            if (e.getSource() == enterOptionsFrameForMessages) {
+                optionsForConvoLogs.setVisible(true);
+            }
+
             if (e.getSource() == confirmPasswordChange) {
                 changePassword(passwordTextChange.getText());
             }
-            if (e.getSource() == deleteAccount) {
+
+            if(e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
-            if (e.getSource() == deleteConversation) {
-                //deleteConversation(currentFile);
-            }
+
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() > 0) {
