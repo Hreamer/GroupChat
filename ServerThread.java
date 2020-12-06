@@ -343,8 +343,17 @@ public class ServerThread extends Thread{
                     writer.flush(); // Ensure data is sent to the client.
                 }
 
-                //editText - conversationTitle - originalText - newText - userEditing
+                //editText - originalText - newText - userEditing - conversationTitle
                 else if (arguements[0].equals("editText")) {
+                    String fileName = "";
+                    for (int i = 4; i < arguements.length; i++) {
+                        if (i < arguements.length - 1) {
+                            fileName += arguements[i] + " - ";
+                        } else {
+                            fileName += arguements[i];
+                        }
+                    }
+
                     File f = new File(arguements[1] + ".txt");
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
@@ -353,7 +362,7 @@ public class ServerThread extends Thread{
 
                     String line = br.readLine();
                     while (line != null) {
-                        if (line.contains(arguements[2])) {
+                        if (line.contains(arguements[2]) && line.contains(arguements[3])) {
                             allConversation += " -=- " + arguements[3];
                         } else {
                             allConversation += line + " -=- ";
