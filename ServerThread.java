@@ -364,7 +364,9 @@ public class ServerThread extends Thread{
                     while (line != null) {
                         String[] parts = line.split(" - ");
 
-                        if (!parts[0].equals(arguements[2]) && parts.length > 1 && parts[1].equals(arguements[1])) {
+                        if (parts[0].equals(arguements[2]) && parts.length > 1 && parts[1].equals(arguements[1])) {
+
+                        } else {
                             allConversation += line + " -=- ";
                         }
 
