@@ -57,13 +57,12 @@ public class Client extends JFrame {
 
     //message board
     private static JButton delete;
-    private static JButton back;
+    private static JButton deleteConvo;
     private static JTextField deleteMessage;
     private static JButton send;
 
     private static JTextField composeMessage;
     public static Socket socket;
-    //static ArrayList<String> chats = new ArrayList<>();
     static UserAccount currentUser;
     static JPanel chatter;
     static Container content;
@@ -224,8 +223,8 @@ public class Client extends JFrame {
                 composeMessage = new JTextField(20);
                 top = new JPanel();
                 bottom = new JPanel();
-                back = new JButton("Back");
-                back.addActionListener(actionListener);
+                deleteConversation = new JButton("convo operations");
+                deleteConversation.addActionListener(actionListener);
                 delete = new JButton("Delete");
                 deleteMessage = new JTextField("What message would you like to delete?...");
                 deleteMessage.addMouseListener(new MouseAdapter() {
@@ -251,7 +250,7 @@ public class Client extends JFrame {
                 list.setVisibleRowCount(-1);
                 chatButtonFrame.add(list);
                 JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                top.add(back);
+                top.add(deleteConversation);
                 top.add(delete);
                 top.add(deleteMessage);
                 bottom.add(send);
@@ -374,17 +373,19 @@ public class Client extends JFrame {
                 optionsMenu.setVisible(true);
                 fullFrame.setVisible(false);
             }
-            if(e.getSource() == backButtonToChat) {
+            if (e.getSource() == backButtonToChat) {
                 fullFrame.setVisible(true);
                 optionsMenu.setVisible(false);
             }
             if (e.getSource() == confirmPasswordChange) {
                 changePassword(passwordTextChange.getText());
             }
-            if(e.getSource() == deleteAccount) {
+            if (e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
-
+            if (e.getSource() == deleteConversation) {
+                //deleteConversation(currentFile);
+            }
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() > 0) {
