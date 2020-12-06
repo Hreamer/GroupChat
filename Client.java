@@ -866,14 +866,7 @@ public class Client extends JFrame {
         return loadLine;
 
     }
-
-    public static ArrayList<Conversation> getConvosForRefresh() {
-        return conversations;
-    }
-
-    public static String getCurrentFileTitle() {
-        return currentFileTitle;
-    }
+    
 
     public static void deleteConvo() {
 
