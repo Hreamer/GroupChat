@@ -368,7 +368,7 @@ public class ServerThread extends Thread{
                             allConversation += line + " -=- ";
                         }
 
-                        br.readLine();
+                        line = br.readLine();
                     }
 
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
