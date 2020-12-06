@@ -175,9 +175,6 @@ public class ServerThread extends Thread{
                                 }
                                 line = br.readLine();
                             }
-
-                            line = br.readLine();
-
                         }
                     }
 
