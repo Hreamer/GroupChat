@@ -913,7 +913,7 @@ public class Client extends JFrame {
         }
     }
     public static void deleteMessage(String messageToDelete) {
-        writer.write("deleteText" + " - " + messageToDelete + " - " + currentUser.getUserName() + currentFileTitle);
+        writer.write("deleteText" + " - " + messageToDelete + " - " + currentUser.getUserName() + " - " + currentFileTitle);
         writer.println();
         writer.flush();
 
