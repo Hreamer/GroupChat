@@ -304,6 +304,7 @@ public class Client extends JFrame {
                 middlePanelForConvoLogs.setBackground(Color.blue);
                 middlePanelForConvoLogs.setLayout(new BoxLayout(middlePanelForConvoLogs,BoxLayout.Y_AXIS));
                 deleteConvoSelected = new JButton("Delete conversation selected");
+                deleteConvoSelected.addActionListener(actionListener);
                 middlePanelForConvoLogs.add(deleteConvoSelected);
                 editMessage = new JTextField();
                 confirmEditMessage = new JButton("Confirm edit Message");
@@ -425,7 +426,7 @@ public class Client extends JFrame {
             if(e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
-            if(e.getSource() == deleteConversation) {
+            if(e.getSource() == deleteConvoSelected) {
                 deleteConvo();
             }
 
@@ -806,7 +807,7 @@ public class Client extends JFrame {
     }
     public static void deleteConvo() {
 
-            writer.write("deleteConversation" + " - " + currentUser.getUserName() + " - " + currentFile);
+            writer.write("deleteConversation" + " - " + currentUser.getUserName() + " - " + currentFileTitle);
             writer.println();
             writer.flush();
 
