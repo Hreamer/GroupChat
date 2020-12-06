@@ -311,11 +311,12 @@ public class Client extends JFrame {
                 editMessage = new JTextField("Put the text you want to edit here");
                 newEditedMessage = new JTextField("Put you edited message here");
                 confirmEditMessage = new JButton("Confirm edit Message");
-                editMessage.setMaximumSize(new Dimension(500, 100));
-                newEditedMessage.setMaximumSize(new Dimension(500, 100));
+                editMessage.setMaximumSize(new Dimension(150, 50));
+                newEditedMessage.setMaximumSize(new Dimension(150, 50));
 
                 deleteMessage = new JTextField("Message to delete");
-                deleteMessage.setMaximumSize(new Dimension(500, 100));
+                deleteMessage.setMaximumSize(new Dimension(150, 50));
+                deleteMessage.setFont(new Font(null, 0, 15));
                 confirmMessageDeletion = new JButton("Confirm Message to delete");
                 middlePanelForConvoLogs.add(editMessage);
                 middlePanelForConvoLogs.add(newEditedMessage);
@@ -442,7 +443,14 @@ public class Client extends JFrame {
             if(e.getSource() == deleteConvoSelected) {
                 deleteConvo();
             }
-
+            if (e.getSource() == confirmEditMessage) {
+                if (editMessage.getText().equals("Put the text you want to edit here") || newEditedMessage.getText().equals("Put you edited message here")) {
+                    JOptionPane.showMessageDialog(null, "Please enter a value in both fields", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    editMessage(editMessage.getText(), newEditedMessage.getText());
+                }
+            }
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() > 0) {
@@ -844,6 +852,12 @@ public class Client extends JFrame {
             writer.println();
             writer.flush();
 
+    }
+    public static void editMessage(String messageToEdit, String newMessage) {
+        //editText - conversationTitle - originalText - newText - userEditing
+        writer.write("editText" + " - " + currentFileTitle + " - " + messageToEdit + " - " + newMessage + currentUser);
+        writer.println();
+        writer.flush();
     }
 
 }
