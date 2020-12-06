@@ -239,9 +239,9 @@ public class Client extends JFrame {
                 bottom = new JPanel();
                 enterOptionsFrameForMessages = new JButton("Message Options");
                 enterOptionsFrameForMessages.addActionListener(actionListener);
-                delete = new JButton("Delete");
-                deleteMessage = new JTextField("What message would you like to delete?...");
-
+                //delete = new JButton("Delete");
+                //deleteMessage = new JTextField("What message would you like to delete?...");
+                /**
                 deleteMessage.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         if (deleteMessage.getText().equals("What message would you like to delete?...")) {
@@ -249,7 +249,7 @@ public class Client extends JFrame {
                         }
                     }
                 });
-
+                **/
                 send = new JButton("Send");
                 send.addActionListener(actionListener);
                 newConvo = new JButton("+");
@@ -268,8 +268,8 @@ public class Client extends JFrame {
                 chatButtonFrame.add(list);
                 JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
                 top.add(enterOptionsFrameForMessages);
-                top.add(delete);
-                top.add(deleteMessage);
+                //top.add(delete);
+                //top.add(deleteMessage);
                 bottom.add(send);
                 bottom.add(composeMessage);
 
