@@ -336,6 +336,7 @@ public class Client extends JFrame {
                 editMessage = new JTextField("Put the text you want to edit here");
                 newEditedMessage = new JTextField("Put you edited message here");
                 confirmEditMessage = new JButton("Confirm edit Message");
+                confirmEditMessage.addActionListener(actionListener);
                 editMessage.setMaximumSize(new Dimension(500, 100));
                 newEditedMessage.setMaximumSize(new Dimension(500, 100));
 
@@ -884,7 +885,8 @@ public class Client extends JFrame {
 
     public static void editMessage(String messageToEdit, String newMessage) {
         //editText - conversationTitle - originalText - newText - userEditing
-        writer.write("editText" + " - " + currentFile + " - " + messageToEdit + " - " + newMessage + " - "+ currentUser);
+
+        writer.write("editText" + " - " + currentFile + " - " + messageToEdit + " - " + newMessage + " - " + currentUser);
         writer.println();
         writer.flush();
         try {
