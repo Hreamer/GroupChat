@@ -153,21 +153,41 @@ public class ServerThread extends Thread{
 
                                 //looping through each name against the other names
                                 for (int i = 0; i < names.length; i++) {
+                                    //if the name of the user is in the file name than we look to see if its deleted
                                     if (names[i].equals(arguements[1])) {
-                                        toClient += parts[0] + ", ";
-                                    }
-                                }
+                                        //checking to see if the user has deleted the conversation
+                                        File f2 = new File(line);
+                                        FileReader fr2 = new FileReader(f2);
+                                        BufferedReader br2 = new BufferedReader(fr2);
 
+                                        //grabbing first line of conversation file
+                                        String usersNotDeleted = br2.readLine();
+                                        boolean deleted = false;
+
+                                        //if the line contains the username we add
+                                        if (usersNotDeleted.contains(arguements[1])) {
+                                            toClient += parts[0] + ", ";
+                                        }
+
+                                        fr2.close();
+                                        br2.close();
+                                    }
+
+                                }
                                 line = br.readLine();
                             }
-                        }
 
-                        System.out.println("Client was sent data: " + toClient);
-                        writer.write(toClient);
-                        writer.println();
-                        writer.flush(); //ensuring it sends to the client
+                            line = br.readLine();
+
+                        }
                     }
+
+                    System.out.println("Client was sent data: " + toClient);
+                    writer.write(toClient);
+                    writer.println();
+                    writer.flush(); //ensuring it sends to the client
                 }
+
 
                 //startConversation - user - user - user - ...
                 else if (arguements[0].equals("startConversation")) {
@@ -296,19 +316,23 @@ public class ServerThread extends Thread{
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
 
-                        allConversations += "Conversation --- "  + convoName + " -=- ";
+                        String transcript = br.readLine();
 
-                        String transcript = br1.readLine();
-                        transcript = br1.readLine();
-                        while(transcript != null) {
-                            allConversations += transcript + " -=- ";
+                        //if user deleted the conversation than we dont add the conversation to the list
+                        if(transcript.contains(arguements[1])) {
+                            allConversations += "Conversation --- " + convoName + " -=- ";
 
                             transcript = br1.readLine();
-                        }
-                        allConversations += "end -=- ";
+                            while (transcript != null) {
+                                allConversations += transcript + " -=- ";
 
-                        fr1.close();
-                        br1.close();
+                                transcript = br1.readLine();
+                            }
+                            allConversations += "end -=- ";
+
+                            fr1.close();
+                            br1.close();
+                        }
                     }
 
                     writer.write(allConversations);
