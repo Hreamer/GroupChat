@@ -601,6 +601,7 @@ public class Client extends JFrame {
                         conversations.add(n);
                         model.addElement(n.getTitle());
                     }
+                    found = false;
                 }
             }
 
