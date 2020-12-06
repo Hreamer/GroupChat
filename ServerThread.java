@@ -360,7 +360,16 @@ public class ServerThread extends Thread{
 
                 //deleteConversation - userWhoIsDeleting - conversation name
                 else if (arguements[0].equals("deleteConversation")) {
-                    File f = new File(arguements[2] + ".txt");
+                    String fileName = "";
+                    for (int i = 2; i < arguements.length; i++) {
+                        if (i < arguements.length - 1) {
+                            fileName += arguements[i] + " - ";
+                        } else {
+                            fileName += arguements[i];
+                        }
+                    }
+
+                    File f = new File(fileName + ".txt");
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
 
