@@ -91,7 +91,9 @@ public class Client extends JFrame {
     private static PrintWriter writer;
     static String currentFileTitle;
 
-    private static Timer timer;
+    private static Timer timerList;
+    private static Timer chatTimer;
+    private static String currentFile;
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         socket = new Socket(hostname, portNumber);
@@ -208,9 +210,9 @@ public class Client extends JFrame {
                 signUpFrame.setVisible(false);
 
                 conversations = new ArrayList<Conversation>();
-                Daemon textAreaRefresh = new Daemon();
-                textAreaRefresh.setDaemon(true);
-                textAreaRefresh.start();
+                //Daemon textAreaRefresh = new Daemon();
+                //textAreaRefresh.setDaemon(true);
+                //textAreaRefresh.start();
                 fullFrame = new JFrame("Messages");
                 fullFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 fullFrame.setSize(500, 500);
@@ -268,7 +270,8 @@ public class Client extends JFrame {
                 splitPane.setRightComponent(chatter);
                 splitPane.setLeftComponent(chatButtonFrame);
                 fullFrame.add(splitPane);
-                timer = new Timer(3000, aL);
+                timerList = new Timer(3000, aLList);
+                chatTimer = new Timer(2000, aLChat);
                 //fullFrame.setVisible(true);
 
 
@@ -324,12 +327,21 @@ public class Client extends JFrame {
 
     }
 
-    static ActionListener aL = new ActionListener() {
+    static ActionListener aLList = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             updateJList();
         }
     };
+
+    static ActionListener aLChat = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            currentFileTitle = currentFile;
+            textArea.setText(getConversation(currentFileTitle));
+        }
+    };
+
 
     static ActionListener actionListener = new ActionListener() {
         @Override
@@ -377,9 +389,11 @@ public class Client extends JFrame {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() > 0) {
                         String selectedItem = (String) list.getSelectedValue();
+                        currentFile = selectedItem;
                         currentFileTitle = selectedItem;
                         System.out.println("currentFileTitle " + currentFileTitle);
-                        textArea.setText(getConversation(selectedItem));
+                        textArea.setText(getConversation(currentFileTitle));
+                        chatTimer.start();
                     }
                 }
             };
@@ -410,7 +424,6 @@ public class Client extends JFrame {
 
     public static void getValidAccount(String username, String pass) throws UnknownHostException, IOException {
         try {
-
             String stringReturned = "Login - " + username + " - " + pass;
             writer.write(stringReturned);
             writer.println();
@@ -424,7 +437,7 @@ public class Client extends JFrame {
                 currentUser = new UserAccount(username, pass);
                 initJList(username);
                 fullFrame.setVisible(true);
-                timer.start();
+                timerList.start();
             } else {
                 JOptionPane.showMessageDialog(null, "Your username or password was incorrect.",
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -601,13 +614,13 @@ public class Client extends JFrame {
                         conversations.add(n);
                         model.addElement(n.getTitle());
                     }
+                    found = false;
                 }
             }
 
         } catch (IOException ie) {
             ie.printStackTrace();
         }
-
         client.repaint();
 
     }
@@ -723,6 +736,7 @@ public class Client extends JFrame {
                 }
             }
 
+            loadLine = "";
             //for loop that loads everything that shows up in the textArea to String loadLine
             if (indexOfConvoBeginning != -1 && indexOfConvoEnd != -1) {
                 for (int i = indexOfConvoBeginning + 1; i < indexOfConvoEnd; i++) {
@@ -740,8 +754,12 @@ public class Client extends JFrame {
 
     }
     public static ArrayList<Conversation> getConvosForRefresh() {
-
         return conversations;
     }
+
+    public static String getCurrentFileTitle() {
+        return currentFileTitle;
+    }
+
 
 }
