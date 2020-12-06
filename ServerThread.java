@@ -370,6 +370,10 @@ public class ServerThread extends Thread{
                         }
                     }
 
+                    writer.write("Message edited");
+                    writer.println();
+                    writer.flush(); // Ensure data is sent to the client.
+
                     fr.close();
                     br.close();
                 }
