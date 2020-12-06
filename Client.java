@@ -33,14 +33,14 @@ public class Client extends JFrame {
     static JPanel myTopPanel;
     static JPanel myMiddlePanel;
     static JPanel myBottomPanel;
-    //frame for
+    //frame for editing messages
     static JFrame optionsForConvoLogs;
     static JPanel topPanelForConvoLogs;
     static JPanel middlePanelForConvoLogs;
     static JPanel bottomPanelForConvoLogs;
     static JButton deleteConvoSelected;
     static JTextField editMessage;
-
+    static JTextField newEditedMessage;
     static JButton confirmEditMessage;
     static JTextField deleteMessageField;
     static JButton confirmMessageDeletion;
@@ -299,20 +299,32 @@ public class Client extends JFrame {
                 optionsForConvoLogs.setSize(300,300);
 
                 topPanelForConvoLogs = new JPanel();
+                bottomPanelForConvoLogs = new JPanel();
                 topPanelForConvoLogs.setBackground(Color.blue);
                 optionsForConvoLogs.add(topPanelForConvoLogs, BorderLayout.NORTH);
                 middlePanelForConvoLogs = new JPanel();
                 middlePanelForConvoLogs.setBackground(Color.blue);
                 middlePanelForConvoLogs.setLayout(new BoxLayout(middlePanelForConvoLogs,BoxLayout.Y_AXIS));
-                deleteConvoSelected = new JButton("Delete conversation selected");
+                deleteConvoSelected = new JButton("Delete this conversation");
                 deleteConvoSelected.addActionListener(actionListener);
                 middlePanelForConvoLogs.add(deleteConvoSelected);
-                editMessage = new JTextField();
+                editMessage = new JTextField("Put the text you want to edit here");
+                newEditedMessage = new JTextField("Put you edited message here");
                 confirmEditMessage = new JButton("Confirm edit Message");
-                editMessage.setMaximumSize(new Dimension(150, 40));
+                editMessage.setMaximumSize(new Dimension(150, 50));
+                newEditedMessage.setMaximumSize(new Dimension(150, 50));
+
+                deleteMessage = new JTextField("Message to delete");
+                deleteMessage.setMaximumSize(new Dimension(150, 50));
+                confirmMessageDeletion = new JButton("Confirm Message to delete");
                 middlePanelForConvoLogs.add(editMessage);
+                middlePanelForConvoLogs.add(newEditedMessage);
+                middlePanelForConvoLogs.add(confirmEditMessage);
+                bottomPanelForConvoLogs.add(confirmMessageDeletion);
+                middlePanelForConvoLogs.add(deleteMessage);
+
                 optionsForConvoLogs.add(middlePanelForConvoLogs, BorderLayout.CENTER);
-                bottomPanelForConvoLogs = new JPanel();
+
                 optionsForConvoLogs.add(bottomPanelForConvoLogs, BorderLayout.SOUTH);
 
                 //options menu config
