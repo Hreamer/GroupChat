@@ -362,11 +362,14 @@ public class ServerThread extends Thread{
 
                     String line = br.readLine();
                     while (line != null) {
-                        if (line.contains(arguements[2]) && line.contains(arguements[3])) {
+                        String[] parts = line.split(" - ");
+
+                        if (parts[0].equals(arguements[3]) && parts[1].equals(arguements[1])) {
                             allConversation += " -=- " + arguements[3];
                         } else {
-                            allConversation += line + " -=- ";
+                            allConversation += " -=- " + line;
                         }
+
 
                         line = br.readLine();
                     }
