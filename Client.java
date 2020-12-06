@@ -485,6 +485,15 @@ public class Client extends JFrame {
                     newEditedMessage.setText("Put you edited message here");
                 }
             }
+            if (e.getSource() == confirmMessageDeletion) {
+                if (deleteMessage.getText().equals("Put the text you want to edit here")) {
+                    if (deleteMessage.getText() != null || !deleteMessage.getText().equals("")) {
+                        JOptionPane.showMessageDialog(null, "Please enter a value in the field", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    deleteMessage(deleteMessage.getText());
+                }
+            }
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() > 0) {
@@ -904,5 +913,24 @@ public class Client extends JFrame {
             io.printStackTrace();
         }
     }
+    public static void deleteMessage(String messageToDelete) {
+        writer.write("deleteText" + " - " + messageToDelete + " - " + currentUser.getUserName() + currentFileTitle);
+        writer.println();
+        writer.flush();
 
+        try {
+            String response = reader.readLine();
+
+            if (response.equals("Message deleted")) {
+                JOptionPane.showMessageDialog(null, "Message deleted successfully!"
+                        , "Success", JOptionPane.OK_OPTION);
+            } else {
+                JOptionPane.showMessageDialog(null, "Your message doesn't exist! Please try again"
+                        , "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+
+    }
 }

@@ -343,6 +343,50 @@ public class ServerThread extends Thread{
                     writer.flush(); // Ensure data is sent to the client.
                 }
 
+                //deleteText - originalText - userEditing - conversationTitle
+                else if(arguements[0].equals("deleteText")) {
+                    String fileName = "";
+                    for (int i = 3; i < arguements.length; i++) {
+                        if (i < arguements.length - 1) {
+                            fileName += arguements[i] + " - ";
+                        } else {
+                            fileName += arguements[i];
+                        }
+                    }
+
+                    File f = new File(fileName + ".txt");
+                    FileReader fr = new FileReader(f);
+                    BufferedReader br = new BufferedReader(fr);
+
+                    String allConversation = "";
+
+                    String line = br.readLine();
+                    while (line != null) {
+                        String[] parts = line.split(" - ");
+
+                        if (!parts[0].equals(arguements[2]) && parts[1].equals(arguements[1])) {
+                            allConversation += line + " -=- ";
+                        }
+
+                        br.readLine();
+                    }
+
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
+                        String[] parts2 = allConversation.split(" -=- ");
+
+                        for (int i = 0; i < parts2.length; i++) {
+                            pw.println(parts2[i]);
+                        }
+                    }
+
+                    writer.write("Message deleted");
+                    writer.println();
+                    writer.flush(); // Ensure data is sent to the client.
+
+                    fr.close();
+                    br.close();
+                }
+
                 //editText - originalText - newText - userEditing - conversationTitle
                 else if (arguements[0].equals("editText")) {
                     String fileName = "";
