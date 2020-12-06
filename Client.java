@@ -879,7 +879,8 @@ public class Client extends JFrame {
     public static void editMessage(String messageToEdit, String newMessage) {
         //editText - conversationTitle - originalText - newText - userEditing
 
-        writer.write("editText" + " - " + currentFile + " - " + messageToEdit + " - " + newMessage + " - " + currentUser);
+        writer.write("editText" + " - " + messageToEdit + " - " + newMessage + " - " + currentUser.getUserName() + " - " + currentFileTitle);
+        System.out.println("editText" + " - " + messageToEdit + " - " + newMessage + " - " + currentUser.getUserName() + " - " + currentFileTitle);
         writer.println();
         writer.flush();
         try {
