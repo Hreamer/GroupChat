@@ -311,11 +311,11 @@ public class Client extends JFrame {
                 editMessage = new JTextField("Put the text you want to edit here");
                 newEditedMessage = new JTextField("Put you edited message here");
                 confirmEditMessage = new JButton("Confirm edit Message");
-                editMessage.setMaximumSize(new Dimension(150, 50));
-                newEditedMessage.setMaximumSize(new Dimension(150, 50));
+                editMessage.setMaximumSize(new Dimension(500, 100));
+                newEditedMessage.setMaximumSize(new Dimension(500, 100));
 
                 deleteMessage = new JTextField("Message to delete");
-                deleteMessage.setMaximumSize(new Dimension(150, 50));
+                deleteMessage.setMaximumSize(new Dimension(500, 100));
                 deleteMessage.setFont(new Font(null, 0, 15));
                 confirmMessageDeletion = new JButton("Confirm Message to delete");
                 confirmMessageDeletion.addActionListener(actionListener);
