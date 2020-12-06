@@ -266,15 +266,6 @@ public class Client extends JFrame {
                 enterOptionsFrameForMessages.addActionListener(actionListener);
                 //delete = new JButton("Delete");
                 //deleteMessage = new JTextField("What message would you like to delete?...");
-                /**
-                deleteMessage.addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
-                        if (deleteMessage.getText().equals("What message would you like to delete?...")) {
-                            deleteMessage.setText("");
-                        }
-                    }
-                });
-                **/
                 send = new JButton("Send");
                 send.addActionListener(actionListener);
                 newConvo = new JButton("+");
@@ -334,7 +325,21 @@ public class Client extends JFrame {
                 deleteConvoSelected.addActionListener(actionListener);
                 middlePanelForConvoLogs.add(deleteConvoSelected);
                 editMessage = new JTextField("Put the text you want to edit here");
+                editMessage.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (editMessage.getText().equals("Put the text you want to edit here")) {
+                            editMessage.setText("");
+                        }
+                    }
+                });
                 newEditedMessage = new JTextField("Put you edited message here");
+                newEditedMessage.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (newEditedMessage.getText().equals("Put you edited message here")) {
+                            newEditedMessage.setText("");
+                        }
+                    }
+                });
                 confirmEditMessage = new JButton("Confirm edit Message");
                 confirmEditMessage.addActionListener(actionListener);
                 editMessage.setMaximumSize(new Dimension(500, 100));
@@ -476,6 +481,8 @@ public class Client extends JFrame {
                     }
                 } else {
                     editMessage(editMessage.getText(), newEditedMessage.getText());
+                    editMessage.setText("Put the text you want to edit here");
+                    newEditedMessage.setText("Put you edited message here");
                 }
             }
             MouseListener mouseListener = new MouseAdapter() {
