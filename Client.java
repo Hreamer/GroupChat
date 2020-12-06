@@ -699,7 +699,7 @@ public class Client extends JFrame {
             if (!conversationsNonSplit.equals("No conversations in file")) {
                 //Here we are checking to see if the split contains what the conversation does not
                 //meaning it needs to be added
-                if (conversations.size() < split.length - 1) {
+                if (conversations.size() <= split.length - 1) {
                     for (int i = 0; i < split.length; i++) {
                         for (int j = 0; j < conversations.size(); j++) {
                             if (conversations.get(j).getFilename().equals(split[i] + ".txt")) {
