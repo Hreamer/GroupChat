@@ -138,6 +138,7 @@ public class ServerThread extends Thread{
                     String toClient = "";
 
                     if (f.length() == 0) {
+                        System.out.println("Client was sent data: No conversations in file");
                         writer.write("No conversations in file");
                         writer.println();
                         writer.flush(); //ensure the client gets the data
@@ -176,12 +177,11 @@ public class ServerThread extends Thread{
                                 line = br.readLine();
                             }
                         }
+                        System.out.println("Client was sent data: " + toClient);
+                        writer.write(toClient);
+                        writer.println();
+                        writer.flush(); //ensuring it sends to the client
                     }
-
-                    System.out.println("Client was sent data: " + toClient);
-                    writer.write(toClient);
-                    writer.println();
-                    writer.flush(); //ensuring it sends to the client
                 }
 
 
