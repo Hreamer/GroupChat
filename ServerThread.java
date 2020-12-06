@@ -354,7 +354,7 @@ public class ServerThread extends Thread{
                         }
                     }
 
-                    File f = new File(arguements[1] + ".txt");
+                    File f = new File(fileName + ".txt");
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
 
