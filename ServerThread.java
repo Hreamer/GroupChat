@@ -353,12 +353,21 @@ public class ServerThread extends Thread{
 
                     String line = br.readLine();
                     while (line != null) {
+                        if (line.contains(arguements[2])) {
+                            allConversation += " -=- " + arguements[3];
+                        } else {
+                            allConversation += line + " -=- ";
+                        }
 
                         line = br.readLine();
                     }
 
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
                         String[] parts2 = allConversation.split(" -=- ");
+
+                        for (String messages: parts2) {
+                            pw.println(messages);
+                        }
                     }
 
                     fr.close();
