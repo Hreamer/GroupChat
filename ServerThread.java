@@ -162,7 +162,6 @@ public class ServerThread extends Thread{
 
                                         //grabbing first line of conversation file
                                         String usersNotDeleted = br2.readLine();
-                                        boolean deleted = false;
 
                                         //if the line contains the username we add
                                         if (usersNotDeleted.contains(arguements[1])) {
