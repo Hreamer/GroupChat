@@ -295,7 +295,6 @@ public class ServerThread extends Thread{
 
                         for (int i = 0; i < noDot.length; i++) {
                             if(noDot[i].equals(user)) {
-                                System.out.println("conversation " + conversation);
                                 conversationList.add(parts[0]);
                             }
                         }
@@ -311,6 +310,7 @@ public class ServerThread extends Thread{
                         File f1 = new File(name);
                         FileReader fr1 = new FileReader(f1);
                         BufferedReader br1 = new BufferedReader(fr1);
+                        boolean streamsClosed = false;
 
                         String transcript = br1.readLine();
 
@@ -328,9 +328,16 @@ public class ServerThread extends Thread{
 
                             fr1.close();
                             br1.close();
+                            streamsClosed = true;
+                        }
+
+                        if(!streamsClosed) {
+                            fr1.close();
+                            br1.close();
                         }
                     }
 
+                    System.out.println("Client was sent data: " + allConversations);
                     writer.write(allConversations);
                     writer.println();
                     writer.flush(); // Ensure data is sent to the client.

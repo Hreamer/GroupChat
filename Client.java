@@ -16,6 +16,7 @@ import java.net.*;
 import java.nio.Buffer;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Client extends JFrame {
@@ -646,20 +647,40 @@ public class Client extends JFrame {
             String conversationsNonSplit = reader.readLine();
             //compare filenames with the what is sent from getAllConversationsInvolved
             String[] split = conversationsNonSplit.split(", ");
+            System.out.println(split.length + " ::: " + conversations.size());
             boolean found = false;
             if(!conversationsNonSplit.equals("No conversations in file")) {
-                for (int i = 0; i < split.length; i++) {
-                    for (int j = 0; j < conversations.size(); j++) {
-                        if (conversations.get(j).getFilename().equals(split[i] + ".txt")) {
-                            found = true;
+                //Here we are checking to see if the split contains what the conversation does not
+                //meaning it needs to be added
+                if (conversations.size() < split.length - 1) {
+                    for (int i = 0; i < split.length; i++) {
+                        for (int j = 0; j < conversations.size(); j++) {
+                            if (conversations.get(j).getFilename().equals(split[i] + ".txt")) {
+                                found = true;
+                            }
+                        }
+                        if (!found) {
+                            Conversation n = createConversationObject(split[i], split[i] + ".txt");
+                            conversations.add(n);
+                            model.addElement(n.getTitle());
+                        }
+                        found = false;
+                    }
+                }
+
+                //removing element if the conversation file contains what the split doesn't meaning it needs
+                //to be deleted
+                if (conversations.size() > split.length - 1)  {
+                    for (int i = 0; i < conversations.size(); i++) {
+                        String fileName = conversations.get(i).getFilename();
+                        fileName = fileName.substring(0,fileName.length() - 4);
+                        System.out.println(fileName);
+                        if (!Arrays.asList(split).contains(fileName)) {
+                            System.out.println("got this far");
+                            model.removeElement(conversations.get(i).getTitle());
+                            conversations.remove(conversations.get(i));
                         }
                     }
-                    if (!found) {
-                        Conversation n = createConversationObject(split[i], split[i] + ".txt");
-                        conversations.add(n);
-                        model.addElement(n.getTitle());
-                    }
-                    found = false;
                 }
             }
 
