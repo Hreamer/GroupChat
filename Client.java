@@ -425,6 +425,9 @@ public class Client extends JFrame {
             if(e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
+            if(e.getSource() == deleteConversation) {
+                deleteConvo();
+            }
 
             MouseListener mouseListener = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
@@ -801,6 +804,12 @@ public class Client extends JFrame {
     public static String getCurrentFileTitle() {
         return currentFileTitle;
     }
+    public static void deleteConvo() {
 
+            writer.write("deleteConversation" + " - " + currentUser.getUserName() + " - " + currentFile);
+            writer.println();
+            writer.flush();
+
+    }
 
 }
