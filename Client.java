@@ -318,6 +318,7 @@ public class Client extends JFrame {
                 deleteMessage.setMaximumSize(new Dimension(150, 50));
                 deleteMessage.setFont(new Font(null, 0, 15));
                 confirmMessageDeletion = new JButton("Confirm Message to delete");
+                confirmMessageDeletion.addActionListener(actionListener);
                 middlePanelForConvoLogs.add(editMessage);
                 middlePanelForConvoLogs.add(newEditedMessage);
                 middlePanelForConvoLogs.add(confirmEditMessage);
@@ -371,10 +372,6 @@ public class Client extends JFrame {
 
                 optionsMenu.add(topPanelOptionsMenu, BorderLayout.NORTH);
                 optionsMenu.add(middlePanelForOptions, BorderLayout.CENTER);
-
-
-
-
             }
         });
     }
@@ -425,7 +422,7 @@ public class Client extends JFrame {
                 optionsMenu.setVisible(true);
                 fullFrame.setVisible(false);
             }
-            if(e.getSource() == backButtonToChat) {
+            if (e.getSource() == backButtonToChat) {
                 fullFrame.setVisible(true);
                 optionsMenu.setVisible(false);
             }
@@ -437,15 +434,19 @@ public class Client extends JFrame {
                 changePassword(passwordTextChange.getText());
             }
 
-            if(e.getSource() == deleteAccount) {
+            if (e.getSource() == deleteAccount) {
                 deleteAccount(currentUser.getUserName());
             }
-            if(e.getSource() == deleteConvoSelected) {
+            if (e.getSource() == deleteConvoSelected) {
                 deleteConvo();
             }
             if (e.getSource() == confirmEditMessage) {
-                if (editMessage.getText().equals("Put the text you want to edit here") || newEditedMessage.getText().equals("Put you edited message here")) {
-                    JOptionPane.showMessageDialog(null, "Please enter a value in both fields", "Error", JOptionPane.ERROR_MESSAGE);
+                if (editMessage.getText().equals("Put the text you want to edit here") ||
+                        newEditedMessage.getText().equals("Put you edited message here")) {
+                    if (editMessage.getText() != null || !editMessage.getText().equals("") ||
+                            newEditedMessage.getText() != null || !newEditedMessage.getText().equals("") ) {
+                        JOptionPane.showMessageDialog(null, "Please enter a value in both fields", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else {
                     editMessage(editMessage.getText(), newEditedMessage.getText());
@@ -855,9 +856,17 @@ public class Client extends JFrame {
     }
     public static void editMessage(String messageToEdit, String newMessage) {
         //editText - conversationTitle - originalText - newText - userEditing
-        writer.write("editText" + " - " + currentFileTitle + " - " + messageToEdit + " - " + newMessage + currentUser);
+        writer.write("editText" + " - " + currentFile + " - " + messageToEdit + " - " + newMessage + currentUser);
         writer.println();
         writer.flush();
+        String response = reader.readLine();
+        if (response.equals("Message edited")) {
+            JOptionPane.showMessageDialog(null, "Message changed successfully!"
+                    , "Success", JOptionPane.OK_OPTION);
+        } else {
+            JOptionPane.showMessageDialog(null, "Your message doesn't exist! Please try again"
+                    , "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }
