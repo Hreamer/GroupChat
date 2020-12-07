@@ -1094,7 +1094,7 @@ public class LocalTestCases {
             try {
                 f.createNewFile();
                 serverThread.addUser(username, password);
-                assertEquals(true, serverThread.addUser(username, password));
+                assertEquals(false, serverThread.addUser(username, password));
             } catch (IOException e) {
                 Assert.fail("Ensure that the users.txt file exists");
             }
