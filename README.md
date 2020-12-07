@@ -127,5 +127,3 @@ ServerThread
 Usernames and passwords should not contain spaces in them. An account is needed to access most other functions, which is created from signing up. 
 
 
-
-

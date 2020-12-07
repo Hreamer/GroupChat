@@ -1,8 +1,0 @@
-This is a list of all the items that need to be done. 
-Hudson/Supriya/Steve: 
-1) Server
-Sergio/Lucas:
-1) front end
-  
-
-

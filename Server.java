@@ -1,6 +1,3 @@
-import java.io.*;
-import java.net.*;
-
 public class Server {
     static final int PORT = 6174; //Kaprekar's routine final number
 
@@ -14,3 +11,4 @@ public class Server {
         }
     }
 }
+
