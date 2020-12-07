@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class ServerThread extends Thread {
     private Socket socket;
 
-    // When relaunching server we should open up the files to get the usernames that are active rn, with an arraylist that encompases it.
+    // When relaunching server we should open up the files to get
+    // the usernames that are active rn, with an arraylist that encompases it.
     ArrayList<String> usernames = new ArrayList<String>();
     ArrayList<String> passwords = new ArrayList<String>();
     public final String userFile = "users.txt";
@@ -59,10 +60,8 @@ public class ServerThread extends Thread {
                     writer.println();
                     writer.flush(); // Ensure data is sent to the client.
                     System.out.println("Client was sent data: " + stringToClient);
-                }
-
-                //SignUp - Username - Password
-                else if (arguements[0].equals("SignUp")) {
+                } else if (arguements[0].equals("SignUp")) {
+                    //SignUp - Username - Password
                     if (addUser(arguements[1], arguements[2])) {
                         System.out.println(arguements[1] + " was added to users.txt");
 
@@ -76,10 +75,8 @@ public class ServerThread extends Thread {
                         writer.println();
                         writer.flush(); // Ensure data is sent to the client.
                     }
-                }
-
-                //DeleteUser - username
-                else if (arguements[0].equals("DeleteUser")) {
+                } else if (arguements[0].equals("DeleteUser")) {
+                    //DeleteUser - username
                     File f = new File(userFile);
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
@@ -107,10 +104,8 @@ public class ServerThread extends Thread {
                             pw.println(user);
                         }
                     }
-                }
-
-                //checkValidUser - user
-                else if (arguements[0].equals("checkValidUser")) {
+                } else if (arguements[0].equals("checkValidUser")) {
+                    //checkValidUser - user
                     File f = new File(userFile);
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
@@ -141,10 +136,8 @@ public class ServerThread extends Thread {
 
                     fr.close();
                     br.close();
-                }
-
-                //getAllConversationsInvolved - user
-                else if (arguements[0].equals("getAllConversationsInvolved")) {
+                } else if (arguements[0].equals("getAllConversationsInvolved")) {
+                    //getAllConversationsInvolved - user
                     File f = new File(conversationsFile);
                     String toClient = "";
 
@@ -193,11 +186,8 @@ public class ServerThread extends Thread {
                         writer.println();
                         writer.flush(); //ensuring it sends to the client
                     }
-                }
-
-
-                //startConversation - user - user - user - ...
-                else if (arguements[0].equals("startConversation")) {
+                } else if (arguements[0].equals("startConversation")) {
+                    //startConversation - user - user - user - ...
                     String fileName = "";
                     for (int i = 1; i < arguements.length; i++) {
                         if (i != arguements.length - 1) {
@@ -225,10 +215,8 @@ public class ServerThread extends Thread {
                     try (PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(f2, true)))) {
                         pw2.println(fileName);
                     }
-                }
-
-                //ChangePassword - user - newPassword
-                else if (arguements[0].equals("ChangePassword")) {
+                } else if (arguements[0].equals("ChangePassword")) {
+                    //ChangePassword - user - newPassword
                     //opening user file to read from
                     File f = new File(userFile);
                     FileReader fr = new FileReader(f);
@@ -265,10 +253,8 @@ public class ServerThread extends Thread {
                     writer.write("Password Changed");
                     writer.println();
                     writer.flush(); // Ensure data is sent to the client.
-                }
-
-                //updateConversation - message - userWhoSent - user - user - user - ..."
-                else if (arguements[0].equals("updateConversation")) {
+                } else if (arguements[0].equals("updateConversation")) {
+                    //updateConversation - message - userWhoSent - user - user - user - ..."
                     String fileName = "";
                     for (int i = 3; i < arguements.length; i++) {
                         if (i != arguements.length - 1) {
@@ -285,10 +271,8 @@ public class ServerThread extends Thread {
                         //User who sent - message - deleted by user - ...
                         pw.println(arguements[2] + " - " + arguements[1]);
                     }
-                }
-
-                //allConversations - user
-                else if (arguements[0].equals("allConversations")) {
+                } else if (arguements[0].equals("allConversations")) {
+                    //allConversations - user
                     ArrayList<String> conversationList = new ArrayList<String>();
                     String user = arguements[1];
                     String allConversations = "";
@@ -352,10 +336,8 @@ public class ServerThread extends Thread {
                     writer.write(allConversations);
                     writer.println();
                     writer.flush(); // Ensure data is sent to the client.
-                }
-
-                //deleteText - originalText - userEditing - conversationTitle
-                else if (arguements[0].equals("deleteText")) {
+                } else if (arguements[0].equals("deleteText")) {
+                    //deleteText - originalText - userEditing - conversationTitle
                     String fileName = "";
                     for (int i = 3; i < arguements.length; i++) {
                         if (i < arguements.length - 1) {
@@ -404,10 +386,8 @@ public class ServerThread extends Thread {
                     }
                     fr.close();
                     br.close();
-                }
-
-                //editText - originalText - newText - userEditing - conversationTitle
-                else if (arguements[0].equals("editText")) {
+                } else if (arguements[0].equals("editText")) {
+                    //editText - originalText - newText - userEditing - conversationTitle
                     String fileName = "";
                     for (int i = 4; i < arguements.length; i++) {
                         if (i < arguements.length - 1) {
@@ -459,10 +439,8 @@ public class ServerThread extends Thread {
 
                     fr.close();
                     br.close();
-                }
-
-                //deleteConversation - userWhoIsDeleting - conversation name
-                else if (arguements[0].equals("deleteConversation")) {
+                } else if (arguements[0].equals("deleteConversation")) {
+                    //deleteConversation - userWhoIsDeleting - conversation name
                     String fileName = "";
                     for (int i = 2; i < arguements.length; i++) {
                         if (i < arguements.length - 1) {
