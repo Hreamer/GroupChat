@@ -124,14 +124,15 @@ ServerThread
 
 
 - How to run the program / sequence in which things need to be performed in order to avoid bugs.
-Usernames and passwords should not contain spaces in them. An account is needed to access most other functions, which is created from signing up. Once a chat is deleted, you cannot try to recreate said chat without causing errors. You also cannot create a chat with yourself without causing errors. You cannot edit the coversations.txt file at all or it will cause problems. 
+Usernames and passwords should not contain spaces in them. An account is needed to access most other functions, which is created from signing up. Once a chat is deleted, you cannot try to recreate said chat without causing errors. You also cannot create a chat with yourself without causing errors. You cannot edit the coversations.txt file at all or it will cause problems. Be careful to not do anything to the files manually, this causes the program to think that conversations or users exist when they do not, causing IOErrors. This shouldn't be possible naturally, so it causes errors as the code assumes that everything is being added into the files naturally.
+
 
 - Manual Testing
 As all of our methods involve either JFrames or Socket, we have had to do manual testing to see if everything was working correctly.
 Tests will be listed in this format:
 - (Method Test)
   - Test Details
-
+Note: Be careful to not do anything to the files manually, this causes the program to think that conversations or users exist when they do not, causing IOErrors. This shouldn't be possible naturally, so it causes errors as the code assumes that everything is being added into the files naturally.
 Note: Unless specified specifically, it can be assumed that all tests listed below happen in order, and that the information in the files still remain there
 - "Entering SignUp Menu"
   - Clicked on Signup button from the SignIn menu which brought up the signUp Menu. Successfully entered SignUp Menu.
