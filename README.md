@@ -124,6 +124,41 @@ ServerThread
 
 
 - How to run the program / sequence in which things need to be performed in order to avoid bugs.
-Usernames and passwords should not contain spaces in them. An account is needed to access most other functions, which is created from signing up. 
+Usernames and passwords should not contain spaces in them. An account is needed to access most other functions, which is created from signing up. Once a chat is deleted, you cannot try to recreate said chat without causing errors. You also cannot create a chat with yourself without causing errors. You cannot edit the coversations.txt file at all or it will cause problems. 
+
+- Manual Testing
+As all of our methods involve either JFrames or Socket, we have had to do manual testing to see if everything was working correctly.
+Tests will be listed in this format:
+"More generic testing"
+- Test Details
+(Method Test)
+- 
+
+"Entering SignUp Menu"
+Note: Unless specified specifically, it can be assumed that all tests listed below happen in order, and that the information in the files still remain there
+- Clicked on Signup button from the SignIn menu which brought up the signUp Menu. Successfully entered SignUp Menu.
+  (createAccount) Successful
+- Entered username "Steve" and password "Rong", successfully sent to server and written in file as Steve - Rong
+  (createAccount) failure
+- With the input from the previous test still there, the same username and password is inputted again, but this time the client displays the message "The username you created was taken,please try another one"
+  (getValidAccount) Success
+- Tried using the username "Steve" and password "Rong", login is successful and 
+  (getValidAccount) Failure
+- Tried using the username "Rong" and password "Steve", Client displays message "Your username or password was incorrect"
+// A second client was created here with username "alphahail" and password "test1"
+  (createCo) Success
+- Tried to input the other account "alphahail" on the account Steve, opened up new conversation between the two. Conversation name is in the Conversations.txt file and a new file was created for the conversation. Both sides see a new conversation option with the name of the other account.
+  (createCo) Failure
+- Tried to input account "Rong" for accounts to connect to, failed to open and client displayed "Invalid User"
+  (sendNewMessage) Success
+- Sent a message from alphahail "try 1", shows up on both ends
+  (sendNewMessage) Failure
+- Sent a message from alphahail of 102 words, fails to send and client displays message
+  (changePassword)
+- Changed password for alphahail to test2, password change is visible in the files.
+  (deleteAccount)
+- Deleted account alphahail through the button, account no longer visible in the files.
+
+
 
 
