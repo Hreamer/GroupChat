@@ -1,30 +1,21 @@
-import junit.framework.TestCase;
-import org.junit.Test;
 import org.junit.After;
-
-import java.lang.reflect.Field;
-
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.rules.Timeout;
-
+import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import javax.swing.*;
 import java.io.*;
-
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-import java.lang.reflect.InvocationTargetException;
-import java.util.UUID;
-import java.util.Scanner;
-import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 /**
  * LocalTestCases
  *
@@ -611,12 +602,9 @@ public class LocalTestCases {
          Class<?> actualReturnType;
          int expectedLength = 0;
          Class<?>[] exceptions;
-
-
          String methodName = "writeToFile";
          clazz = ServerThread.class;
          Class<?> expectedReturnType = void.class;
-
          // Attempt to access the class method
          try {
          method = clazz.getDeclaredMethod(methodName, String.class, ArrayList.class);
@@ -625,12 +613,8 @@ public class LocalTestCases {
          " has 2 parameters!");
          return;
          } //end try catch
-
          modifiers = method.getModifiers();
-
          actualReturnType = method.getReturnType();
-
-
          Assert.assertTrue("Ensure that `" + className + "`'s `"
          + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
          Assert.assertEquals("Ensure that `" + className + "`'s `" +
@@ -648,12 +632,9 @@ public class LocalTestCases {
          Class<?> actualReturnType;
          int expectedLength = 0;
          Class<?>[] exceptions;
-
-
          String methodName = "getMembers";
          clazz = ServerThread.class;
          Class<?> expectedReturnType = ArrayList.class;
-
          // Attempt to access the class method
          try {
          method = clazz.getDeclaredMethod(methodName, String.class);
@@ -662,11 +643,8 @@ public class LocalTestCases {
          " has 1 parameters!");
          return;
          } //end try catch
-
          modifiers = method.getModifiers();
-
          actualReturnType = method.getReturnType();
-
          Assert.assertTrue("Ensure that `" + className + "`'s `"
          + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
          Assert.assertEquals("Ensure that `" + className + "`'s `" +
@@ -684,12 +662,9 @@ public class LocalTestCases {
          Class<?> actualReturnType;
          int expectedLength = 0;
          Class<?>[] exceptions;
-
-
          String methodName = "deleteConvo";
          clazz = ServerThread.class;
          Class<?> expectedReturnType = void.class;
-
          // Attempt to access the class method
          try {
          method = clazz.getDeclaredMethod(methodName, String.class, String.class);
@@ -698,12 +673,8 @@ public class LocalTestCases {
          " has 2 parameters!");
          return;
          } //end try catch
-
          modifiers = method.getModifiers();
-
          actualReturnType = method.getReturnType();
-
-
          Assert.assertTrue("Ensure that `" + className + "`'s `"
          + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
          Assert.assertEquals("Ensure that `" + className + "`'s `" +
@@ -713,7 +684,6 @@ public class LocalTestCases {
         //SeverThread method declaration test
         /**
          @Test(timeout = 1000)
-
          public void createConvoDec() {
          Class<?> clazz;
          String className = "ServerThread";
@@ -722,12 +692,9 @@ public class LocalTestCases {
          Class<?> actualReturnType;
          int expectedLength = 1;
          Class<?>[] exceptions;
-
-
          String methodName = "createConvo";
          clazz = ServerThread.class;
          Class<?> expectedReturnType = void.class;
-
          // Attempt to access the class method
          try {
          method = clazz.getDeclaredMethod(methodName, ArrayList.class);
@@ -736,11 +703,8 @@ public class LocalTestCases {
          " has 1 parameters!");
          return;
          } //end try catch
-
          modifiers = method.getModifiers();
-
          actualReturnType = method.getReturnType();
-
          Assert.assertTrue("Ensure that `" + className + "`'s `"
          + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
          Assert.assertEquals("Ensure that `" + className + "`'s `" +
@@ -1089,6 +1053,65 @@ public class LocalTestCases {
             Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName
                     + "` field is `private`!", Modifier.isPrivate(modifiers));
 
+        }
+        @Test(timeout = 1000)
+        public void isValidLoginFalse() {
+            ServerThread serverThread = new ServerThread(new Socket());
+            String username = "aaaa";
+            String password = "aaaa";
+            File f = new File("users.txt");
+            f.delete();
+            try {
+                f.createNewFile();
+                assertEquals("Invalid User", serverThread.isValidLogin(username, password));
+            } catch (IOException e) {
+                Assert.fail("Ensure that the users.txt file exists");
+            }
+        }
+        //please ensure that the users.txt file is empty
+        @Test(timeout = 1000)
+        public void isValidLoginTrue() {
+            ServerThread serverThread = new ServerThread(new Socket());
+            String username = "aaaa";
+            String password = "aaaa";
+            File f = new File("users.txt");
+            f.delete();
+            try {
+                f.createNewFile();
+                serverThread.addUser(username, password);
+                assertEquals("Valid User", serverThread.isValidLogin(username, password));
+            } catch (IOException e) {
+                Assert.fail("Ensure that the users.txt file exists");
+            }
+        }
+        @Test(timeout = 1000)
+        public void addUserFalse(){
+            ServerThread serverThread = new ServerThread(new Socket());
+            String username = "aaaa";
+            String password = "aaaa";
+            File f = new File("users.txt");
+            f.delete();
+            try {
+                f.createNewFile();
+                serverThread.addUser(username, password);
+                assertEquals(true, serverThread.addUser(username, password));
+            } catch (IOException e) {
+                Assert.fail("Ensure that the users.txt file exists");
+            }
+        }
+        @Test(timeout = 1000)
+        public void addUserTrue(){
+            ServerThread serverThread = new ServerThread(new Socket());
+            String username = "aaaa";
+            String password = "aaaa";
+            File f = new File("users.txt");
+            f.delete();
+            try {
+                f.createNewFile();
+                assertEquals(true, serverThread.addUser(username, password));
+            } catch (IOException e) {
+                Assert.fail("Ensure that the users.txt file exists");
+            }
         }
 
     }
