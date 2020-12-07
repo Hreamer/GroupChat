@@ -1,8 +1,0 @@
-Command list from Sign in/ Sign up:
-
-1) Asking if user that is trying to login is valid: Send back "Valid User"
-  - if user is invalid, it doesnt matter what is sent back, just can't be "Valid user"
-2) Asking to create account, if account userName is avalible: Send back "Account Created"
-  - if userName is taken, send back anything.  
-3) When creating a conversation I'll be sending a arraylist of names
-  - send back "Valid Conversation" if ther userAccounts exist 
