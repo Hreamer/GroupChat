@@ -913,7 +913,7 @@ public class Client extends JFrame {
                 JOptionPane.showMessageDialog(null, "Message changed successfully!"
                         , "Success", JOptionPane.OK_OPTION);
             } else {
-                JOptionPane.showMessageDialog(null, "Your message doesn't exist! Please try again"
+                JOptionPane.showMessageDialog(null, "The message you entered either doesn't exist or you don't have permission to edit it."
                         , "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException io) {
@@ -932,7 +932,7 @@ public class Client extends JFrame {
                 JOptionPane.showMessageDialog(null, "Message deleted successfully!"
                         , "Success", JOptionPane.OK_OPTION);
             } else {
-                JOptionPane.showMessageDialog(null, "Your message doesn't exist! Please try again"
+                JOptionPane.showMessageDialog(null, "The message you entered either doesn't exist or you don't have permission to delete it."
                         , "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException io) {
