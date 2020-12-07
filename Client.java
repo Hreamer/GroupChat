@@ -660,7 +660,7 @@ public class Client extends JFrame {
                 System.out.println("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - "
                         + currentFileTitle);
                 writer.write("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - "
-                        + currentFileTitle);//need end of command with title of all users in chat
+                        + currentFileTitle); //need end of command with title of all users in chat
                 writer.println();
                 writer.flush();
             }
@@ -803,7 +803,7 @@ public class Client extends JFrame {
         }
     }
 
-    public static void deleteAccount(String userName) {
+    public static void deleteAccount(String userName1) {
         writer.write("DeleteUser" + " - " + currentUser.getUserName());
         writer.println();
         writer.flush();
