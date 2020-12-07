@@ -1,13 +1,3 @@
-/**
- * Client
- *
- * This is the program the user uses to see and send messages with other clients
- *
- * @author Hudson Reamer, Lucas Mazza, Supriya Dixit, CS 18000
- * @version December 6, 2020
- *
- */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,8 +17,15 @@ import java.nio.Buffer;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-
+/**
+ * Client
+ *
+ * This is the program the user uses to see and send messages with other clients
+ *
+ * @author Hudson Reamer, Lucas Mazza, Supriya Dixit, CS 18000
+ * @version December 6, 2020
+ *
+ */
 public class Client extends JFrame {
     //connect to server
     static String hostname = "localhost";
@@ -530,9 +527,9 @@ public class Client extends JFrame {
         }
     };
 
-    public static void createAccount(String userName, String password) {
+    public static void createAccount(String userName1, String password1) {
         try {
-            String sentToServer = "SignUp - " + userName + " - " + password;
+            String sentToServer = "SignUp - " + userName1 + " - " + password1;
             writer.write(sentToServer);
             writer.println();
             writer.flush();
@@ -551,9 +548,9 @@ public class Client extends JFrame {
         }
     }
 
-    public static void getValidAccount(String username, String pass) throws UnknownHostException, IOException {
+    public static void getValidAccount(String username1, String pass) throws UnknownHostException, IOException {
         try {
-            String stringReturned = "Login - " + username + " - " + pass;
+            String stringReturned = "Login - " + username1 + " - " + pass;
             writer.write(stringReturned);
             writer.println();
             writer.flush();
@@ -563,8 +560,8 @@ public class Client extends JFrame {
                 userName.setText("Username");
                 password.setText("Password");
                 myFrame.setVisible(false);
-                currentUser = new UserAccount(username, pass);
-                initJList(username);
+                currentUser = new UserAccount(username1, pass);
+                initJList(username1);
                 fullFrame.setVisible(true);
                 timerList.start();
             } else {
@@ -680,9 +677,9 @@ public class Client extends JFrame {
         // else send message to server
     }
 
-    private static void initJList(String userName) {
+    private static void initJList(String userName1) {
         try {
-            writer.write("getAllConversationsInvolved - " + userName);
+            writer.write("getAllConversationsInvolved - " + userName1);
             writer.println();
             writer.flush();
             String conversationsNonSplit = reader.readLine();
