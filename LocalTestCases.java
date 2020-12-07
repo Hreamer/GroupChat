@@ -1054,6 +1054,68 @@ public class LocalTestCases {
                     + "` field is `private`!", Modifier.isPrivate(modifiers));
 
         }
+        
+        @Test(timeout = 1000)
+        public void userAccountGetterMethodTests() {
+            ArrayList<Conversation> hey = new ArrayList<>();
+            UserAccount testUser = new UserAccount("Lucas", "testPassword", hey);
+
+            Assert.assertEquals(testUser.getPassword(), "testPassword");
+            Assert.assertEquals(testUser.getUserName(), "Lucas");
+            Assert.assertEquals(testUser.getConversations(), hey);
+            Assert.assertNotEquals(testUser.getPassword(), "testing");
+            Assert.assertNotEquals(testUser.getUserName(), "Charlie");
+        }
+
+        @Test(timeout = 1000)
+        public void userAccountSetterMethodTests() {
+            UserAccount test = new UserAccount("Lucas", "testPassword", null);
+            test.setPassword("hello");
+            test.setUserName("Mike");
+
+            Assert.assertEquals(test.getPassword(), "hello");
+            Assert.assertEquals(test.getUserName(), "Mike");
+            Assert.assertNotEquals(test.getPassword(), "testPassword");
+            Assert.assertNotEquals(test.getUserName(), "Lucas");
+        }
+
+        @Test(timeout = 1000)
+        public void testUserAccountToString() {
+            UserAccount testUser = new UserAccount("Lucas", "testPassword", null);
+            String expected = "UserAccount{" +
+                    "userName='" + testUser.getUserName() + '\'' +
+                    ", password='" + testUser.getPassword() + '\'' +
+                    '}';
+            Assert.assertEquals(expected, testUser.toString());
+            Assert.assertNotEquals(expected,  "UserAccount{" +
+                    "userName='" + testUser.getUserName() + '\'' +
+                    ", password='" + testUser.getPassword() + '\'');
+        }
+
+        @Test(timeout = 1000)
+        public void testConversationGetterMethods() {
+            ArrayList<String> users = new ArrayList<>();
+            Conversation testConvo = new Conversation(users, "testTitle" );
+            JButton testButton = new JButton("testTitle");
+
+            Assert.assertEquals(testConvo.getUsers(), users);
+            Assert.assertEquals(testConvo.getTitle(), "testTitle");
+            Assert.assertEquals(testConvo.getButton(), testButton);
+            Assert.assertNotEquals(testConvo.getUsers(), new ArrayList<>());
+            Assert.assertNotEquals(testConvo.getTitle(), "Help");
+            Assert.assertNotEquals(testConvo.getButton(), new JButton());
+        }
+
+        @Test(timeout = 1000)
+        public void testConversationSetterMethods() {
+            ArrayList<String> users = new ArrayList<>();
+            Conversation testConvo = new Conversation(users, "testTitle" );
+            testConvo.setTitle("Hey");
+
+            Assert.assertEquals(testConvo.getTitle(), "Hey");
+            Assert.assertNotEquals(testConvo.getTitle(), "testTitle");
+
+        }
         @Test(timeout = 1000)
         public void isValidLoginFalse() {
             ServerThread serverThread = new ServerThread(new Socket());
@@ -1068,6 +1130,7 @@ public class LocalTestCases {
                 Assert.fail("Ensure that the users.txt file exists");
             }
         }
+        
         //please ensure that the users.txt file is empty
         @Test(timeout = 1000)
         public void isValidLoginTrue() {
