@@ -1,7 +1,9 @@
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.After;
+
 import java.lang.reflect.Field;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.rules.Timeout;
@@ -21,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.Scanner;
 import java.util.Random;
+
 import static org.junit.Assert.*;
 
 public class LocalTestCases {
@@ -34,6 +37,7 @@ public class LocalTestCases {
             }
         }
     }
+
     public static class TestCase {
         private final PrintStream originalOutput = System.out;
         private final InputStream originalSysin = System.in;
@@ -65,6 +69,7 @@ public class LocalTestCases {
             testIn = new ByteArrayInputStream(str.getBytes());
             System.setIn(testIn);
         }
+
         //server class declaration test
         @Test(timeout = 1000)
         public void ServerClassDecTest() {
@@ -82,10 +87,11 @@ public class LocalTestCases {
 
             superclass = clazz.getSuperclass();
 
-            Assert.assertTrue("Ensure that `"+ className +"` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
 
 
         }
+
         //server port number decleration test
         @Test(timeout = 1000)
         public void portNumberDeclaration() {
@@ -103,7 +109,7 @@ public class LocalTestCases {
             try {
 
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -118,6 +124,7 @@ public class LocalTestCases {
                     + "`'s `" + fieldName + "` field is `final`!", Modifier.isFinal(modifiers));
 
         }
+
         //client.java method tests
         @Test(timeout = 1000)
         public void createAccDec() {
@@ -155,6 +162,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         @Test(timeout = 1000)
         public void getValidAccDec() {
             Class<?> clazz;
@@ -191,6 +199,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         @Test(timeout = 1000)
         public void createCo() {
             Class<?> clazz;
@@ -227,6 +236,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //userAccount method tests
         @Test(timeout = 1000)
         public void connectUsersDec() {
@@ -262,6 +272,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //userAccount method tests
         @Test(timeout = 1000)
         public void checkDec() {
@@ -297,6 +308,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //userAccount method tests
         @Test(timeout = 1000)
         public void serverClientConnectionDec() {
@@ -332,6 +344,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //userAccount method tests
         @Test(timeout = 1000)
         public void sendNewMessageDec() {
@@ -367,6 +380,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //userAccount method tests
         @Test(timeout = 1000)
         public void updateJListDec() {
@@ -402,6 +416,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //userAccount method tests
         @Test(timeout = 1000)
         public void getUserName() {
@@ -437,6 +452,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //serverThread constructor check
         @Test(timeout = 1_000)
         public void serverThreadConstructorDecTest() {
@@ -463,6 +479,7 @@ public class LocalTestCases {
             Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
 
         }
+
         //serverThread method tests
         @Test(timeout = 1000)
         public void serverRunMethodRun() {
@@ -498,6 +515,7 @@ public class LocalTestCases {
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
         }
+
         //serverThread method test
         @Test(timeout = 1000)
         public void isValidLoginDec() {
@@ -537,6 +555,7 @@ public class LocalTestCases {
                     "` method throws 1 exception", expectedLength, exceptions.length);
 
         }
+
         //ServerThread method test
         @Test(timeout = 1000)
         public void addUserDec() {
@@ -575,188 +594,189 @@ public class LocalTestCases {
         }
         //ServerThread method test
         /**
-        @Test(timeout = 1000)
-        public void writeToFileDec() {
-            Class<?> clazz;
-            String className = "ServerThread";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
+         @Test(timeout = 1000)
+         public void writeToFileDec() {
+         Class<?> clazz;
+         String className = "ServerThread";
+         Method method;
+         int modifiers;
+         Class<?> actualReturnType;
+         int expectedLength = 0;
+         Class<?>[] exceptions;
 
 
-            String methodName = "writeToFile";
-            clazz = ServerThread.class;
-            Class<?> expectedReturnType = void.class;
+         String methodName = "writeToFile";
+         clazz = ServerThread.class;
+         Class<?> expectedReturnType = void.class;
 
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, String.class, ArrayList.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has 2 parameters!");
-                return;
-            } //end try catch
+         // Attempt to access the class method
+         try {
+         method = clazz.getDeclaredMethod(methodName, String.class, ArrayList.class);
+         } catch (NoSuchMethodException e) {
+         Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+         " has 2 parameters!");
+         return;
+         } //end try catch
 
-            modifiers = method.getModifiers();
+         modifiers = method.getModifiers();
 
-            actualReturnType = method.getReturnType();
+         actualReturnType = method.getReturnType();
 
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-            Assert.assertEquals("Ensure that `" + className + "`'s `" +
-                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-        }
-        **/
+         Assert.assertTrue("Ensure that `" + className + "`'s `"
+         + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+         Assert.assertEquals("Ensure that `" + className + "`'s `" +
+         methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+         }
+         **/
         //Server thread method test declaration test
         /**
-        @Test(timeout = 1000)
-        public void getMembersDec() {
-            Class<?> clazz;
-            String className = "ServerThread";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
+         @Test(timeout = 1000)
+         public void getMembersDec() {
+         Class<?> clazz;
+         String className = "ServerThread";
+         Method method;
+         int modifiers;
+         Class<?> actualReturnType;
+         int expectedLength = 0;
+         Class<?>[] exceptions;
 
 
-            String methodName = "getMembers";
-            clazz = ServerThread.class;
-            Class<?> expectedReturnType = ArrayList.class;
+         String methodName = "getMembers";
+         clazz = ServerThread.class;
+         Class<?> expectedReturnType = ArrayList.class;
 
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, String.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has 1 parameters!");
-                return;
-            } //end try catch
+         // Attempt to access the class method
+         try {
+         method = clazz.getDeclaredMethod(methodName, String.class);
+         } catch (NoSuchMethodException e) {
+         Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+         " has 1 parameters!");
+         return;
+         } //end try catch
 
-            modifiers = method.getModifiers();
+         modifiers = method.getModifiers();
 
-            actualReturnType = method.getReturnType();
+         actualReturnType = method.getReturnType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-            Assert.assertEquals("Ensure that `" + className + "`'s `" +
-                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-        }
-        **/
+         Assert.assertTrue("Ensure that `" + className + "`'s `"
+         + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+         Assert.assertEquals("Ensure that `" + className + "`'s `" +
+         methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+         }
+         **/
         //ServerThread method declaration test
         /**
-        @Test(timeout = 1000)
-        public void deleteConvoDec() {
-            Class<?> clazz;
-            String className = "ServerThread";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
+         @Test(timeout = 1000)
+         public void deleteConvoDec() {
+         Class<?> clazz;
+         String className = "ServerThread";
+         Method method;
+         int modifiers;
+         Class<?> actualReturnType;
+         int expectedLength = 0;
+         Class<?>[] exceptions;
 
 
-            String methodName = "deleteConvo";
-            clazz = ServerThread.class;
-            Class<?> expectedReturnType = void.class;
+         String methodName = "deleteConvo";
+         clazz = ServerThread.class;
+         Class<?> expectedReturnType = void.class;
 
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, String.class, String.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has 2 parameters!");
-                return;
-            } //end try catch
+         // Attempt to access the class method
+         try {
+         method = clazz.getDeclaredMethod(methodName, String.class, String.class);
+         } catch (NoSuchMethodException e) {
+         Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+         " has 2 parameters!");
+         return;
+         } //end try catch
 
-            modifiers = method.getModifiers();
+         modifiers = method.getModifiers();
 
-            actualReturnType = method.getReturnType();
+         actualReturnType = method.getReturnType();
 
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-            Assert.assertEquals("Ensure that `" + className + "`'s `" +
-                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-        }
-        **/
+         Assert.assertTrue("Ensure that `" + className + "`'s `"
+         + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+         Assert.assertEquals("Ensure that `" + className + "`'s `" +
+         methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+         }
+         **/
         //SeverThread method declaration test
         /**
-        @Test(timeout = 1000)
+         @Test(timeout = 1000)
 
-        public void createConvoDec() {
-            Class<?> clazz;
-            String className = "ServerThread";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 1;
-            Class<?>[] exceptions;
+         public void createConvoDec() {
+         Class<?> clazz;
+         String className = "ServerThread";
+         Method method;
+         int modifiers;
+         Class<?> actualReturnType;
+         int expectedLength = 1;
+         Class<?>[] exceptions;
 
 
-            String methodName = "createConvo";
-            clazz = ServerThread.class;
-            Class<?> expectedReturnType = void.class;
+         String methodName = "createConvo";
+         clazz = ServerThread.class;
+         Class<?> expectedReturnType = void.class;
 
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, ArrayList.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has 1 parameters!");
-                return;
-            } //end try catch
+         // Attempt to access the class method
+         try {
+         method = clazz.getDeclaredMethod(methodName, ArrayList.class);
+         } catch (NoSuchMethodException e) {
+         Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+         " has 1 parameters!");
+         return;
+         } //end try catch
 
-            modifiers = method.getModifiers();
+         modifiers = method.getModifiers();
 
-            actualReturnType = method.getReturnType();
+         actualReturnType = method.getReturnType();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-            Assert.assertEquals("Ensure that `" + className + "`'s `" +
-                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-        }
-        **/
+         Assert.assertTrue("Ensure that `" + className + "`'s `"
+         + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+         Assert.assertEquals("Ensure that `" + className + "`'s `" +
+         methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+         }
+         **/
         //ServerThread method declaration test
+
         /**
-        @Test(timeout = 1000)
-        public void sendMessageDec() {
-            Class<?> clazz;
-            String className = "ServerThread";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 0;
-            Class<?>[] exceptions;
-
-
-            String methodName = "sendMessage";
-            clazz = ServerThread.class;
-            Class<?> expectedReturnType = void.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName, String.class, String.class);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has 2 parameters!");
-                return;
-            } //end try catch
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-            Assert.assertEquals("Ensure that `" + className + "`'s `" +
-                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-        }
-        **/
+         * @Test(timeout = 1000)
+         * public void sendMessageDec() {
+         * Class<?> clazz;
+         * String className = "ServerThread";
+         * Method method;
+         * int modifiers;
+         * Class<?> actualReturnType;
+         * int expectedLength = 0;
+         * Class<?>[] exceptions;
+         * <p>
+         * <p>
+         * String methodName = "sendMessage";
+         * clazz = ServerThread.class;
+         * Class<?> expectedReturnType = void.class;
+         * <p>
+         * // Attempt to access the class method
+         * try {
+         * method = clazz.getDeclaredMethod(methodName, String.class, String.class);
+         * } catch (NoSuchMethodException e) {
+         * Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
+         * " has 2 parameters!");
+         * return;
+         * } //end try catch
+         * <p>
+         * modifiers = method.getModifiers();
+         * <p>
+         * actualReturnType = method.getReturnType();
+         * <p>
+         * <p>
+         * Assert.assertTrue("Ensure that `" + className + "`'s `"
+         * + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
+         * Assert.assertEquals("Ensure that `" + className + "`'s `" +
+         * methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
+         * }
+         **/
         //class tests
         @Test(timeout = 1000)
         public void UserAccountClassDecTest() {
@@ -773,11 +793,12 @@ public class LocalTestCases {
             modifiers = clazz.getModifiers();
 
             superclass = clazz.getSuperclass();
-            Assert.assertTrue("Ensure that `"+ className +"` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `"+ className +"` extends `Object`!", Object.class, superclass);
+            Assert.assertEquals("Ensure that `" + className + "` extends `Object`!", Object.class, superclass);
 
         }
+
         @Test(timeout = 1000)
         public void ClientClassDecTest() {
             Class<?> clazz;
@@ -793,9 +814,9 @@ public class LocalTestCases {
             modifiers = clazz.getModifiers();
 
             superclass = clazz.getSuperclass();
-            Assert.assertTrue("Ensure that `"+ className +"` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `"+ className +"` extends `JFrame`!", JFrame.class, superclass);
+            Assert.assertEquals("Ensure that `" + className + "` extends `JFrame`!", JFrame.class, superclass);
 
         }
 
@@ -815,11 +836,12 @@ public class LocalTestCases {
 
             superclass = clazz.getSuperclass();
 
-            Assert.assertTrue("Ensure that `"+ className +"` is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
 
-            Assert.assertEquals("Ensure that `"+ className +"` extends `Thread`!", Thread.class, superclass);
+            Assert.assertEquals("Ensure that `" + className + "` extends `Thread`!", Thread.class, superclass);
 
         }
+
         //field declaration tests
         @Test(timeout = 1000)
         public void testUserNameDeclaration() {
@@ -837,7 +859,7 @@ public class LocalTestCases {
             try {
 
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -850,6 +872,7 @@ public class LocalTestCases {
             Assert.assertEquals("Ensure that `" +
                     className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
         }
+
         @Test(timeout = 1000)
         public void testPasswordDeclaration() {
             String className = "UserAccount";
@@ -866,7 +889,7 @@ public class LocalTestCases {
             try {
 
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -879,6 +902,7 @@ public class LocalTestCases {
                     + className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
 
         }
+
         @Test(timeout = 1000)
         public void testCoDeclaration() {
             String className = "UserAccount";
@@ -895,7 +919,7 @@ public class LocalTestCases {
             try {
 
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -910,6 +934,7 @@ public class LocalTestCases {
                     className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
 
         }
+
         @Test(timeout = 1000)
         public void testUsersArrDeclaration() {
             String className = "ServerThread";
@@ -926,7 +951,7 @@ public class LocalTestCases {
             try {
 
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -937,6 +962,7 @@ public class LocalTestCases {
                     className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
 
         }
+
         @Test(timeout = 1000)
         public void testPassArrDeclaration() {
             String className = "ServerThread";
@@ -953,7 +979,7 @@ public class LocalTestCases {
             try {
 
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -964,6 +990,7 @@ public class LocalTestCases {
                     className + "`'s `" + fieldName + "` field is the correct type!", expectedType, type);
 
         }
+
         @Test(timeout = 1000)
         public void testfileNameDeclaration() {
             String className = "ServerThread";
@@ -979,7 +1006,7 @@ public class LocalTestCases {
 
             try {
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -994,6 +1021,7 @@ public class LocalTestCases {
                     + "` field is `private`!", Modifier.isFinal(modifiers));
 
         }
+
         @Test(timeout = 1000)
         public void testConversationsFileDeclaration() {
             String className = "ServerThread";
@@ -1009,7 +1037,7 @@ public class LocalTestCases {
 
             try {
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }
@@ -1024,6 +1052,7 @@ public class LocalTestCases {
                     + "` field is `private`!", Modifier.isFinal(modifiers));
 
         }
+
         @Test(timeout = 1000)
         public void testSocketDeclaration() {
             String className = "ServerThread";
@@ -1039,7 +1068,7 @@ public class LocalTestCases {
 
             try {
                 testField = clazz.getDeclaredField(fieldName);
-            }  catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 Assert.fail("Ensure that `" + className + "` declares a field named `" + fieldName + "`!");
                 return;
             }

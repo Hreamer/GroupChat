@@ -277,12 +277,14 @@ public class Client extends JFrame {
                 chatButtonFrame.add(options);
                 model = new DefaultListModel<String>();
                 list = new JList<String>(model);
-                JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                 list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
                 list.setLayoutOrientation(JList.VERTICAL);
                 list.setVisibleRowCount(-1);
                 chatButtonFrame.add(list);
-                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
                 top.add(enterOptionsFrameForMessages);
                 //top.add(delete);
                 //top.add(deleteMessage);
@@ -483,7 +485,8 @@ public class Client extends JFrame {
                         newEditedMessage.getText().equals("Put your edited message here")) {
                     if (editMessage.getText() != null || !editMessage.getText().equals("") ||
                             newEditedMessage.getText() != null || !newEditedMessage.getText().equals("")) {
-                        JOptionPane.showMessageDialog(null, "Please enter a value in both fields", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,
+                                "Please enter a value in both fields", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     editMessage(editMessage.getText(), newEditedMessage.getText());
@@ -494,7 +497,8 @@ public class Client extends JFrame {
             if (e.getSource() == confirmMessageDeletion) {
                 if (deleteMessage.getText().equals("Message to delete")) {
                     if (deleteMessage.getText() != null || !deleteMessage.getText().equals("")) {
-                        JOptionPane.showMessageDialog(null, "Please enter a value in the field", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,
+                                "Please enter a value in the field", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     deleteMessage(deleteMessage.getText());
@@ -573,17 +577,20 @@ public class Client extends JFrame {
         names.add(currentUser.getUserName());
         String title = "";
         do {
-            name = JOptionPane.showInputDialog(null, "Enter the UserAccount", "Create Conversation",
+            name = JOptionPane.showInputDialog(null, "Enter the UserAccount",
+                    "Create Conversation",
                     JOptionPane.QUESTION_MESSAGE);
             if (check(name)) {
                 names.add(name);
                 System.out.println(name + " added");
             } else {
-                JOptionPane.showMessageDialog(null, "Invalid User", "Create Conversation", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Invalid User", "Create Conversation",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             System.out.println("gets to finish");
-            finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?", "Create Conversation", JOptionPane.YES_NO_OPTION);
+            finish = JOptionPane.showConfirmDialog(null, "Would you like add another user?",
+                    "Create Conversation", JOptionPane.YES_NO_OPTION);
         } while (finish == JOptionPane.YES_OPTION);
 
         String line = "";
@@ -604,7 +611,8 @@ public class Client extends JFrame {
 
     }
 
-    private static void connectUsers(ArrayList<String> names) { // this sends the users that are in a conversation in order to connect them all
+    private static void connectUsers(ArrayList<String> names) {
+        // this sends the users that are in a conversation in order to connect them all
         for (int i = 0; i < names.size(); i++) {
             writer.write(names.get(i));
             writer.println();
@@ -631,18 +639,22 @@ public class Client extends JFrame {
 
     public static void sendNewMessage(String message) {
         if (message.equals("")) {
-            JOptionPane.showMessageDialog(null, "Your message is empty, add a value first to send."
+            JOptionPane.showMessageDialog(null,
+                    "Your message is empty, add a value first to send."
                     , "Error", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
             String[] messageWordLimitTest = message.split(" ");
             if (messageWordLimitTest.length > 100) {
-                JOptionPane.showMessageDialog(null, "Your message is " + (messageWordLimitTest.length - 100) + "word(s) too long."
+                JOptionPane.showMessageDialog(null, "Your message is "
+                        + (messageWordLimitTest.length - 100) + "word(s) too long."
                         + "Please shorten it.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 //updateConversation - message - userWhoSent - user - user - user - ..."
-                System.out.println("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - " + currentFileTitle);
-                writer.write("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - " + currentFileTitle);//need end of command with title of all users in chat
+                System.out.println("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - "
+                        + currentFileTitle);
+                writer.write("updateConversation" + " - " + message + " - " + currentUser.getUserName() + " - "
+                        + currentFileTitle);//need end of command with title of all users in chat
                 writer.println();
                 writer.flush();
             }
@@ -669,7 +681,8 @@ public class Client extends JFrame {
             if (conversationsNonSplit != null && !conversationsNonSplit.equals("No conversations in file")) {
                 String[] conversationsSplit = conversationsNonSplit.split(", ");
                 for (int i = 0; i < conversationsSplit.length; i++) {
-                    Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i] + ".txt");
+                    Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i] +
+                            ".txt");
                     conversations.add(n);
                     model.addElement(n.getTitle());
                 }
@@ -697,7 +710,8 @@ public class Client extends JFrame {
                     System.out.println(conversationsSplit[i]);
                     if (conversationTitle.equals(conversationsSplit[i])) {
                         System.out.println("final conversation title " + conversationsSplit[i]);
-                        Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i] + ".txt");
+                        Conversation n = createConversationObject(conversationsSplit[i], conversationsSplit[i]
+                                + ".txt");
                         conversations.add(n);
                         model.addElement(n.getTitle());
                     }
@@ -889,7 +903,7 @@ public class Client extends JFrame {
         return loadLine;
 
     }
-    
+
 
     public static void deleteConvo() {
 
@@ -902,8 +916,10 @@ public class Client extends JFrame {
     public static void editMessage(String messageToEdit, String newMessage) {
         //editText - conversationTitle - originalText - newText - userEditing
 
-        writer.write("editText" + " - " + messageToEdit + " - " + newMessage + " - " + currentUser.getUserName() + " - " + currentFileTitle);
-        System.out.println("editText" + " - " + messageToEdit + " - " + newMessage + " - " + currentUser.getUserName() + " - " + currentFileTitle);
+        writer.write("editText" + " - " + messageToEdit + " - " + newMessage + " - " + currentUser.getUserName()
+                + " - " + currentFileTitle);
+        System.out.println("editText" + " - " + messageToEdit + " - " + newMessage + " - " + currentUser.getUserName()
+                + " - " + currentFileTitle);
         writer.println();
         writer.flush();
         try {
@@ -913,15 +929,18 @@ public class Client extends JFrame {
                 JOptionPane.showMessageDialog(null, "Message changed successfully!"
                         , "Success", JOptionPane.OK_OPTION);
             } else {
-                JOptionPane.showMessageDialog(null, "The message you entered either doesn't exist or you don't have permission to edit it."
+                JOptionPane.showMessageDialog(null,
+                        "The message you entered either doesn't exist or you don't have permission to edit it."
                         , "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException io) {
             io.printStackTrace();
         }
     }
+
     public static void deleteMessage(String messageToDelete) {
-        writer.write("deleteText" + " - " + messageToDelete + " - " + currentUser.getUserName() + " - " + currentFileTitle);
+        writer.write("deleteText" + " - " + messageToDelete + " - " + currentUser.getUserName() + " - " +
+                currentFileTitle);
         writer.println();
         writer.flush();
 
@@ -932,7 +951,8 @@ public class Client extends JFrame {
                 JOptionPane.showMessageDialog(null, "Message deleted successfully!"
                         , "Success", JOptionPane.OK_OPTION);
             } else {
-                JOptionPane.showMessageDialog(null, "The message you entered either doesn't exist or you don't have permission to delete it."
+                JOptionPane.showMessageDialog(null,
+                        "The message you entered either doesn't exist or you don't have permission to delete it."
                         , "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException io) {

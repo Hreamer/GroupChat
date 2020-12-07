@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ServerThread extends Thread{
+public class ServerThread extends Thread {
     private Socket socket;
 
     // When relaunching server we should open up the files to get the usernames that are active rn, with an arraylist that encompases it.
@@ -77,9 +77,9 @@ public class ServerThread extends Thread{
                      * it to a varibale*/
                     String line = br.readLine();
                     String withoutUser = "";
-                    while(line != null) {
+                    while (line != null) {
                         String[] parts = line.split(" - ");
-                        if(!parts[0].equals(arguements[1])) {
+                        if (!parts[0].equals(arguements[1])) {
                             withoutUser += line + ", ";
                         }
                         line = br.readLine();
@@ -99,7 +99,7 @@ public class ServerThread extends Thread{
                 }
 
                 //checkValidUser - user
-                else if(arguements[0].equals("checkValidUser")) {
+                else if (arguements[0].equals("checkValidUser")) {
                     File f = new File(userFile);
                     FileReader fr = new FileReader(f);
                     BufferedReader br = new BufferedReader(fr);
@@ -107,12 +107,12 @@ public class ServerThread extends Thread{
 
                     boolean found = false;
                     String line = br.readLine();
-                    while(line != null) {
+                    while (line != null) {
                         String[] parts = line.split(" - ");
 
                         if (arguements[1].equals(parts[0])) {
                             writer.write("User is Valid " + parts[0]);
-                            System.out.println("User is Valid " + parts[0] );
+                            System.out.println("User is Valid " + parts[0]);
                             writer.println();
                             writer.flush(); // Ensure data is sent to the client.
                             found = true;
@@ -122,7 +122,7 @@ public class ServerThread extends Thread{
                         line = br.readLine();
                     }
 
-                    if(found == false) {
+                    if (found == false) {
                         writer.write("User is Invalid");
                         writer.println();
                         writer.flush(); // Ensure data is sent to the client.
@@ -188,8 +188,8 @@ public class ServerThread extends Thread{
                 //startConversation - user - user - user - ...
                 else if (arguements[0].equals("startConversation")) {
                     String fileName = "";
-                    for(int i = 1; i < arguements.length; i++) {
-                        if (i != arguements.length -1) {
+                    for (int i = 1; i < arguements.length; i++) {
+                        if (i != arguements.length - 1) {
                             fileName += arguements[i] + " - ";
                         } else {
                             fileName += arguements[i];
@@ -232,7 +232,7 @@ public class ServerThread extends Thread{
                     while (line != null) {
                         String[] parts = line.split(" - ");
 
-                        if(parts[0].equals(arguements[1])) {
+                        if (parts[0].equals(arguements[1])) {
                             totalFile += parts[0] + " - " + arguements[2] + "\n";
                         } else {
                             totalFile += line + "\n";
@@ -259,7 +259,7 @@ public class ServerThread extends Thread{
                 //updateConversation - message - userWhoSent - user - user - user - ..."
                 else if (arguements[0].equals("updateConversation")) {
                     String fileName = "";
-                    for(int i = 3; i < arguements.length; i++) {
+                    for (int i = 3; i < arguements.length; i++) {
                         if (i != arguements.length - 1) {
                             fileName += arguements[i] + " - ";
                         } else {
@@ -294,7 +294,7 @@ public class ServerThread extends Thread{
                         String[] noDot = parts[0].split(" - ");
 
                         for (int i = 0; i < noDot.length; i++) {
-                            if(noDot[i].equals(user)) {
+                            if (noDot[i].equals(user)) {
                                 conversationList.add(parts[0]);
                             }
                         }
@@ -305,7 +305,7 @@ public class ServerThread extends Thread{
                     fr.close();
                     br.close();
 
-                    for(String convoName: conversationList) {
+                    for (String convoName : conversationList) {
                         String name = convoName + ".txt";
                         File f1 = new File(name);
                         FileReader fr1 = new FileReader(f1);
@@ -315,7 +315,7 @@ public class ServerThread extends Thread{
                         String transcript = br1.readLine();
 
                         //if user deleted the conversation than we dont add the conversation to the list
-                        if(transcript.contains(arguements[1])) {
+                        if (transcript.contains(arguements[1])) {
                             allConversations += "Conversation --- " + convoName + " -=- ";
 
                             transcript = br1.readLine();
@@ -331,7 +331,7 @@ public class ServerThread extends Thread{
                             streamsClosed = true;
                         }
 
-                        if(!streamsClosed) {
+                        if (!streamsClosed) {
                             fr1.close();
                             br1.close();
                         }
@@ -344,7 +344,7 @@ public class ServerThread extends Thread{
                 }
 
                 //deleteText - originalText - userEditing - conversationTitle
-                else if(arguements[0].equals("deleteText")) {
+                else if (arguements[0].equals("deleteText")) {
                     String fileName = "";
                     for (int i = 3; i < arguements.length; i++) {
                         if (i < arguements.length - 1) {
@@ -418,7 +418,7 @@ public class ServerThread extends Thread{
                         String[] parts = line.split(" - ");
 
                         if (parts[0].equals(arguements[3]) && parts[1].equals(arguements[1])) {
-                            allConversation += arguements[3] + " - "  + arguements[2] + " -=- ";
+                            allConversation += arguements[3] + " - " + arguements[2] + " -=- ";
                             edited = true;
                         } else {
                             allConversation += line + " -=- ";
@@ -440,7 +440,7 @@ public class ServerThread extends Thread{
                         writer.write("Message edited");
                         writer.println();
                         writer.flush(); // Ensure data is sent to the client.
-                    } else if(edited == false) {
+                    } else if (edited == false) {
                         writer.write("Message not edited");
                         writer.println();
                         writer.flush(); // Ensure data is sent to the client.
@@ -475,7 +475,7 @@ public class ServerThread extends Thread{
                             allConversations += users[i] + " - ";
                         }
                     }
-                    allConversations = allConversations.substring(0, allConversations.length()-3);
+                    allConversations = allConversations.substring(0, allConversations.length() - 3);
 
                     allConversations += " -=- ";
 
@@ -488,7 +488,7 @@ public class ServerThread extends Thread{
 
                     try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
                         String[] parts2 = allConversations.split(" -=- ");
-                        for(int i = 0; i < parts2.length; i++) {
+                        for (int i = 0; i < parts2.length; i++) {
                             pw.println(parts2[i]);
                         }
                     }
@@ -509,7 +509,7 @@ public class ServerThread extends Thread{
         BufferedReader br = new BufferedReader(fos);
 
         String user = br.readLine();
-        while(user != null) {
+        while (user != null) {
             String[] userInfo = user.split(" - ");
             if (userInfo[0].equals(userName) && userInfo[1].equals(password)) {
                 fos.close();
@@ -532,7 +532,7 @@ public class ServerThread extends Thread{
         BufferedReader br = new BufferedReader(fos);
 
         String user = br.readLine();
-        while(user != null) {
+        while (user != null) {
             String[] userInfo = user.split(" - ");
             if (userInfo[0].equals(userName)) {
                 fos.close();
@@ -551,83 +551,4 @@ public class ServerThread extends Thread{
         }
         return true;
     }
-
-    /*
-    // Reads the file for account info
-    public void readNameFile(String fileName) {
-        File f = new File(fileName);
-        if (!f.exists()) {
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                //TODO implement the JOptionPane for error messages, "
-            }
-        }
-        try (BufferedReader bfr = new BufferedReader(new FileReader(f))) {
-            String line = bfr.readLine();
-            while (line != null) {
-                String[] currentAccount = line.split(" - ");
-                usernames.add(currentAccount[0]);
-                passwords.add(currentAccount[1]);
-                line = bfr.readLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Main File doesn't currently Exist");
-        }
-    }
-    //Please format the ArrayList to make it so each line is the proper input for the file. If this isn't easy to do let me know @steve
-    //This is to handle most writing into files, since the updating of convos is best done outside of the file and written in. This should add only one line in
-    // and will be used to handle adding new lines into the convo
-    public void writeToFile(String fileName, String input) {
-        File f = new File(fileName);
-        try {
-            f.createNewFile();
-        } catch (IOException e) {
-            //TODO implement the JOptionPane for error messages, "
-        }
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)))) {
-            pw.println(input);
-        } catch (IOException e) {
-            // not sure what to put here
-        }
-    }
-    // this one should be used to rewrite entire files, such as editing out a single message from the list
-    public void writeToFile(String fileName, ArrayList<String> input) {
-        File f = new File(fileName);
-        try {
-            f.delete();
-            f.createNewFile();
-        } catch (IOException e) {
-            //TODO implement the JOptionPane for error messages, "
-        }
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(f))){
-            for (int x = 0; x < input.size(); x++) {
-                pw.println(input.get(0));
-            }
-        } catch (IOException e) {
-        }
-    }
-    //reads the personal convo files, should be input the convo that they requested to access, maybe do a check with the server side to see if it can verify if file exists?
-    public ArrayList<String> getMembers(String convo) {
-        File f = new File(convo);
-        ArrayList<String> messages = new ArrayList<String>();
-        if (!f.exists()) {
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                //TODO implement the JOptionPane for error messages, "
-            }
-        }
-        try (BufferedReader bfr = new BufferedReader(new FileReader(f))) {
-            String line = bfr.readLine();
-            String[] string = line.split(" - ");
-            for (int x = 0; x < string.length; x++) {
-                messages.add(string[x]);
-            }
-        } catch (IOException e) {
-            System.out.println("Convo File doesn't currently Exist");
-            // Change above to joption later
-        }
-        return messages;
-    } */
 }
