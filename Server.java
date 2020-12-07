@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 public class Server {
     static final int PORT = 6174; //Kaprekar's routine final number
 
