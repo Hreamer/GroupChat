@@ -1,13 +1,3 @@
-/**
- * LocalTestCases
- *
- * This is the JUnit tests for our program
- *
- * @author Steve Rong, Lucas Mazza, Sergio Hernandez, CS 18000
- * @version December 6, 2020
- *
- */
-
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.After;
@@ -35,7 +25,15 @@ import java.util.Scanner;
 import java.util.Random;
 
 import static org.junit.Assert.*;
-
+/**
+ * LocalTestCases
+ *
+ * This is the JUnit tests for our program
+ *
+ * @author Steve Rong, Lucas Mazza, Sergio Hernandez, CS 18000
+ * @version December 6, 2020
+ *
+ */
 public class LocalTestCases {
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(TestCase.class);
