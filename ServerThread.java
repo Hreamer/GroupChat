@@ -359,13 +359,14 @@ public class ServerThread extends Thread{
                     BufferedReader br = new BufferedReader(fr);
 
                     String allConversation = "";
+                    boolean deleted = false;
 
                     String line = br.readLine();
                     while (line != null) {
                         String[] parts = line.split(" - ");
 
                         if (parts[0].equals(arguements[2]) && parts.length > 1 && parts[1].equals(arguements[1])) {
-
+                            deleted = true;
                         } else {
                             allConversation += line + " -=- ";
                         }
@@ -381,10 +382,15 @@ public class ServerThread extends Thread{
                         }
                     }
 
-                    writer.write("Message deleted");
-                    writer.println();
-                    writer.flush(); // Ensure data is sent to the client.
-
+                    if (deleted == true) {
+                        writer.write("Message deleted");
+                        writer.println();
+                        writer.flush(); // Ensure data is sent to the client.
+                    } else if (deleted == false) {
+                        writer.write("Message was not deleted");
+                        writer.println();
+                        writer.flush(); // Ensure data is sent to the client.
+                    }
                     fr.close();
                     br.close();
                 }
