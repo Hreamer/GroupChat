@@ -319,7 +319,6 @@ public class Client extends JFrame {
                 //fullFrame.setVisible(true);
 
                 //constuct message editing frame
-                //TODO
                 optionsForConvoLogs = new JFrame("Message Options");
                 optionsForConvoLogs.setLayout(new BorderLayout());
                 optionsForConvoLogs.setVisible(false);
