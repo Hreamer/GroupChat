@@ -411,6 +411,7 @@ public class ServerThread extends Thread{
                     BufferedReader br = new BufferedReader(fr);
 
                     String allConversation = "";
+                    boolean edited = false;
 
                     String line = br.readLine();
                     while (line != null) {
@@ -418,6 +419,7 @@ public class ServerThread extends Thread{
 
                         if (parts[0].equals(arguements[3]) && parts[1].equals(arguements[1])) {
                             allConversation += arguements[3] + " - "  + arguements[2] + " -=- ";
+                            edited = true;
                         } else {
                             allConversation += line + " -=- ";
                         }
@@ -434,9 +436,15 @@ public class ServerThread extends Thread{
                         }
                     }
 
-                    writer.write("Message edited");
-                    writer.println();
-                    writer.flush(); // Ensure data is sent to the client.
+                    if (edited == true) {
+                        writer.write("Message edited");
+                        writer.println();
+                        writer.flush(); // Ensure data is sent to the client.
+                    } else if(edited == false) {
+                        writer.write("Message not edited");
+                        writer.println();
+                        writer.flush(); // Ensure data is sent to the client.
+                    }
 
                     fr.close();
                     br.close();
