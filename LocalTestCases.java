@@ -76,27 +76,6 @@ public class LocalTestCases {
             System.setIn(testIn);
         }
 
-        //server class declaration test
-        @Test(timeout = 1000)
-        public void serverClassDecTest() {
-            Class<?> clazz;
-            String className;
-            int modifiers;
-            Class<?> superclass;
-
-            clazz = ServerThread.class;
-            className = "Server";
-
-            // Perform tests
-
-            modifiers = clazz.getModifiers();
-
-            superclass = clazz.getSuperclass();
-
-            Assert.assertTrue("Ensure that `" + className + "` is `public`!", Modifier.isPublic(modifiers));
-
-
-        }
 
         //server port number decleration test
         @Test(timeout = 1000)
@@ -315,41 +294,6 @@ public class LocalTestCases {
 
         }
 
-        //userAccount method tests
-        @Test(timeout = 1000)
-        public void serverClientConnectionDec() {
-            Class<?> clazz;
-            String className = "Client.java";
-            Method method;
-            int modifiers;
-            Class<?> actualReturnType;
-            int expectedLength = 2;
-            Class<?>[] exceptions;
-
-
-            String methodName = "serverClient";
-            clazz = Client.class;
-            Class<?> expectedReturnType = void.class;
-
-            // Attempt to access the class method
-            try {
-                method = clazz.getDeclaredMethod(methodName);
-            } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a method named `" + methodName + "` that" +
-                        " has 0 parameters!");
-                return;
-            } //end try catch
-
-            modifiers = method.getModifiers();
-
-            actualReturnType = method.getReturnType();
-
-            Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
-            Assert.assertEquals("Ensure that `" + className + "`'s `" +
-                    methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
-
-        }
 
         //userAccount method tests
         @Test(timeout = 1000)
@@ -417,7 +361,7 @@ public class LocalTestCases {
             actualReturnType = method.getReturnType();
 
             Assert.assertTrue("Ensure that `" + className + "`'s `"
-                    + methodName + "` method is `private`!", Modifier.isPrivate(modifiers));
+                    + methodName + "` method is `public`!", Modifier.isPublic(modifiers));
             Assert.assertEquals("Ensure that `" + className + "`'s `" +
                     methodName + "` method has the correct return type!", expectedReturnType, actualReturnType);
 
@@ -1062,6 +1006,65 @@ public class LocalTestCases {
             Assert.assertTrue("Ensure that `" + className + "`'s `" + fieldName
                     + "` field is `private`!", Modifier.isPrivate(modifiers));
 
+        }
+        
+        @Test(timeout = 1000)
+        public void userAccountGetterMethodTests() {
+            ArrayList<Conversation> hey = new ArrayList<>();
+            UserAccount testUser = new UserAccount("Lucas", "testPassword");
+
+            Assert.assertEquals(testUser.getPassword(), "testPassword");
+            Assert.assertEquals(testUser.getUserName(), "Lucas");
+            Assert.assertEquals(testUser.getConversations(), hey);
+            Assert.assertNotEquals(testUser.getPassword(), "testing");
+            Assert.assertNotEquals(testUser.getUserName(), "Charlie");
+        }
+
+        @Test(timeout = 1000)
+        public void userAccountSetterMethodTests() {
+            UserAccount test = new UserAccount("Lucas", "testPassword");
+            test.setPassword("hello");
+            test.setUserName("Mike");
+
+            Assert.assertEquals(test.getPassword(), "hello");
+            Assert.assertEquals(test.getUserName(), "Mike");
+            Assert.assertNotEquals(test.getPassword(), "testPassword");
+            Assert.assertNotEquals(test.getUserName(), "Lucas");
+        }
+
+        @Test(timeout = 1000)
+        public void testUserAccountToString() {
+            UserAccount testUser = new UserAccount("Lucas", "testPassword");
+            String expected = "UserAccount{" +
+                    "userName='" + testUser.getUserName() + '\'' +
+                    ", password='" + testUser.getPassword() + '\'' +
+                    '}';
+            Assert.assertEquals(expected, testUser.toString());
+            Assert.assertNotEquals(expected,  "UserAccount{" +
+                    "userName='" + testUser.getUserName() + '\'' +
+                    ", password='" + testUser.getPassword() + '\'');
+        }
+
+        @Test(timeout = 1000)
+        public void testConversationGetterMethods() {
+            ArrayList<String> users = new ArrayList<>();
+            Conversation testConvo = new Conversation(users, "testTitle", "Title");
+
+            Assert.assertEquals(testConvo.getUsers(), users);
+            Assert.assertEquals(testConvo.getTitle(), "testTitle");
+            Assert.assertNotEquals(testConvo.getTitle(), "Help");
+            Assert.assertEquals(testConvo.getFilename(), "Title");
+        }
+
+        @Test(timeout = 1000)
+        public void testConversationSetterMethods() {
+            ArrayList<String> users = new ArrayList<>();
+            Conversation testConvo = new Conversation(users, "testTitle", "Title");
+            testConvo.setTitle("Hey");
+
+            Assert.assertEquals(testConvo.getTitle(), "Hey");
+            Assert.assertNotEquals(testConvo.getTitle(), "testTitle");
+            Assert.assertEquals(testConvo.getFilename(), "Title");
         }
 
         @Test(timeout = 1000)
