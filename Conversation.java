@@ -27,7 +27,6 @@ public class Conversation {
         this.filename = filename;
 
     }
-    public void setFilename(String filename) { this.filename = filename; }
 
     public String getFilename() { return this.filename; }
 
@@ -35,9 +34,6 @@ public class Conversation {
         return users;
     }
 
-    public void setUsers(ArrayList<String> users) {
-        this.users = users;
-    }
 
     public String getTitle() {
         return title;
