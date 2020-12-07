@@ -346,6 +346,13 @@ public class Client extends JFrame {
                 newEditedMessage.setMaximumSize(new Dimension(500, 100));
                 deleteMessage = new JTextField("Message to delete");
                 deleteMessage.setMaximumSize(new Dimension(500, 100));
+                deleteMessage.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (deleteMessage.getText().equals("Message to delete")) {
+                            deleteMessage.setText("");
+                        }
+                    }
+                });
                 deleteMessage.setFont(new Font(null, 0, 15));
                 confirmMessageDeletion = new JButton("Confirm Message to delete");
                 confirmMessageDeletion.addActionListener(actionListener);
@@ -473,7 +480,7 @@ public class Client extends JFrame {
             }
             if (e.getSource() == confirmEditMessage) {
                 if (editMessage.getText().equals("Put the text you want to edit here") ||
-                        newEditedMessage.getText().equals("Put you edited message here")) {
+                        newEditedMessage.getText().equals("Put your edited message here")) {
                     if (editMessage.getText() != null || !editMessage.getText().equals("") ||
                             newEditedMessage.getText() != null || !newEditedMessage.getText().equals("")) {
                         JOptionPane.showMessageDialog(null, "Please enter a value in both fields", "Error", JOptionPane.ERROR_MESSAGE);
@@ -481,16 +488,17 @@ public class Client extends JFrame {
                 } else {
                     editMessage(editMessage.getText(), newEditedMessage.getText());
                     editMessage.setText("Put the text you want to edit here");
-                    newEditedMessage.setText("Put you edited message here");
+                    newEditedMessage.setText("Put your edited message here");
                 }
             }
             if (e.getSource() == confirmMessageDeletion) {
-                if (deleteMessage.getText().equals("Put the text you want to edit here")) {
+                if (deleteMessage.getText().equals("Message to delete")) {
                     if (deleteMessage.getText() != null || !deleteMessage.getText().equals("")) {
                         JOptionPane.showMessageDialog(null, "Please enter a value in the field", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     deleteMessage(deleteMessage.getText());
+                    deleteMessage.setText("Message to delete");
                 }
             }
             MouseListener mouseListener = new MouseAdapter() {
