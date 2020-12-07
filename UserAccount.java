@@ -1,3 +1,5 @@
+import java.awt.*;
+import java.util.ArrayList;
 /**
  * UserAccount
  *
@@ -7,10 +9,6 @@
  * @version December 6, 2020
  *
  */
-
-import java.awt.*;
-import java.util.ArrayList;
-
 public class UserAccount {
     private String userName;
     private String password;

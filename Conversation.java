@@ -1,13 +1,3 @@
-/**
- * Conversation
- *
- * This is a class that stores the data for each conversation
- *
- * @author Steve Rong, Supriya Dixit, CS 18000
- * @version December 6, 2020
- *
- */
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +7,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.net.*;
-
+/**
+ * Conversation
+ *
+ * This is a class that stores the data for each conversation
+ *
+ * @author Steve Rong, Supriya Dixit, CS 18000
+ * @version December 6, 2020
+ *
+ */
 public class Conversation {
     private ArrayList<String> users;
     private String title;

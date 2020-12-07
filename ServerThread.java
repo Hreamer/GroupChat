@@ -1,3 +1,7 @@
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 /**
  * ServerThread
  *
@@ -8,12 +12,6 @@
  * @version December 6, 2020
  *
  */
-
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-
 public class ServerThread extends Thread {
     private Socket socket;
 
