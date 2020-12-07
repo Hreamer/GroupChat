@@ -1,3 +1,13 @@
+/**
+ * Client
+ *
+ * This is the program the user uses to see and send messages with other clients
+ *
+ * @author Hudson Reamer, Lucas Mazza, Supriya Dixit, CS 18000
+ * @version December 6, 2020
+ *
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

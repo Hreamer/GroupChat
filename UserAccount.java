@@ -1,3 +1,13 @@
+/**
+ * UserAccount
+ *
+ * This class stores the information about the user that is currently using the client
+ *
+ * @author Supriya Dixit, CS 18000
+ * @version December 6, 2020
+ *
+ */
+
 import java.awt.*;
 import java.util.ArrayList;
 

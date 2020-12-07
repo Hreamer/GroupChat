@@ -1,3 +1,14 @@
+/**
+ * ServerThread
+ *
+ * This is a class that is threaded and receives input from the client and than sends data to the
+ * client based on that input
+ *
+ * @author Hudson Reamer, Steve Rong, CS 18000
+ * @version December 6, 2020
+ *
+ */
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;

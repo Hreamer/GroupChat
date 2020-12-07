@@ -1,3 +1,13 @@
+/**
+ * LocalTestCases
+ *
+ * This is the JUnit tests for our program
+ *
+ * @author Steve Rong, Lucas Mazza, Sergio Hernandez, CS 18000
+ * @version December 6, 2020
+ *
+ */
+
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.After;
