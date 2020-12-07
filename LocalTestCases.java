@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-
 import javax.swing.*;
 import java.io.*;
 import java.lang.reflect.Constructor;
@@ -14,12 +13,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.Socket;
 import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
+
 /**
  * LocalTestCases
  *
- * This is the JUnit tests for our program
+ * This is the testing program for our software
  *
  * @author Steve Rong, Lucas Mazza, Sergio Hernandez, CS 18000
  * @version December 6, 2020
@@ -36,7 +35,15 @@ public class LocalTestCases {
             }
         }
     }
-
+    /**
+     * TestCase
+     *
+     * This is the test case for our software
+     *
+     * @author Steve Rong, Lucas Mazza, Sergio Hernandez, CS 18000
+     * @version December 6, 2020
+     *
+     */
     public static class TestCase {
         private final PrintStream originalOutput = System.out;
         private final InputStream originalSysin = System.in;
@@ -71,7 +78,7 @@ public class LocalTestCases {
 
         //server class declaration test
         @Test(timeout = 1000)
-        public void ServerClassDecTest() {
+        public void serverClassDecTest() {
             Class<?> clazz;
             String className;
             int modifiers;
@@ -467,7 +474,8 @@ public class LocalTestCases {
             try {
                 constructor = clazz.getDeclaredConstructor(Socket.class);
             } catch (NoSuchMethodException e) {
-                Assert.fail("Ensure that `" + className + "` declares a constructor that is `public` and has one parameter with type Socket!");
+                Assert.fail("Ensure that `" + className +
+                        "` declares a constructor that is `public` and has one parameter with type Socket!");
                 return;
             } //end try catch
 
@@ -475,7 +483,8 @@ public class LocalTestCases {
 
             exceptions = constructor.getExceptionTypes();
 
-            Assert.assertTrue("Ensure that `" + className + "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
+            Assert.assertTrue("Ensure that `" + className +
+                    "`'s parameterized constructor is `public`!", Modifier.isPublic(modifiers));
 
         }
 
@@ -751,7 +760,7 @@ public class LocalTestCases {
          **/
         //class tests
         @Test(timeout = 1000)
-        public void UserAccountClassDecTest() {
+        public void userAccountClassDecTest() {
             Class<?> clazz;
             String className;
             int modifiers;
@@ -772,7 +781,7 @@ public class LocalTestCases {
         }
 
         @Test(timeout = 1000)
-        public void ClientClassDecTest() {
+        public void clientClassDecTest() {
             Class<?> clazz;
             String className;
             int modifiers;
@@ -793,7 +802,7 @@ public class LocalTestCases {
         }
 
         @Test(timeout = 1000)
-        public void ServerThreadClassDecTest() {
+        public void serverThreadClassDecTest() {
             Class<?> clazz;
             String className;
             int modifiers;
@@ -1054,6 +1063,7 @@ public class LocalTestCases {
                     + "` field is `private`!", Modifier.isPrivate(modifiers));
 
         }
+
         @Test(timeout = 1000)
         public void isValidLoginFalse() {
             ServerThread serverThread = new ServerThread(new Socket());
@@ -1068,6 +1078,7 @@ public class LocalTestCases {
                 Assert.fail("Ensure that the users.txt file exists");
             }
         }
+
         //please ensure that the users.txt file is empty
         @Test(timeout = 1000)
         public void isValidLoginTrue() {
@@ -1084,8 +1095,9 @@ public class LocalTestCases {
                 Assert.fail("Ensure that the users.txt file exists");
             }
         }
+
         @Test(timeout = 1000)
-        public void addUserFalse(){
+        public void addUserFalse() {
             ServerThread serverThread = new ServerThread(new Socket());
             String username = "aaaa";
             String password = "aaaa";
@@ -1099,8 +1111,9 @@ public class LocalTestCases {
                 Assert.fail("Ensure that the users.txt file exists");
             }
         }
+
         @Test(timeout = 1000)
-        public void addUserTrue(){
+        public void addUserTrue() {
             ServerThread serverThread = new ServerThread(new Socket());
             String username = "aaaa";
             String password = "aaaa";
